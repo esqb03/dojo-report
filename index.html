@@ -610,6 +610,779 @@
     background: rgba(52,199,89,0.08);
     color: var(--green);
   }
+
+  :root {
+    --bg: #FAFAFA;
+    --surface: #FFFFFF;
+    --text: #1D1D1F;
+    --text-secondary: #86868B;
+    --text-tertiary: #AEAEB2;
+    --blue: #0071E3;
+    --green: #34C759;
+    --red: #FF3B30;
+    --orange: #FF9500;
+    --gold: #E8B84A;
+    --lime: #C6F432;
+    --violet: #8B5CF6;
+    --border-subtle: rgba(0,0,0,0.04);
+    --shadow: 0 2px 12px rgba(0,0,0,0.04);
+    --shadow-hover: 0 4px 24px rgba(0,0,0,0.08);
+    --radius: 16px;
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+    --mono: 'SF Mono', 'IBM Plex Mono', 'Fira Code', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    padding: 100px 0 40px;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--surface);
+    padding: 6px 16px;
+    border-radius: 100px;
+    box-shadow: var(--shadow);
+    margin-bottom: 32px;
+    letter-spacing: 0.02em;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--text);
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--violet), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero .subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-top: 16px;
+    letter-spacing: -0.01em;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ---- SECTIONS ---- */
+  .section {
+    padding: 80px 0;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 48px;
+    max-width: 600px;
+  }
+
+  /* ---- REVEAL ---- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- SECTION A: DISCONNECTED ---- */
+  .diagram-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .diagram-boxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  @media (max-width: 700px) {
+    .diagram-boxes { grid-template-columns: 1fr; }
+  }
+
+  .system-box {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    position: relative;
+  }
+
+  .system-box.disconnected {
+    border: 2px dashed rgba(255,59,48,0.3);
+  }
+
+  .system-box .sys-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin: 0 auto 16px;
+  }
+
+  .system-box h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .system-box ul {
+    list-style: none;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: left;
+  }
+
+  .system-box ul li {
+    padding: 4px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .system-box ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .system-box.disconnected ul li::before {
+    background: var(--red);
+    opacity: 0.4;
+  }
+
+  .disconnect-lines {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    padding: 8px 0;
+  }
+
+  .disconnect-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--red);
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.6;
+  }
+
+  .disconnect-line .dash {
+    width: 60px;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 6px, transparent 6px, transparent 12px);
+  }
+
+  .x-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255,59,48,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--red);
+  }
+
+  @media (max-width: 700px) {
+    .disconnect-lines { flex-direction: column; gap: 12px; }
+    .disconnect-line .dash { width: 40px; }
+  }
+
+  /* ---- SECTION B: CONNECTED ---- */
+  .unified-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .odoo-center {
+    background: linear-gradient(135deg, var(--violet), var(--blue));
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 32px 48px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(139,92,246,0.2);
+    position: relative;
+  }
+
+  .odoo-center h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .odoo-center p {
+    font-size: 14px;
+    opacity: 0.85;
+  }
+
+  .connect-lines {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+  }
+
+  .connect-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .connect-line .solid {
+    width: 3px;
+    height: 40px;
+    background: var(--lime);
+    border-radius: 2px;
+  }
+
+  .connect-line .check-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(198,244,50,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #6B8F00;
+    font-weight: 700;
+  }
+
+  .module-boxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+
+  @media (max-width: 700px) {
+    .module-boxes { grid-template-columns: 1fr; }
+    .connect-lines { gap: 40px; }
+  }
+
+  .module-mini {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 2px solid rgba(198,244,50,0.3);
+  }
+
+  .module-mini h4 {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .module-mini p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  /* ---- SECTION C: MODULE CARDS ---- */
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .module-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .module-grid { grid-template-columns: 1fr; }
+  }
+
+  .module-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .module-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+
+  .module-card .glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    filter: blur(60px);
+    transform: translate(-50%, -50%);
+  }
+
+  .module-card:hover .glow {
+    opacity: 1;
+  }
+
+  .module-card .card-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+  }
+
+  .module-card .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .module-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .module-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---- SECTION D: ACCORDION ---- */
+  .accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 800px;
+  }
+
+  .accordion-item {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .accordion-item:hover {
+    box-shadow: var(--shadow-hover);
+  }
+
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .accordion-header .acc-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--violet);
+    min-width: 36px;
+  }
+
+  .accordion-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .accordion-header .acc-arrow {
+    font-size: 18px;
+    color: var(--text-tertiary);
+    transition: transform 0.3s ease;
+  }
+
+  .accordion-item.open .acc-arrow {
+    transform: rotate(180deg);
+  }
+
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+  }
+
+  .accordion-item.open .accordion-body {
+    max-height: 300px;
+  }
+
+  .accordion-body-inner {
+    padding: 0 28px 24px 80px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ---- SECTION E: PAYMENTS ---- */
+  .payment-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+
+  @media (max-width: 700px) {
+    .payment-cards { grid-template-columns: 1fr; }
+  }
+
+  .payment-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .payment-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .payment-card .pay-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 16px;
+  }
+
+  .payment-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .payment-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .payment-card .pay-methods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .payment-card .pay-methods span {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(0,0,0,0.04);
+    color: var(--text-secondary);
+  }
+
+  /* ---- MARQUEE ---- */
+  .marquee-wrap {
+    overflow: hidden;
+    padding: 24px 0;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 48px;
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .marquee-item .m-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ---- SECTION F: BEFORE/AFTER ---- */
+  .comparison-table {
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .comparison-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .comparison-row.header {
+    margin-bottom: 12px;
+  }
+
+  .comparison-row.header .comp-cell {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 16px 24px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .comp-cell {
+    padding: 18px 24px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+  }
+
+  .comp-cell:first-child {
+    border-radius: 8px 0 0 8px;
+  }
+
+  .comp-cell:last-child {
+    border-radius: 0 8px 8px 0;
+  }
+
+  .comp-cell.today {
+    color: var(--text-secondary);
+  }
+
+  .comp-cell.today .comp-icon {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .comp-cell.odoo-col {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .comp-cell.odoo-col .comp-icon {
+    color: var(--green);
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    .comp-cell { font-size: 13px; padding: 14px 16px; gap: 8px; }
+  }
+
+  /* ---- CTA ---- */
+  .cta-section {
+    text-align: center;
+    padding: 80px 0 120px;
+  }
+
+  .cta-section h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .cta-section p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    padding: 16px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: var(--font);
+    color: #fff;
+    background: linear-gradient(135deg, var(--violet), var(--blue));
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(139,92,246,0.3);
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(139,92,246,0.4);
+  }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .footer p {
+    font-size: 13px;
+    color: var(--text-tertiary);
+  }
+
+  /* ---- NAV STICKY ---- */
+  .nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,250,250,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .nav-bar.scrolled {
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav-pill {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 100px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1.5px solid transparent;
+  }
+
+  .nav-pill:hover {
+    color: var(--text);
+    background: rgba(0,0,0,0.03);
+  }
+
+  .nav-pill.active {
+    background: var(--text);
+    color: #fff;
+  }
+
+  @media (max-width: 600px) {
+    .nav-pill { font-size: 11px; padding: 5px 12px; }
+  }
+
 </style>
 </head>
 <body>
@@ -781,7 +1554,231 @@
     <div class="insight-grid" id="insights"></div>
   </section>
 
-  <footer class="footer">
+  
+<!-- ============================================== -->
+<!-- PROPUESTA ODOO PARA DOJO                       -->
+<!-- ============================================== -->
+<div style="height: 120px; display: flex; align-items: center; justify-content: center; margin: 60px 0;">
+  <div style="width: 80px; height: 2px; background: #E8B84A; border-radius: 1px;"></div>
+</div>
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Propuesta Comercial -- DOJO Gym</div>
+    <h1>Un solo sistema.<br><span>Todo conectado.</span></h1>
+    <p class="subtitle">La plataforma que unifica suscripciones, cafe, tienda, nomina y operaciones de DOJO en una sola base de datos.</p>
+  </div>
+</section>
+<section class="section" id="problema">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Diagnostico</p>
+      <h2 class="section-title">El problema: tres sistemas desconectados</h2>
+      <p class="section-subtitle">Hoy, tu negocio vive en tres mundos que no se hablan.</p>
+    </div>
+
+    <div class="diagram-container reveal">
+      <div class="diagram-boxes">
+        <!-- Sistema Coworking -->
+        <div class="system-box disconnected">
+          <div class="sys-icon" style="background: rgba(0,113,227,0.1);">
+            <span style="color:var(--blue);">&#9749;</span>
+          </div>
+          <h3>Sistema Coworking</h3>
+          <ul>
+            <li>Reservas de espacios</li>
+            <li>Consumo de cafe</li>
+            <li>No ve suscripciones</li>
+            <li>No ve pagos vencidos</li>
+          </ul>
+        </div>
+        <!-- Sistema Suscripciones -->
+        <div class="system-box disconnected">
+          <div class="sys-icon" style="background: rgba(232,184,74,0.1);">
+            <span style="color:var(--gold);">&#9733;</span>
+          </div>
+          <h3>Sistema Suscripciones</h3>
+          <ul>
+            <li>Planes y renovaciones</li>
+            <li>Cobros manuales</li>
+            <li>No ve asistencia real</li>
+            <li>No ve inventario</li>
+          </ul>
+        </div>
+        <!-- Sistema Nomina -->
+        <div class="system-box disconnected">
+          <div class="sys-icon" style="background: rgba(139,92,246,0.1);">
+            <span style="color:var(--violet);">&#128101;</span>
+          </div>
+          <h3>Sistema Nomina</h3>
+          <ul>
+            <li>Pagos a empleados</li>
+            <li>Turnos y horarios</li>
+            <li>No ve ingresos</li>
+            <li>No reporta a DIAN</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="disconnect-lines">
+        <div class="disconnect-line">
+          <div class="dash"></div>
+          <div class="x-icon">&times;</div>
+          <div class="dash"></div>
+        </div>
+        <div class="disconnect-line">
+          <div class="dash"></div>
+          <div class="x-icon">&times;</div>
+          <div class="dash"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="solucion" style="background: linear-gradient(180deg, #F5F5F7 0%, var(--bg) 100%);">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">La solucion</p>
+      <h2 class="section-title">Un solo Odoo, todo conectado</h2>
+      <p class="section-subtitle">En Odoo, todo vive en la misma base de datos.</p>
+    </div>
+
+    <div class="unified-diagram reveal">
+      <div class="odoo-center">
+        <h3>Odoo</h3>
+        <p>Una base de datos -- Todos los modulos</p>
+      </div>
+
+      <div class="connect-lines">
+        <div class="connect-line">
+          <div class="check-icon">&#10003;</div>
+          <div class="solid"></div>
+        </div>
+        <div class="connect-line">
+          <div class="check-icon">&#10003;</div>
+          <div class="solid"></div>
+        </div>
+        <div class="connect-line">
+          <div class="check-icon">&#10003;</div>
+          <div class="solid"></div>
+        </div>
+      </div>
+
+      <div class="module-boxes">
+        <div class="module-mini">
+          <h4>Suscripciones + Cafe + Tienda</h4>
+          <p>Ventas unificadas</p>
+        </div>
+        <div class="module-mini">
+          <h4>Contabilidad + Nomina</h4>
+          <p>Finanzas y DIAN</p>
+        </div>
+        <div class="module-mini">
+          <h4>Inventario + CRM + Dashboards</h4>
+          <p>Operaciones e inteligencia</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="modulos">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Modulos Odoo</p>
+      <h2 class="section-title">Modulos Odoo aplicados a DOJO</h2>
+      <p class="section-subtitle">Cada area de tu negocio, cubierta por un modulo nativo de Odoo.</p>
+    </div>
+
+    <div class="module-grid reveal" id="moduleGrid">
+      <!-- Cards generated by JS -->
+    </div>
+  </div>
+</section>
+<section class="section" id="custom" style="background: linear-gradient(180deg, #F5F5F7 0%, var(--bg) 100%);">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Desarrollos a medida</p>
+      <h2 class="section-title">Desarrollos custom para DOJO</h2>
+      <p class="section-subtitle">Funcionalidades que no existen en Odoo estandar, disenadas exclusivamente para tu operacion.</p>
+    </div>
+
+    <div class="accordion-list reveal" id="accordionList">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+</section>
+<section class="section" id="pagos">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Integraciones</p>
+      <h2 class="section-title">Integraciones de pago colombianas</h2>
+      <p class="section-subtitle">Tus socios pagan como quieran. Todo se reconcilia automaticamente.</p>
+    </div>
+
+    <div class="payment-cards reveal">
+      <div class="payment-card">
+        <div class="pay-icon" style="background: rgba(0,113,227,0.08);">
+          <span style="color:var(--blue);">W</span>
+        </div>
+        <h3>Wompi</h3>
+        <p>Pasarela de pagos colombiana con soporte nativo en Odoo.</p>
+        <div class="pay-methods">
+          <span>PSE</span>
+          <span>Tarjetas</span>
+          <span>Nequi</span>
+        </div>
+      </div>
+      <div class="payment-card">
+        <div class="pay-icon" style="background: rgba(198,244,50,0.15);">
+          <span style="color:#6B8F00;">A</span>
+        </div>
+        <h3>Addi</h3>
+        <p>Financiacion para planes trimestrales y anuales.</p>
+        <div class="pay-methods">
+          <span>Cuotas</span>
+          <span>Aprobacion inmediata</span>
+        </div>
+      </div>
+      <div class="payment-card">
+        <div class="pay-icon" style="background: rgba(139,92,246,0.08);">
+          <span style="color:var(--violet);">S</span>
+        </div>
+        <h3>Sistecredito</h3>
+        <p>Financiacion premium para planes de alto valor.</p>
+        <div class="pay-methods">
+          <span>Credito directo</span>
+          <span>Cuotas flexibles</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee-wrap reveal">
+      <div class="marquee-track" id="marqueeTrack">
+        <!-- Duplicated by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="comparativa" style="background: linear-gradient(180deg, #F5F5F7 0%, var(--bg) 100%);">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Comparativa</p>
+      <h2 class="section-title">El antes y el despues</h2>
+      <p class="section-subtitle">El control de tu negocio, en un solo lugar.</p>
+    </div>
+
+    <div class="comparison-table reveal" id="comparisonTable">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+</section>
+<section class="cta-section reveal">
+  <div class="container">
+    <h2>El control de tu negocio,<br>en un solo lugar.</h2>
+    <p>Agenda una sesion de descubrimiento con nuestro equipo para disenar tu implementacion.</p>
+    <a href="#" class="cta-btn">Agendar sesion de descubrimiento</a>
+  </div>
+</section>
+<footer class="footer">
     Informe generado automaticamente &middot; DOJO Medellin &middot; Q1 2026
   </footer>
 
