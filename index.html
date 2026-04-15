@@ -45,7 +45,7 @@
 
   /* ---- HERO ---- */
   .hero {
-    padding: 80px 0 60px;
+    padding: 80px 0 20px;
     text-align: center;
   }
 
@@ -76,6 +76,87 @@
     color: var(--text-secondary);
     margin-top: 8px;
     letter-spacing: -0.01em;
+  }
+
+  /* ---- FILTER BAR ---- */
+  .filter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,250,250,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .filter-bar.scrolled {
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .filter-group-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-right: 4px;
+  }
+
+  .filter-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(0,0,0,0.08);
+    margin: 0 8px;
+  }
+
+  .pill {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 18px;
+    border-radius: 100px;
+    border: 1.5px solid rgba(0,0,0,0.1);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    white-space: nowrap;
+    font-family: var(--font);
+  }
+
+  .pill:hover {
+    border-color: rgba(0,0,0,0.2);
+    color: var(--text);
+  }
+
+  .pill.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+
+  @media (max-width: 600px) {
+    .filter-row { gap: 8px; }
+    .pill { font-size: 12px; padding: 6px 14px; }
+    .filter-divider { display: none; }
+    .filter-group { width: 100%; justify-content: center; }
   }
 
   /* ---- SECTION ---- */
@@ -131,6 +212,7 @@
     letter-spacing: -0.03em;
     line-height: 1.1;
     color: var(--text);
+    transition: all 0.3s ease;
   }
 
   .kpi-label {
@@ -148,6 +230,7 @@
     border-radius: 100px;
     margin-top: 12px;
     font-family: var(--mono);
+    transition: all 0.3s ease;
   }
 
   .kpi-delta.positive {
@@ -172,6 +255,7 @@
     padding: 40px;
     box-shadow: var(--shadow);
     margin-bottom: 24px;
+    transition: all 0.3s ease;
   }
 
   .card-title {
@@ -180,6 +264,7 @@
     color: var(--text);
     margin-bottom: 24px;
     letter-spacing: -0.01em;
+    transition: all 0.3s ease;
   }
 
   .chart-wrap {
@@ -224,12 +309,45 @@
     color: var(--text-tertiary);
     padding: 12px 16px;
     border-bottom: 1px solid var(--border-subtle);
+    transition: color 0.2s ease;
+  }
+
+  thead th.sortable {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 24px;
+  }
+
+  thead th.sortable:hover {
+    color: var(--text);
+  }
+
+  thead th.sortable::after {
+    content: '';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 4px solid transparent;
+    border-top: 5px solid var(--text-tertiary);
+    transition: all 0.2s ease;
+  }
+
+  thead th.sortable.asc::after {
+    border-top: none;
+    border-bottom: 5px solid var(--blue);
+  }
+
+  thead th.sortable.desc::after {
+    border-top: 5px solid var(--blue);
   }
 
   tbody td {
     padding: 14px 16px;
     color: var(--text);
     font-size: 14px;
+    transition: all 0.2s ease;
   }
 
   tbody tr:nth-child(even) {
@@ -237,11 +355,15 @@
   }
 
   tbody tr {
-    transition: background 0.2s;
+    transition: background 0.2s ease, opacity 0.3s ease;
   }
 
   tbody tr:hover {
     background: rgba(0,113,227,0.03);
+  }
+
+  tbody tr.hidden-row {
+    display: none;
   }
 
   .tag {
@@ -259,6 +381,52 @@
 
   .text-right { text-align: right; }
   .text-mono { font-family: var(--mono); font-size: 13px; }
+
+  /* ---- SEARCH INPUT ---- */
+  .search-wrap {
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    font-size: 14px;
+    font-family: var(--font);
+    border: 1.5px solid rgba(0,0,0,0.08);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .search-input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0,113,227,0.1);
+  }
+
+  .search-input::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--text-tertiary);
+  }
+
+  .table-count {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 8px;
+    font-family: var(--mono);
+    transition: all 0.3s ease;
+  }
 
   /* ---- NON RENEWED TABLE ---- */
   .scroll-table {
@@ -288,6 +456,7 @@
     padding: 28px;
     box-shadow: var(--shadow);
     border-left: 3px solid var(--blue);
+    transition: all 0.3s ease;
   }
 
   .insight-card.warning { border-left-color: var(--red); }
@@ -324,6 +493,12 @@
     border-radius: 12px;
     padding: 20px;
     text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .rev-card.highlight {
+    background: rgba(0,113,227,0.06);
+    box-shadow: 0 0 0 1.5px rgba(0,113,227,0.2);
   }
 
   .rev-card-month {
@@ -346,6 +521,51 @@
     font-size: 12px;
     color: var(--text-secondary);
     margin-top: 6px;
+  }
+
+  /* ---- PLAN DETAIL TOOLTIP ---- */
+  .plan-tooltip {
+    position: fixed;
+    z-index: 200;
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    min-width: 220px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(4px);
+  }
+
+  .plan-tooltip.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .plan-tooltip-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .plan-tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 4px 0;
+  }
+
+  .plan-tooltip-row .label {
+    color: var(--text-secondary);
+  }
+
+  .plan-tooltip-row .value {
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--text);
   }
 
   /* ---- FOOTER ---- */
@@ -372,6 +592,24 @@
   .donut-wrap {
     position: relative;
   }
+
+  /* ---- SERVICE TAG ---- */
+  .tag-service {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+
+  .tag-service.entreno {
+    background: rgba(0,113,227,0.08);
+    color: var(--blue);
+  }
+
+  .tag-service.yoga {
+    background: rgba(52,199,89,0.08);
+    color: var(--green);
+  }
 </style>
 </head>
 <body>
@@ -385,6 +623,32 @@
     <p class="subtitle">Q1 2026 &mdash; Enero a Marzo</p>
   </header>
 
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filterBar">
+  <div class="container">
+    <div class="filter-row">
+      <div class="filter-group">
+        <span class="filter-group-label">Periodo</span>
+        <button class="pill active" data-filter="month" data-value="q1">Todo Q1</button>
+        <button class="pill" data-filter="month" data-value="Enero">Enero</button>
+        <button class="pill" data-filter="month" data-value="Febrero">Febrero</button>
+        <button class="pill" data-filter="month" data-value="Marzo">Marzo</button>
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-group">
+        <span class="filter-group-label">Actividad</span>
+        <button class="pill active" data-filter="activity" data-value="todo">Todo</button>
+        <button class="pill" data-filter="activity" data-value="entrenamiento">Entrenamiento</button>
+        <button class="pill" data-filter="activity" data-value="yoga">Yoga</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
   <!-- KPIs -->
   <section class="section fade-in">
     <p class="section-label">Indicadores Clave</p>
@@ -396,12 +660,12 @@
       </div>
       <div class="kpi-card">
         <div class="kpi-number" id="kpi-growth"></div>
-        <div class="kpi-label">Crecimiento Q1</div>
+        <div class="kpi-label">Crecimiento</div>
         <span class="kpi-delta" id="kpi-growth-delta"></span>
       </div>
       <div class="kpi-card">
         <div class="kpi-number" id="kpi-revenue"></div>
-        <div class="kpi-label">Ingresos Q1</div>
+        <div class="kpi-label">Ingresos</div>
         <span class="kpi-delta" id="kpi-revenue-delta"></span>
       </div>
       <div class="kpi-card">
@@ -416,7 +680,7 @@
   <section class="section fade-in">
     <p class="section-label">Evolucion</p>
     <div class="card">
-      <div class="card-title">Usuarios activos por mes</div>
+      <div class="card-title" id="titleEvolution">Usuarios activos por mes</div>
       <div class="chart-wrap">
         <canvas id="chartEvolution"></canvas>
       </div>
@@ -428,13 +692,13 @@
     <p class="section-label">Composicion</p>
     <div class="two-col">
       <div class="card">
-        <div class="card-title">Activos por plan — Marzo</div>
+        <div class="card-title" id="titlePlans">Activos por plan</div>
         <div class="chart-wrap">
           <canvas id="chartPlans"></canvas>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Nuevos vs Recompra</div>
+        <div class="card-title" id="titleNuevosRecompra">Nuevos vs Recompra</div>
         <div class="chart-wrap">
           <canvas id="chartNuevosRecompra"></canvas>
         </div>
@@ -446,7 +710,7 @@
   <section class="section fade-in">
     <div class="two-col">
       <div class="card">
-        <div class="card-title">Composicion Q1 — Ventas por tipo</div>
+        <div class="card-title" id="titleDonut">Composicion — Ventas por tipo</div>
         <div class="chart-wrap" style="height:300px;">
           <canvas id="chartDonut"></canvas>
         </div>
@@ -475,7 +739,7 @@
   <section class="section fade-in">
     <p class="section-label">Ingresos</p>
     <div class="card">
-      <div class="card-title">Ingresos mensuales</div>
+      <div class="card-title" id="titleRevenue">Ingresos mensuales</div>
       <div class="chart-wrap" style="height:320px;">
         <canvas id="chartRevenue"></canvas>
       </div>
@@ -488,20 +752,26 @@
     <p class="section-label">Retencion</p>
     <div class="card">
       <div class="card-title">Usuarios sin renovar</div>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchNonRenewed" placeholder="Buscar por nombre, plan o servicio...">
+      </div>
       <div class="table-wrap scroll-table">
         <table>
           <thead>
             <tr>
               <th>Nombre</th>
               <th>Plan</th>
+              <th>Servicio</th>
               <th>Cierre</th>
-              <th class="text-right">Dias fuera</th>
-              <th class="text-right">Ultimo monto</th>
+              <th class="text-right sortable" data-sort="dias_fuera">Dias fuera</th>
+              <th class="text-right sortable" data-sort="ultimo_monto">Ultimo monto</th>
             </tr>
           </thead>
           <tbody id="tblNonRenewed"></tbody>
         </table>
       </div>
+      <div class="table-count" id="nonRenewedCount"></div>
     </div>
   </section>
 
@@ -517,11 +787,23 @@
 
 </div>
 
+<!-- Plan detail tooltip -->
+<div class="plan-tooltip" id="planTooltip">
+  <div class="plan-tooltip-title" id="planTooltipTitle"></div>
+  <div id="planTooltipBody"></div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
 // DATA
 const DATA = {"kpis": {"activos_marzo": 36, "growth_pct": -44.6, "revenue_q1": 14736000.0, "churn_rate": 72.5}, "active_evolution": {"labels": ["Dic 2025", "Ene 2026", "Feb 2026", "Mar 2026"], "total": [65, 33, 48, 36], "entrenamiento": [50, 26, 32, 27], "yoga": [15, 7, 16, 9]}, "active_by_plan": {"Enero": {"PLAN CHU": 3, "PLAN GI": 1, "PLAN REI": 8, "PLAN YU": 1, "TIQUETERA X14": 5, "TIQUETERA X7": 8, "YOGA X4": 1, "YOGA X8": 6}, "Febrero": {"PLAN CHU": 3, "PLAN GI": 1, "PLAN REI": 8, "PLAN YU": 10, "SOUSHIN": 2, "TIQUETERA X14": 4, "TIQUETERA X7": 4, "YOGA 24+6": 3, "YOGA X4": 8, "YOGA X8": 5}, "Marzo": {"PLAN CHU": 1, "PLAN GI": 1, "PLAN REI": 7, "PLAN YU": 11, "SOUSHIN": 2, "TIQUETERA X7": 5, "YOGA X24": 1, "YOGA X4": 4, "YOGA X8": 4}}, "sales_nuevos_recompra": {"Enero": {"nuevos_count": 20, "nuevos_amount": 2936000.0, "recompra_count": 28, "recompra_amount": 5161200.0, "total_count": 48, "total_amount": 8097200.0}, "Febrero": {"nuevos_count": 13, "nuevos_amount": 1602000.0, "recompra_count": 22, "recompra_amount": 4116800.0, "total_count": 35, "total_amount": 5718800.0}, "Marzo": {"nuevos_count": 6, "nuevos_amount": 160000.0, "recompra_count": 15, "recompra_amount": 760000.0, "total_count": 21, "total_amount": 920000.0}}, "altas_deserciones": {"Enero": {"altas": 1, "bajas": 33, "neto": -32, "total_activos": 33}, "Febrero": {"altas": 38, "bajas": 23, "neto": 15, "total_activos": 48}, "Marzo": {"altas": 27, "bajas": 39, "neto": -12, "total_activos": 36}}, "revenue": {"Enero": {"total": 8097200.0, "entrenamiento": 5197200.0, "yoga": 2900000.0, "nuevos": 2936000.0, "recompra": 5161200.0}, "Febrero": {"total": 5718800.0, "entrenamiento": 3898800.0, "yoga": 1820000.0, "nuevos": 1602000.0, "recompra": 4116800.0}, "Marzo": {"total": 920000.0, "entrenamiento": 420000.0, "yoga": 500000.0, "nuevos": 160000.0, "recompra": 760000.0}}, "revenue_by_plan": {"Enero": {"ENTRENO US YOGA": 20000.0, "PLAN REI": 2579200.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 300000.0, "TIQUETERA X14": 1008000.0, "TIQUETERA X7": 770000.0, "YOGA X1 -50%": 280000.0, "YOGA X1 FULL": 280000.0, "YOGA X4": 1120000.0, "YOGA X8": 1200000.0}, "Febrero": {"PLAN REI": 2348800.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 240000.0, "TIQUETERA X7": 770000.0, "YOGA X1 -50%": 260000.0, "YOGA X1 FULL": 40000.0, "YOGA X4": 560000.0, "YOGA X8": 960000.0}, "Marzo": {"TIQUETERA X1": 420000.0, "YOGA X1 -50%": 460000.0, "YOGA X1 FULL": 40000.0}}, "non_renewed": [{"nombre": "PAULA ANDREA QUINTERO OLAYA", "plan": "YOGA X4", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 140000.0}, {"nombre": "DANIEL  CHAMORRO", "plan": "TIQUETERA X7", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 154000.0}, {"nombre": "BEATRIZ MARTINEZ MONTOYA ", "plan": "YOGA X8", "cierre": "2026-02-27", "dias_fuera": 32, "ultimo_monto": 240000.0}, {"nombre": "PAULA MAZO CORTES", "plan": "PLAN YU", "cierre": "2026-02-27", "dias_fuera": 32, "ultimo_monto": 840000.0}, {"nombre": "COPPELIA HERRAN", "plan": "YOGA X8", "cierre": "2026-02-26", "dias_fuera": 33, "ultimo_monto": 240000.0}, {"nombre": "MARIA ISABEL  ERAZO DILSON", "plan": "PLAN YU", "cierre": "2026-02-25", "dias_fuera": 34, "ultimo_monto": 840000.0}, {"nombre": "JONATAN LONDOÑO", "plan": "PLAN YU", "cierre": "2026-02-25", "dias_fuera": 34, "ultimo_monto": 756000.0}, {"nombre": "JUAN CAMILO ALZATE", "plan": "YOGA X4", "cierre": "2026-02-24", "dias_fuera": 35, "ultimo_monto": 140000.0}, {"nombre": "ANA MILENA GONZALEZ JARAMILLO", "plan": "YOGA X4", "cierre": "2026-02-24", "dias_fuera": 35, "ultimo_monto": 140000.0}, {"nombre": "JULIANA GOMEZ", "plan": "TIQUETERA X14", "cierre": "2026-02-23", "dias_fuera": 36, "ultimo_monto": 252000.0}, {"nombre": "NATHALY VARGAS MESA", "plan": "PLAN YU", "cierre": "2026-02-21", "dias_fuera": 38, "ultimo_monto": 840000.0}, {"nombre": "SARA SIERRA VELEZ", "plan": "PLAN REI", "cierre": "2026-02-20", "dias_fuera": 39, "ultimo_monto": 360000.0}, {"nombre": "ANTON SIEDLITZHI", "plan": "PLAN REI", "cierre": "2026-02-20", "dias_fuera": 39, "ultimo_monto": 360000.0}, {"nombre": "ELISA VELASQUEZ", "plan": "PLAN CHU", "cierre": "2026-02-19", "dias_fuera": 40, "ultimo_monto": 2106000.0}, {"nombre": "JOSE LISANDRO LOPEZ RODRIGUEZ", "plan": "PLAN YU", "cierre": "2026-02-18", "dias_fuera": 41, "ultimo_monto": 840000.0}, {"nombre": "SUSANA  DUQUE", "plan": "PLAN YU", "cierre": "2026-02-18", "dias_fuera": 41, "ultimo_monto": 840000.0}, {"nombre": "MARIA ANTONIETA  LONDOÑO", "plan": "PLAN YU", "cierre": "2026-02-17", "dias_fuera": 42, "ultimo_monto": 840000.0}, {"nombre": "SANTIAGO BARRANTES MORENO", "plan": "PLAN YU", "cierre": "2026-02-17", "dias_fuera": 42, "ultimo_monto": 840000.0}, {"nombre": "MARGARITA MARIA  LOPEZ SEGURA", "plan": "PLAN GI", "cierre": "2026-02-16", "dias_fuera": 43, "ultimo_monto": 1350600.0}, {"nombre": "DAVID JOSE SANCHEZ", "plan": "YOGA X8", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 240000.0}, {"nombre": "ASTRID ELIANA VARGAS JIMENEZ", "plan": "TIQUETERA X14", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 252000.0}, {"nombre": "SAYUMI KASANO", "plan": "YOGA X8", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 240000.0}, {"nombre": "ANA MARIA CORREA LOPERA", "plan": "YOGA X8", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 240000.0}, {"nombre": "CATALINA OCAMPO", "plan": "YOGA X4", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 140000.0}, {"nombre": "YENIFER PEREZ SIERRA", "plan": "SOUSHIN", "cierre": "2026-02-12", "dias_fuera": 47, "ultimo_monto": 270000.0}, {"nombre": "CAMILO ANDRES  SOTO ARISTIZABAL", "plan": "SOUSHIN", "cierre": "2026-02-12", "dias_fuera": 47, "ultimo_monto": 270000.0}, {"nombre": "LILLIAN NELLY MARIN YEPES", "plan": "YOGA 24+6", "cierre": "2026-02-11", "dias_fuera": 48, "ultimo_monto": 650000.0}, {"nombre": "JUAN CARLOS MUÑOZ", "plan": "PLAN CHU", "cierre": "2026-02-11", "dias_fuera": 48, "ultimo_monto": 2340000.0}, {"nombre": "JUAN FELIPE SOTO", "plan": "YOGA X4", "cierre": "2026-02-10", "dias_fuera": 49, "ultimo_monto": 140000.0}, {"nombre": "KAORY BARRIENTOS", "plan": "YOGA 24+6", "cierre": "2026-02-08", "dias_fuera": 51, "ultimo_monto": 650000.0}, {"nombre": "JUAN ESTEBAN BETANCUR", "plan": "YOGA 24+6", "cierre": "2026-02-08", "dias_fuera": 51, "ultimo_monto": 650000.0}, {"nombre": "GUSTAVO DIAZ", "plan": "YOGA X4", "cierre": "2026-02-06", "dias_fuera": 53, "ultimo_monto": 140000.0}, {"nombre": "ESTEBAN ORTIZ PIEDRAHITA", "plan": "PLAN YU", "cierre": "2026-02-04", "dias_fuera": 55, "ultimo_monto": 840000.0}, {"nombre": "NATALIA  MENDEZ", "plan": "PLAN YU", "cierre": "2026-02-04", "dias_fuera": 55, "ultimo_monto": 840000.0}, {"nombre": "LINA  GUISAO", "plan": "PLAN CHU", "cierre": "2026-02-03", "dias_fuera": 56, "ultimo_monto": 2340000.0}, {"nombre": "DANIEL FERNANDO  ATEHORTUA BARRAGAN", "plan": "PLAN REI", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 316800.0}, {"nombre": "CLAUDIA LORENA MUNOZ ARISTIZABAL", "plan": "PLAN REI", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 316800.0}, {"nombre": "MIGUEL SANTIAGO CORREA GARCIA", "plan": "PLAN REI", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 316800.0}, {"nombre": "DANIEL HERNANDEZ", "plan": "TIQUETERA X7", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 154000.0}, {"nombre": "ALEJANDRO  PIEDRAHITA", "plan": "PLAN YU", "cierre": "2026-01-30", "dias_fuera": 60, "ultimo_monto": 840000.0}, {"nombre": "LINA VALDERRAMA", "plan": "TIQUETERA X7", "cierre": "2026-01-29", "dias_fuera": 61, "ultimo_monto": 154000.0}, {"nombre": "GIOVANA PEREZ", "plan": "PLAN GI", "cierre": "2026-01-24", "dias_fuera": 66, "ultimo_monto": 1500000.0}, {"nombre": "JUAN FELIPE  VILLA MANRIQUE ", "plan": "PLAN REI", "cierre": "2026-01-18", "dias_fuera": 72, "ultimo_monto": 120000.0}, {"nombre": "DANIEL JARAMILLO", "plan": "YOGA X4", "cierre": "2026-01-16", "dias_fuera": 74, "ultimo_monto": 140000.0}, {"nombre": "LINA ALZATE", "plan": "TIQUETERA X7", "cierre": "2026-01-16", "dias_fuera": 74, "ultimo_monto": 154000.0}, {"nombre": "ALEXANDRA AGUIRRE", "plan": "TIQUETERA X7", "cierre": "2026-01-15", "dias_fuera": 75, "ultimo_monto": 154000.0}, {"nombre": "CHRISTIAN DUQUE", "plan": "PLAN CHU", "cierre": "2026-01-13", "dias_fuera": 77, "ultimo_monto": 2340000.0}, {"nombre": "SEBASTIAN JIMENEZ MARIN", "plan": "PLAN CHU", "cierre": "2026-01-13", "dias_fuera": 77, "ultimo_monto": 2340000.0}, {"nombre": "JESSICA MACIAS GOMEZ", "plan": "PLAN CHU", "cierre": "2026-01-13", "dias_fuera": 77, "ultimo_monto": 2340000.0}, {"nombre": "JUAN DAVID MEJIA", "plan": "PLAN REI", "cierre": "2026-01-11", "dias_fuera": 79, "ultimo_monto": 232000.0}], "growth_by_month": {"Enero": -49.2, "Febrero": 45.5, "Marzo": -25.0}};
+
+// Plan classification: yoga vs entrenamiento
+const YOGA_PLANS = ['YOGA X4', 'YOGA X8', 'YOGA X24', 'YOGA 24+6', 'YOGA X1 -50%', 'YOGA X1 FULL'];
+const isYogaPlan = (plan) => plan.toUpperCase().includes('YOGA');
+const isEntrenoPlan = (plan) => !isYogaPlan(plan);
+const getService = (plan) => isYogaPlan(plan) ? 'Yoga' : 'Entrenamiento';
 
 // UTILS
 const fmtCurrency = (n) => {
@@ -532,59 +814,296 @@ const fmtCurrency = (n) => {
 const fmtFull = (n) => '$' + Math.round(n).toLocaleString('es-CO');
 const fmtPct = (n) => (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
 
+// ---- ANIMATE NUMBER ----
+function animateNumber(el, target, prefix, suffix, duration) {
+  prefix = prefix || '';
+  suffix = suffix || '';
+  duration = duration || 800;
+  const start = 0;
+  const startTime = performance.now();
+  const isDecimal = String(target).includes('.');
+
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = start + (target - start) * eased;
+
+    if (isDecimal) {
+      el.textContent = prefix + current.toFixed(1) + suffix;
+    } else {
+      el.textContent = prefix + Math.round(current).toLocaleString('es-CO') + suffix;
+    }
+
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+function animateCurrency(el, target, duration) {
+  duration = duration || 800;
+  const startTime = performance.now();
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+    el.textContent = fmtCurrency(current);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// ---- FILTER STATE ----
+let currentMonth = 'q1';
+let currentActivity = 'todo';
+const months = ['Enero','Febrero','Marzo'];
+
+// ---- FILTER PILLS ----
+document.querySelectorAll('.pill').forEach(pill => {
+  pill.addEventListener('click', function() {
+    const filterType = this.dataset.filter;
+    const value = this.dataset.value;
+
+    document.querySelectorAll(`.pill[data-filter="${filterType}"]`).forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+
+    if (filterType === 'month') currentMonth = value;
+    if (filterType === 'activity') currentActivity = value;
+
+    applyFilters();
+  });
+});
+
+// Sticky shadow on scroll
+const filterBar = document.getElementById('filterBar');
+window.addEventListener('scroll', () => {
+  filterBar.classList.toggle('scrolled', window.scrollY > 200);
+});
+
+// ---- GET FILTERED MONTHS ----
+function getMonths() {
+  if (currentMonth === 'q1') return ['Enero','Febrero','Marzo'];
+  return [currentMonth];
+}
+
+// ---- APPLY FILTERS ----
+function applyFilters() {
+  updateKPIs();
+  updateAltasTable();
+  updateRevCards();
+  updateNonRenewedTable();
+  if (typeof chartInstances !== 'undefined') {
+    updateCharts();
+  }
+}
+
 // ---- KPI CARDS ----
-document.getElementById('kpi-activos').textContent = DATA.kpis.activos_marzo;
-document.getElementById('kpi-activos-delta').textContent = fmtPct(DATA.kpis.growth_pct) + ' vs Dic 2025';
-document.getElementById('kpi-activos-delta').className = 'kpi-delta ' + (DATA.kpis.growth_pct >= 0 ? 'positive' : 'negative');
+function updateKPIs() {
+  const fm = getMonths();
+  const lastMonth = fm[fm.length - 1];
+  const lastIdx = ['Enero','Febrero','Marzo'].indexOf(lastMonth);
 
-document.getElementById('kpi-growth').textContent = fmtPct(DATA.kpis.growth_pct);
-document.getElementById('kpi-growth-delta').textContent = 'Dic 2025 a Mar 2026';
-document.getElementById('kpi-growth-delta').className = 'kpi-delta ' + (DATA.kpis.growth_pct >= 0 ? 'positive' : 'negative');
+  // Activos: last selected month
+  const evoIdx = lastIdx + 1; // +1 because Dic is index 0
+  let activos;
+  if (currentActivity === 'yoga') {
+    activos = DATA.active_evolution.yoga[evoIdx];
+  } else if (currentActivity === 'entrenamiento') {
+    activos = DATA.active_evolution.entrenamiento[evoIdx];
+  } else {
+    activos = DATA.active_evolution.total[evoIdx];
+  }
 
-document.getElementById('kpi-revenue').textContent = fmtCurrency(DATA.kpis.revenue_q1);
-const revDelta = ((DATA.revenue.Marzo.total - DATA.revenue.Enero.total) / DATA.revenue.Enero.total * 100);
-document.getElementById('kpi-revenue-delta').textContent = fmtPct(revDelta) + ' Ene a Mar';
-document.getElementById('kpi-revenue-delta').className = 'kpi-delta ' + (revDelta >= 0 ? 'positive' : 'negative');
+  const prevActivos = currentActivity === 'yoga'
+    ? DATA.active_evolution.yoga[0]
+    : currentActivity === 'entrenamiento'
+    ? DATA.active_evolution.entrenamiento[0]
+    : DATA.active_evolution.total[0];
 
-document.getElementById('kpi-churn').textContent = DATA.kpis.churn_rate + '%';
-document.getElementById('kpi-churn-delta').textContent = 'Deserciones acumuladas Q1';
+  const growthPct = prevActivos ? ((activos - prevActivos) / prevActivos * 100) : 0;
+
+  animateNumber(document.getElementById('kpi-activos'), activos, '', '', 600);
+  const deltaActivos = document.getElementById('kpi-activos-delta');
+  deltaActivos.textContent = fmtPct(growthPct) + ' vs Dic 2025';
+  deltaActivos.className = 'kpi-delta ' + (growthPct >= 0 ? 'positive' : 'negative');
+
+  // Growth
+  const growthEl = document.getElementById('kpi-growth');
+  growthEl.textContent = fmtPct(growthPct);
+  const deltaGrowth = document.getElementById('kpi-growth-delta');
+  deltaGrowth.textContent = 'Dic 2025 a ' + lastMonth + ' 2026';
+  deltaGrowth.className = 'kpi-delta ' + (growthPct >= 0 ? 'positive' : 'negative');
+
+  // Revenue
+  let revenue = 0;
+  fm.forEach(m => {
+    if (currentActivity === 'yoga') revenue += DATA.revenue[m].yoga;
+    else if (currentActivity === 'entrenamiento') revenue += DATA.revenue[m].entrenamiento;
+    else revenue += DATA.revenue[m].total;
+  });
+
+  animateCurrency(document.getElementById('kpi-revenue'), revenue, 600);
+  const kpiRevDelta = document.getElementById('kpi-revenue-delta');
+  if (fm.length > 1) {
+    const first = currentActivity === 'yoga' ? DATA.revenue[fm[0]].yoga
+      : currentActivity === 'entrenamiento' ? DATA.revenue[fm[0]].entrenamiento
+      : DATA.revenue[fm[0]].total;
+    const last = currentActivity === 'yoga' ? DATA.revenue[fm[fm.length-1]].yoga
+      : currentActivity === 'entrenamiento' ? DATA.revenue[fm[fm.length-1]].entrenamiento
+      : DATA.revenue[fm[fm.length-1]].total;
+    const revDelta = first ? ((last - first) / first * 100) : 0;
+    kpiRevDelta.textContent = fmtPct(revDelta) + ' ' + fm[0] + ' a ' + fm[fm.length-1];
+    kpiRevDelta.className = 'kpi-delta ' + (revDelta >= 0 ? 'positive' : 'negative');
+  } else {
+    kpiRevDelta.textContent = fm[0] + ' 2026';
+    kpiRevDelta.className = 'kpi-delta neutral';
+  }
+
+  // Churn
+  let totalAltas = 0, totalBajas = 0;
+  fm.forEach(m => {
+    totalAltas += DATA.altas_deserciones[m].altas;
+    totalBajas += DATA.altas_deserciones[m].bajas;
+  });
+  const churnVal = totalAltas ? ((totalBajas / (totalAltas + totalBajas)) * 100).toFixed(1) : '0.0';
+  document.getElementById('kpi-churn').textContent = churnVal + '%';
+  document.getElementById('kpi-churn-delta').textContent = 'Deserciones ' + (currentMonth === 'q1' ? 'Q1' : currentMonth);
+}
 
 // ---- ALTAS TABLE ----
-const tblAltas = document.getElementById('tblAltas');
-['Enero','Febrero','Marzo'].forEach(m => {
-  const d = DATA.altas_deserciones[m];
-  const netoClass = d.neto >= 0 ? 'tag-green' : 'tag-red';
-  tblAltas.innerHTML += `<tr>
-    <td style="font-weight:500">${m}</td>
-    <td class="text-right text-mono"><span class="tag tag-green">${d.altas}</span></td>
-    <td class="text-right text-mono"><span class="tag tag-red">${d.bajas}</span></td>
-    <td class="text-right text-mono"><span class="tag ${netoClass}">${d.neto > 0 ? '+' : ''}${d.neto}</span></td>
-    <td class="text-right text-mono" style="font-weight:600">${d.total_activos}</td>
-  </tr>`;
-});
+function updateAltasTable() {
+  const fm = getMonths();
+  const tblAltas = document.getElementById('tblAltas');
+  tblAltas.innerHTML = '';
+  fm.forEach(m => {
+    const d = DATA.altas_deserciones[m];
+    const netoClass = d.neto >= 0 ? 'tag-green' : 'tag-red';
+    tblAltas.innerHTML += `<tr>
+      <td style="font-weight:500">${m}</td>
+      <td class="text-right text-mono"><span class="tag tag-green">${d.altas}</span></td>
+      <td class="text-right text-mono"><span class="tag tag-red">${d.bajas}</span></td>
+      <td class="text-right text-mono"><span class="tag ${netoClass}">${d.neto > 0 ? '+' : ''}${d.neto}</span></td>
+      <td class="text-right text-mono" style="font-weight:600">${d.total_activos}</td>
+    </tr>`;
+  });
+}
 
 // ---- REVENUE CARDS ----
-const revCards = document.getElementById('revCards');
-['Enero','Febrero','Marzo'].forEach(m => {
-  const r = DATA.revenue[m];
-  revCards.innerHTML += `<div class="rev-card">
-    <div class="rev-card-month">${m}</div>
-    <div class="rev-card-amount">${fmtCurrency(r.total)}</div>
-    <div class="rev-card-detail">Entreno ${fmtCurrency(r.entrenamiento)} &middot; Yoga ${fmtCurrency(r.yoga)}</div>
-  </div>`;
-});
+function updateRevCards() {
+  const fm = getMonths();
+  const revCards = document.getElementById('revCards');
+  revCards.innerHTML = '';
+  fm.forEach(m => {
+    const r = DATA.revenue[m];
+    let amount, detail;
+    if (currentActivity === 'yoga') {
+      amount = r.yoga;
+      detail = 'Yoga';
+    } else if (currentActivity === 'entrenamiento') {
+      amount = r.entrenamiento;
+      detail = 'Entrenamiento';
+    } else {
+      amount = r.total;
+      detail = `Entreno ${fmtCurrency(r.entrenamiento)} &middot; Yoga ${fmtCurrency(r.yoga)}`;
+    }
+    const highlight = fm.length === 1 ? ' highlight' : '';
+    revCards.innerHTML += `<div class="rev-card${highlight}">
+      <div class="rev-card-month">${m}</div>
+      <div class="rev-card-amount">${fmtCurrency(amount)}</div>
+      <div class="rev-card-detail">${detail}</div>
+    </div>`;
+  });
+}
 
 // ---- NON RENEWED TABLE ----
-const tblNR = document.getElementById('tblNonRenewed');
-const urgencyTag = (d) => d <= 35 ? 'tag-orange' : d <= 50 ? 'tag-red' : 'tag-red';
-DATA.non_renewed.forEach(u => {
-  tblNR.innerHTML += `<tr>
-    <td style="font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px">${u.nombre}</td>
-    <td><span class="tag tag-blue">${u.plan}</span></td>
-    <td class="text-mono">${u.cierre}</td>
-    <td class="text-right"><span class="tag ${urgencyTag(u.dias_fuera)}">${u.dias_fuera}d</span></td>
-    <td class="text-right text-mono">${fmtFull(u.ultimo_monto)}</td>
-  </tr>`;
+let nonRenewedSort = { field: 'dias_fuera', dir: 'asc' };
+
+function getFilteredNonRenewed() {
+  let items = [...DATA.non_renewed];
+  const search = (document.getElementById('searchNonRenewed').value || '').toLowerCase().trim();
+
+  // Activity filter
+  if (currentActivity === 'yoga') {
+    items = items.filter(u => isYogaPlan(u.plan));
+  } else if (currentActivity === 'entrenamiento') {
+    items = items.filter(u => isEntrenoPlan(u.plan));
+  }
+
+  // Month filter: filter by cierre month
+  if (currentMonth !== 'q1') {
+    const monthMap = { 'Enero': '01', 'Febrero': '02', 'Marzo': '03' };
+    const mm = monthMap[currentMonth];
+    items = items.filter(u => u.cierre.substring(5,7) === mm);
+  }
+
+  // Search
+  if (search) {
+    items = items.filter(u =>
+      u.nombre.toLowerCase().includes(search) ||
+      u.plan.toLowerCase().includes(search) ||
+      getService(u.plan).toLowerCase().includes(search)
+    );
+  }
+
+  // Sort
+  items.sort((a, b) => {
+    const va = a[nonRenewedSort.field];
+    const vb = b[nonRenewedSort.field];
+    const cmp = typeof va === 'string' ? va.localeCompare(vb) : va - vb;
+    return nonRenewedSort.dir === 'asc' ? cmp : -cmp;
+  });
+
+  return items;
+}
+
+function updateNonRenewedTable() {
+  const items = getFilteredNonRenewed();
+  const tblNR = document.getElementById('tblNonRenewed');
+  const urgencyTag = (d) => d <= 35 ? 'tag-orange' : 'tag-red';
+
+  tblNR.innerHTML = '';
+  items.forEach(u => {
+    const service = getService(u.plan);
+    const svcClass = service === 'Yoga' ? 'yoga' : 'entreno';
+    tblNR.innerHTML += `<tr>
+      <td style="font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px">${u.nombre}</td>
+      <td><span class="tag tag-blue">${u.plan}</span></td>
+      <td><span class="tag-service ${svcClass}">${service}</span></td>
+      <td class="text-mono">${u.cierre}</td>
+      <td class="text-right"><span class="tag ${urgencyTag(u.dias_fuera)}">${u.dias_fuera}d</span></td>
+      <td class="text-right text-mono">${fmtFull(u.ultimo_monto)}</td>
+    </tr>`;
+  });
+
+  document.getElementById('nonRenewedCount').textContent = items.length + ' de ' + DATA.non_renewed.length + ' usuarios';
+
+  // Update sort indicators
+  document.querySelectorAll('th.sortable').forEach(th => {
+    th.classList.remove('asc', 'desc');
+    if (th.dataset.sort === nonRenewedSort.field) {
+      th.classList.add(nonRenewedSort.dir);
+    }
+  });
+}
+
+// Sort click handlers
+document.querySelectorAll('th.sortable').forEach(th => {
+  th.addEventListener('click', function() {
+    const field = this.dataset.sort;
+    if (nonRenewedSort.field === field) {
+      nonRenewedSort.dir = nonRenewedSort.dir === 'asc' ? 'desc' : 'asc';
+    } else {
+      nonRenewedSort.field = field;
+      nonRenewedSort.dir = 'asc';
+    }
+    updateNonRenewedTable();
+  });
+});
+
+// Search handler
+document.getElementById('searchNonRenewed').addEventListener('input', function() {
+  updateNonRenewedTable();
 });
 
 // ---- INSIGHTS ----
@@ -602,7 +1121,15 @@ insightData.forEach(i => {
   </div>`;
 });
 
+// ---- INITIAL RENDER ----
+updateKPIs();
+updateAltasTable();
+updateRevCards();
+updateNonRenewedTable();
+
 // ---- CHARTS ----
+const chartInstances = {};
+
 try {
   const fontFamily = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif";
   Chart.defaults.font.family = fontFamily;
@@ -629,8 +1156,7 @@ try {
   const tickStyle = { padding: 8 };
 
   // CHART: Evolution
-  const ctxEvo = document.getElementById('chartEvolution');
-  new Chart(ctxEvo, {
+  chartInstances.evolution = new Chart(document.getElementById('chartEvolution'), {
     type: 'line',
     data: {
       labels: DATA.active_evolution.labels,
@@ -692,22 +1218,39 @@ try {
       scales: {
         y: { beginAtZero: true, grid: gridStyle, ticks: tickStyle, border: { display: false } },
         x: { grid: { display: false }, ticks: tickStyle, border: { display: false } }
-      }
+      },
+      animation: { duration: 600, easing: 'easeOutCubic' }
     }
   });
 
   // CHART: Plans (horizontal bar)
-  const planData = DATA.active_by_plan.Marzo;
-  const planLabels = Object.keys(planData).sort((a,b) => planData[b] - planData[a]);
-  const planValues = planLabels.map(k => planData[k]);
+  function getPlansData() {
+    const fm = getMonths();
+    const merged = {};
+    fm.forEach(m => {
+      const planData = DATA.active_by_plan[m];
+      Object.keys(planData).forEach(k => {
+        // Activity filter
+        if (currentActivity === 'yoga' && !isYogaPlan(k)) return;
+        if (currentActivity === 'entrenamiento' && isYogaPlan(k)) return;
+        merged[k] = (merged[k] || 0) + planData[k];
+      });
+    });
+    if (fm.length > 1) {
+      Object.keys(merged).forEach(k => { merged[k] = Math.round(merged[k] / fm.length); });
+    }
+    const labels = Object.keys(merged).sort((a,b) => merged[b] - merged[a]);
+    return { labels, values: labels.map(k => merged[k]) };
+  }
 
-  new Chart(document.getElementById('chartPlans'), {
+  const initPlans = getPlansData();
+  chartInstances.plans = new Chart(document.getElementById('chartPlans'), {
     type: 'bar',
     data: {
-      labels: planLabels,
+      labels: initPlans.labels,
       datasets: [{
-        data: planValues,
-        backgroundColor: '#0071E3',
+        data: initPlans.values,
+        backgroundColor: initPlans.labels.map(l => isYogaPlan(l) ? '#34C759' : '#0071E3'),
         borderRadius: 6,
         barThickness: 24,
         maxBarThickness: 28
@@ -717,17 +1260,101 @@ try {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: tooltipStyle },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          ...tooltipStyle,
+          callbacks: {
+            afterLabel: function(ctx) {
+              const plan = ctx.label;
+              // Show revenue for this plan
+              const fm = getMonths();
+              let rev = 0;
+              fm.forEach(m => { rev += (DATA.revenue_by_plan[m]?.[plan] || 0); });
+              return rev ? 'Ingreso: ' + fmtFull(rev) : '';
+            }
+          }
+        }
+      },
       scales: {
         x: { beginAtZero: true, grid: gridStyle, ticks: { ...tickStyle, stepSize: 2 }, border: { display: false } },
         y: { grid: { display: false }, ticks: { ...tickStyle, font: { size: 11 } }, border: { display: false } }
+      },
+      animation: { duration: 600, easing: 'easeOutCubic' },
+      onClick: function(evt, elements) {
+        if (elements.length > 0) {
+          showPlanTooltip(evt, elements[0], this);
+        }
       }
     }
   });
 
+  // Plan tooltip on click
+  const planTooltipEl = document.getElementById('planTooltip');
+
+  function showPlanTooltip(evt, element, chart) {
+    const plan = chart.data.labels[element.index];
+    const fm = getMonths();
+
+    let totalUsers = 0, totalRev = 0;
+    const monthDetails = [];
+    fm.forEach(m => {
+      const users = DATA.active_by_plan[m]?.[plan] || 0;
+      const rev = DATA.revenue_by_plan[m]?.[plan] || 0;
+      totalUsers += users;
+      totalRev += rev;
+      monthDetails.push({ month: m, users, rev });
+    });
+
+    const service = getService(plan);
+
+    document.getElementById('planTooltipTitle').textContent = plan;
+    let body = `<div class="plan-tooltip-row"><span class="label">Servicio</span><span class="value">${service}</span></div>`;
+    monthDetails.forEach(d => {
+      body += `<div class="plan-tooltip-row"><span class="label">${d.month}</span><span class="value">${d.users} usr &middot; ${fmtCurrency(d.rev)}</span></div>`;
+    });
+    if (fm.length > 1) {
+      body += `<div style="border-top:1px solid var(--border-subtle);margin-top:8px;padding-top:8px;" class="plan-tooltip-row"><span class="label">Total</span><span class="value">${totalUsers} usr &middot; ${fmtCurrency(totalRev)}</span></div>`;
+    }
+    document.getElementById('planTooltipBody').innerHTML = body;
+
+    // Highlight the clicked bar
+    const colors = chart.data.labels.map((l, i) => {
+      if (i === element.index) return isYogaPlan(l) ? '#2AA048' : '#005BBB';
+      return isYogaPlan(l) ? 'rgba(52,199,89,0.3)' : 'rgba(0,113,227,0.3)';
+    });
+    chart.data.datasets[0].backgroundColor = colors;
+    chart.update('none');
+
+    // Position
+    const rect = chart.canvas.getBoundingClientRect();
+    planTooltipEl.style.left = (rect.right + 8) + 'px';
+    planTooltipEl.style.top = (evt.native.clientY - 40) + 'px';
+
+    // Keep within viewport
+    const tooltipW = 240;
+    if (rect.right + tooltipW + 16 > window.innerWidth) {
+      planTooltipEl.style.left = (rect.left - tooltipW - 8) + 'px';
+    }
+
+    planTooltipEl.classList.add('visible');
+
+    // Reset on click elsewhere
+    setTimeout(() => {
+      function dismissTooltip(e) {
+        if (!planTooltipEl.contains(e.target) && e.target !== chart.canvas) {
+          planTooltipEl.classList.remove('visible');
+          chart.data.datasets[0].backgroundColor = chart.data.labels.map(l => isYogaPlan(l) ? '#34C759' : '#0071E3');
+          chart.update('none');
+          document.removeEventListener('click', dismissTooltip);
+        }
+      }
+      document.addEventListener('click', dismissTooltip);
+    }, 10);
+  }
+
   // CHART: Nuevos vs Recompra (stacked bar)
-  const months = ['Enero','Febrero','Marzo'];
-  new Chart(document.getElementById('chartNuevosRecompra'), {
+  chartInstances.nuevosRecompra = new Chart(document.getElementById('chartNuevosRecompra'), {
     type: 'bar',
     data: {
       labels: months,
@@ -755,19 +1382,28 @@ try {
       scales: {
         y: { stacked: true, beginAtZero: true, grid: gridStyle, ticks: tickStyle, border: { display: false } },
         x: { stacked: true, grid: { display: false }, ticks: tickStyle, border: { display: false } }
-      }
+      },
+      animation: { duration: 600, easing: 'easeOutCubic' }
     }
   });
 
   // CHART: Donut
-  const totalNuevos = months.reduce((s,m) => s + DATA.sales_nuevos_recompra[m].nuevos_amount, 0);
-  const totalRecompra = months.reduce((s,m) => s + DATA.sales_nuevos_recompra[m].recompra_amount, 0);
-  new Chart(document.getElementById('chartDonut'), {
+  function getDonutData() {
+    const fm = getMonths();
+    let totalNuevos = 0, totalRecompra = 0;
+    fm.forEach(m => {
+      totalNuevos += DATA.sales_nuevos_recompra[m].nuevos_amount;
+      totalRecompra += DATA.sales_nuevos_recompra[m].recompra_amount;
+    });
+    return [totalNuevos, totalRecompra];
+  }
+
+  chartInstances.donut = new Chart(document.getElementById('chartDonut'), {
     type: 'doughnut',
     data: {
       labels: ['Nuevos', 'Recompra'],
       datasets: [{
-        data: [totalNuevos, totalRecompra],
+        data: getDonutData(),
         backgroundColor: ['#0071E3', '#E5E5EA'],
         hoverBackgroundColor: ['#005BBB', '#D1D1D6'],
         borderWidth: 0,
@@ -784,12 +1420,13 @@ try {
           callbacks: { label: (c) => c.label + ': ' + fmtFull(c.raw) }
         },
         legend: { position: 'bottom' }
-      }
+      },
+      animation: { duration: 600, easing: 'easeOutCubic' }
     }
   });
 
   // CHART: Revenue
-  new Chart(document.getElementById('chartRevenue'), {
+  chartInstances.revenue = new Chart(document.getElementById('chartRevenue'), {
     type: 'bar',
     data: {
       labels: months,
@@ -830,9 +1467,113 @@ try {
           }
         },
         x: { grid: { display: false }, ticks: tickStyle, border: { display: false } }
-      }
+      },
+      animation: { duration: 600, easing: 'easeOutCubic' }
     }
   });
+
+  // ---- UPDATE CHARTS ON FILTER ----
+  function updateCharts() {
+    const fm = getMonths();
+
+    // Evolution: highlight selected months
+    const evoChart = chartInstances.evolution;
+    if (currentActivity === 'yoga') {
+      evoChart.data.datasets[0].data = DATA.active_evolution.yoga;
+      evoChart.data.datasets[0].borderColor = '#34C759';
+      evoChart.data.datasets[1].data = [];
+      evoChart.data.datasets[2].data = [];
+    } else if (currentActivity === 'entrenamiento') {
+      evoChart.data.datasets[0].data = DATA.active_evolution.entrenamiento;
+      evoChart.data.datasets[0].borderColor = '#0071E3';
+      evoChart.data.datasets[1].data = [];
+      evoChart.data.datasets[2].data = [];
+    } else {
+      evoChart.data.datasets[0].data = DATA.active_evolution.total;
+      evoChart.data.datasets[0].borderColor = '#0071E3';
+      evoChart.data.datasets[1].data = DATA.active_evolution.entrenamiento;
+      evoChart.data.datasets[2].data = DATA.active_evolution.yoga;
+    }
+
+    // Point sizes: highlight selected months
+    const allLabels = DATA.active_evolution.labels;
+    const monthToLabel = { 'Enero': 'Ene 2026', 'Febrero': 'Feb 2026', 'Marzo': 'Mar 2026' };
+    const selectedLabels = currentMonth === 'q1' ? allLabels : fm.map(m => monthToLabel[m]);
+    const pointRadii = allLabels.map(l => selectedLabels.includes(l) ? 7 : 4);
+    evoChart.data.datasets[0].pointRadius = pointRadii;
+    evoChart.update();
+
+    // Plans
+    const planChart = chartInstances.plans;
+    const pd = getPlansData();
+    planChart.data.labels = pd.labels;
+    planChart.data.datasets[0].data = pd.values;
+    planChart.data.datasets[0].backgroundColor = pd.labels.map(l => isYogaPlan(l) ? '#34C759' : '#0071E3');
+    planChart.update();
+
+    // Update plans title
+    if (currentMonth === 'q1') {
+      document.getElementById('titlePlans').textContent = 'Activos por plan — Promedio Q1';
+    } else {
+      document.getElementById('titlePlans').textContent = 'Activos por plan — ' + currentMonth;
+    }
+
+    // Nuevos vs Recompra
+    const nrChart = chartInstances.nuevosRecompra;
+    nrChart.data.labels = fm;
+    nrChart.data.datasets[0].data = fm.map(m => DATA.sales_nuevos_recompra[m].nuevos_count);
+    nrChart.data.datasets[1].data = fm.map(m => DATA.sales_nuevos_recompra[m].recompra_count);
+    nrChart.update();
+
+    // Donut
+    const donutChart = chartInstances.donut;
+    donutChart.data.datasets[0].data = getDonutData();
+    donutChart.update();
+
+    // Update donut title
+    document.getElementById('titleDonut').textContent = 'Composicion ' + (currentMonth === 'q1' ? 'Q1' : currentMonth) + ' — Ventas por tipo';
+
+    // Revenue
+    const revChart = chartInstances.revenue;
+    if (currentActivity === 'yoga') {
+      revChart.data.labels = fm;
+      revChart.data.datasets = [{
+        label: 'Yoga',
+        data: fm.map(m => DATA.revenue[m].yoga),
+        backgroundColor: '#34C759',
+        borderRadius: 6,
+        barThickness: 48
+      }];
+    } else if (currentActivity === 'entrenamiento') {
+      revChart.data.labels = fm;
+      revChart.data.datasets = [{
+        label: 'Entrenamiento',
+        data: fm.map(m => DATA.revenue[m].entrenamiento),
+        backgroundColor: '#0071E3',
+        borderRadius: 6,
+        barThickness: 48
+      }];
+    } else {
+      revChart.data.labels = fm;
+      revChart.data.datasets = [
+        {
+          label: 'Entrenamiento',
+          data: fm.map(m => DATA.revenue[m].entrenamiento),
+          backgroundColor: '#0071E3',
+          borderRadius: 6,
+          barThickness: 48
+        },
+        {
+          label: 'Yoga',
+          data: fm.map(m => DATA.revenue[m].yoga),
+          backgroundColor: '#34C759',
+          borderRadius: 6,
+          barThickness: 48
+        }
+      ];
+    }
+    revChart.update();
+  }
 
 } catch(e) {
   console.warn('Chart.js no disponible:', e);
