@@ -1032,7 +1032,7 @@
       <a href="#módulos" class="nav-pill">Módulos</a>
       <a href="#custom" class="nav-pill">Custom</a>
       <a href="#pagos" class="nav-pill">Pagos</a>
-      <a href="#comparativa" class="nav-pill">Antes / Despues</a>
+      <a href="#comparativa" class="nav-pill">Antes / Después</a>
     </div>
   </div>
 </nav>
@@ -1114,7 +1114,7 @@
         </div>
         <h3>Sistema Suscripciones</h3>
         <ul>
-          <li>Planes y renovaciones.</li>
+          <li>Planes y renovaciónes.</li>
           <li>Cobros manuales.</li>
           <li>No ve asistencia real.</li>
           <li>No ve inventario.</li>
@@ -1197,7 +1197,7 @@
     <div class="reveal">
       <p class="section-label">Módulos Odoo</p>
       <h2 class="section-title">9 módulos. Cero fragmentación.</h2>
-      <p class="section-subtitle">Cada área de tu negocio, cubierta por un modulo nativo de Odoo. Haz clic en una tarjeta para ver el detalle.</p>
+      <p class="section-subtitle">Cada área de tu negocio, cubierta por un módulo nativo de Odoo. Haz clic en una tarjeta para ver el detalle.</p>
     </div>
 
     <div class="module-grid" id="moduleGrid">
@@ -1310,14 +1310,14 @@
 <script>
 // ---- DATA ----
 const modules = [
-  { num: '01', title: 'Suscripciones', desc: 'Planes mensuales, trimestrales y anuales. Renovaciones, pausas, upsell y control de acceso por zona.', detail: 'Reglas de renovacion automática, notificaciones por WhatsApp antes del vencimiento, upsell inteligente basado en uso. Dashboard de churn rate y lifetime value.', icon: '&#9733;', color: 'var(--gold)', bg: 'rgba(232,184,74,0.08)', glow: 'rgba(232,184,74,0.2)' },
-  { num: '02', title: 'POS Café', desc: 'Punto de venta para café, proteinas y bowls. Descuentos automaticos para socios.', detail: 'Inventario en tiempo real del café. Descuento automatico si el cliente es socio activo. Reportes de productos mas vendidos por franja horaria.', icon: '&#9749;', color: 'var(--blue)', bg: 'rgba(0,113,227,0.08)', glow: 'rgba(0,113,227,0.2)' },
+  { num: '01', title: 'Suscripciones', desc: 'Planes mensuales, trimestrales y anuales. Renovaciónes, pausas, upsell y control de acceso por zona.', detail: 'Reglas de renovación automática, notificaciones por WhatsApp antes del vencimiento, upsell inteligente basado en uso. Dashboard de churn rate y lifetime value.', icon: '&#9733;', color: 'var(--gold)', bg: 'rgba(232,184,74,0.08)', glow: 'rgba(232,184,74,0.2)' },
+  { num: '02', title: 'POS Café', desc: 'Punto de venta para café, proteinas y bowls. Descuentos automáticos para socios.', detail: 'Inventario en tiempo real del café. Descuento automático si el cliente es socio activo. Reportes de productos mas vendidos por franja horaria.', icon: '&#9749;', color: 'var(--blue)', bg: 'rgba(0,113,227,0.08)', glow: 'rgba(0,113,227,0.2)' },
   { num: '03', title: 'POS Tienda Retail', desc: 'Ropa deportiva, accesorios y suplementos. Variantes de talla y color.', detail: 'Gestion de variantes (talla, color), alertas de stock bajo, codigo de barras. Mismo sistema, misma caja, misma base de datos que el café.', icon: '&#128722;', color: 'var(--violet)', bg: 'rgba(139,92,246,0.08)', glow: 'rgba(139,92,246,0.2)' },
-  { num: '04', title: 'Contabilidad Colombia', desc: 'Facturación electrónica DIAN, impuestos automaticos, plan de cuentas PUC.', detail: 'Reportes fiscales colombianos (IVA, retencion, ICA). Facturación electrónica directa a DIAN. Conciliacion bancaria automática con extractos.', icon: '&#128200;', color: 'var(--green)', bg: 'rgba(52,199,89,0.08)', glow: 'rgba(52,199,89,0.2)' },
-  { num: '05', title: 'Nómina Electrónica', desc: 'Entrenadores, recepcion, spa. Nómina electrónica DIAN.', detail: 'Ley 2466/2025 aplicada. Calculo automatico de prestaciones, seguridad social, horas extras. Envio a DIAN con un clic.', icon: '&#128101;', color: 'var(--orange)', bg: 'rgba(255,149,0,0.08)', glow: 'rgba(255,149,0,0.2)' },
+  { num: '04', title: 'Contabilidad Colombia', desc: 'Facturación electrónica DIAN, impuestos automáticos, plan de cuentas PUC.', detail: 'Reportes fiscales colombianos (IVA, retencion, ICA). Facturación electrónica directa a DIAN. Conciliacion bancaria automática con extractos.', icon: '&#128200;', color: 'var(--green)', bg: 'rgba(52,199,89,0.08)', glow: 'rgba(52,199,89,0.2)' },
+  { num: '05', title: 'Nómina Electrónica', desc: 'Entrenadores, recepcion, spa. Nómina electrónica DIAN.', detail: 'Ley 2466/2025 aplicada. Calculo automático de prestaciones, seguridad social, horas extras. Envio a DIAN con un clic.', icon: '&#128101;', color: 'var(--orange)', bg: 'rgba(255,149,0,0.08)', glow: 'rgba(255,149,0,0.2)' },
   { num: '06', title: 'Inventario Unificado', desc: 'Café, tienda, consumibles spa. Stock en tiempo real.', detail: 'Alertas de reabastecimiento, reglas de reorden, trazabilidad por lote. Un solo inventario para todas las unidades de negocio.', icon: '&#128230;', color: '#00C7BE', bg: 'rgba(0,199,190,0.08)', glow: 'rgba(0,199,190,0.2)' },
   { num: '07', title: 'CRM Socios', desc: 'Leads, tours programados, conversion, lifetime value por socio.', detail: 'Pipeline de ventas: tour agendado > prueba gratis > cierre. WhatsApp integrado. Segmentacion por plan, antiguedad y valor.', icon: '&#128172;', color: 'var(--blue)', bg: 'rgba(0,113,227,0.08)', glow: 'rgba(0,113,227,0.2)' },
-  { num: '08', title: 'Dashboards', desc: 'KPIs en tiempo real: ingresos, asistencia, renovaciones, mora.', detail: 'Tableros ejecutivos con graficas interactivas. Filtros por periodo, zona, plan. Exportacion a PDF con un clic para juntas directivas.', icon: '&#128202;', color: 'var(--violet)', bg: 'rgba(139,92,246,0.08)', glow: 'rgba(139,92,246,0.2)' },
+  { num: '08', title: 'Dashboards', desc: 'KPIs en tiempo real: ingresos, asistencia, renovaciónes, mora.', detail: 'Tableros ejecutivos con graficas interactivas. Filtros por periodo, zona, plan. Exportacion a PDF con un clic para juntas directivas.', icon: '&#128202;', color: 'var(--violet)', bg: 'rgba(139,92,246,0.08)', glow: 'rgba(139,92,246,0.2)' },
   { num: '09', title: 'Mantenimiento', desc: 'Equipos de gimnasio, criogenica, spa. Calendarios preventivos.', detail: 'Ordenes de mantenimiento preventivo y correctivo. Historial de cada equipo. Alertas automáticas cuando toca revision.', icon: '&#128295;', color: 'var(--gold)', bg: 'rgba(232,184,74,0.08)', glow: 'rgba(232,184,74,0.2)' },
 ];
 
@@ -1325,7 +1325,7 @@ const customs = [
   { num: 'C.01', title: 'Lector de asistencia inteligente', body: 'Identificacion por huella, QR o reconocimiento facial. Valida plan activo, zona autorizada y estado de pago. Si el socio tiene mora, cobra automáticamente o bloquea acceso segun politica.' },
   { num: 'C.02', title: 'Control de acceso por zona', body: 'Plan Black accede a todas las zonas. Plan Essential solo al area principal. Los torniquetes validan en tiempo real contra la base de datos de Odoo, sin latencia.' },
   { num: 'C.03', title: 'Portal del socio', body: 'Web y app: plan activo, historial de pagos, asistencia, reservas de clases, compras en el café. El socio gestiona todo sin llamar a recepcion.' },
-  { num: 'C.04', title: 'Motor de renovacion automática', body: 'Recordatorio via WhatsApp 7 dias antes. Cobro automatico el dia de vencimiento. Reintento a las 24h y 72h. Si falla, alerta al asesor comercial para gestion manual.' },
+  { num: 'C.04', title: 'Motor de renovación automática', body: 'Recordatorio via WhatsApp 7 dias antes. Cobro automático el dia de vencimiento. Reintento a las 24h y 72h. Si falla, alerta al asesor comercial para gestion manual.' },
   { num: 'C.05', title: 'Dashboard ejecutivo movil', body: 'KPIs clave en el celular: ingresos del dia, socios activos, mora, ocupacion por zona. Abrir, ver, decidir.' },
 ];
 
@@ -1344,7 +1344,7 @@ const marqueeItems = [
 
 const comparisons = [
   ['3 sistemas aislados', 'Una sola base de datos'],
-  ['Cobros manuales.', 'Cobros automaticos via Wompi/Addi'],
+  ['Cobros manuales.', 'Cobros automáticos via Wompi/Addi'],
   ['No saben que plan renta mas', 'Rentabilidad por plan en tiempo real'],
   ['Inventario sin conexión', 'Inventario unificado con alertas'],
   ['Asistencia no valida mora', 'Lector inteligente conectado a cobros'],
