@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Informe DOJO — Q1 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
   :root {
     --bg: #FAFAFA;
+    --bg-end: #F0F0F5;
     --surface: #FFFFFF;
     --text: #1D1D1F;
     --text-secondary: #86868B;
@@ -16,66 +18,95 @@
     --green: #34C759;
     --red: #FF3B30;
     --orange: #FF9500;
-    --border-subtle: rgba(0,0,0,0.04);
+    --gold: #E8B84A;
+    --lime: #C6F432;
+    --violet: #8B5CF6;
+    --border-subtle: rgba(0,0,0,0.06);
     --shadow: 0 2px 12px rgba(0,0,0,0.04);
-    --shadow-hover: 0 4px 24px rgba(0,0,0,0.08);
-    --radius: 16px;
-    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
-    --mono: 'SF Mono', 'IBM Plex Mono', 'Fira Code', monospace;
+    --shadow-hover: 0 8px 40px rgba(0,0,0,0.12);
+    --radius: 20px;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    --mono: 'IBM Plex Mono', 'SF Mono', 'Fira Code', monospace;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
     font-family: var(--font);
-    background: var(--bg);
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-end) 100%);
     color: var(--text);
-    line-height: 1.5;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   .container {
-    max-width: 1120px;
-    margin: 0 auto;
+    max-width: 1080px;
     padding: 0 24px;
+    margin: 0 auto;
   }
 
   /* ---- HERO ---- */
   .hero {
-    padding: 80px 0 20px;
+    padding: 100px 0 32px;
     text-align: center;
   }
 
   .hero-badge {
-    display: inline-block;
-    font-size: 13px;
-    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--text-secondary);
-    background: var(--surface);
-    padding: 6px 16px;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(10px);
+    padding: 10px 24px;
     border-radius: 100px;
-    box-shadow: var(--shadow);
+    border: 1px solid rgba(255,255,255,0.18);
     margin-bottom: 32px;
     letter-spacing: 0.02em;
   }
 
+  .hero-badge .badge-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--lime);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
   .hero h1 {
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
     line-height: 1.05;
     color: var(--text);
   }
 
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, var(--text) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   .hero .subtitle {
-    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
     font-weight: 400;
     color: var(--text-secondary);
-    margin-top: 8px;
+    margin-top: 16px;
     letter-spacing: -0.01em;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
   }
 
   /* ---- FILTER BAR ---- */
@@ -83,16 +114,17 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(250,250,250,0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(250,250,250,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: 16px 0;
-    border-bottom: 1px solid var(--border-subtle);
-    transition: box-shadow 0.3s ease;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
   }
 
   .filter-bar.scrolled {
-    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    border-bottom-color: var(--border-subtle);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.06);
   }
 
   .filter-row {
@@ -111,9 +143,9 @@
 
   .filter-group-label {
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     color: var(--text-tertiary);
     margin-right: 4px;
   }
@@ -129,7 +161,7 @@
     display: inline-block;
     font-size: 13px;
     font-weight: 500;
-    padding: 7px 18px;
+    padding: 8px 18px;
     border-radius: 100px;
     border: 1.5px solid rgba(0,0,0,0.1);
     background: transparent;
@@ -144,12 +176,14 @@
   .pill:hover {
     border-color: rgba(0,0,0,0.2);
     color: var(--text);
+    background: rgba(0,0,0,0.04);
   }
 
   .pill.active {
     background: var(--text);
     color: #fff;
     border-color: var(--text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 
   @media (max-width: 600px) {
@@ -161,24 +195,25 @@
 
   /* ---- SECTION ---- */
   .section {
-    padding: 40px 0;
+    padding: 48px 0;
   }
 
   .section-label {
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-tertiary);
-    margin-bottom: 24px;
+    letter-spacing: 0.15em;
+    color: var(--violet);
+    margin-bottom: 16px;
   }
 
   .section-title {
     font-size: clamp(1.5rem, 3vw, 2.25rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    letter-spacing: -0.03em;
     margin-bottom: 32px;
     color: var(--text);
+    line-height: 1.1;
   }
 
   /* ---- KPI GRID ---- */
@@ -252,9 +287,8 @@
   .card {
     background: var(--surface);
     border-radius: var(--radius);
-    padding: 40px;
+    padding: 32px;
     box-shadow: var(--shadow);
-    margin-bottom: 24px;
     transition: all 0.3s ease;
   }
 
@@ -264,7 +298,6 @@
     color: var(--text);
     margin-bottom: 24px;
     letter-spacing: -0.01em;
-    transition: all 0.3s ease;
   }
 
   .chart-wrap {
@@ -286,7 +319,6 @@
 
   @media (max-width: 900px) {
     .two-col { grid-template-columns: 1fr; }
-    .two-col .card { max-width: 100%; overflow: hidden; }
   }
 
   /* ---- TABLE ---- */
@@ -356,15 +388,11 @@
   }
 
   tbody tr {
-    transition: background 0.2s ease, opacity 0.3s ease;
+    transition: background 0.2s ease;
   }
 
   tbody tr:hover {
     background: rgba(0,113,227,0.03);
-  }
-
-  tbody tr.hidden-row {
-    display: none;
   }
 
   .tag {
@@ -426,10 +454,9 @@
     color: var(--text-tertiary);
     margin-top: 8px;
     font-family: var(--mono);
-    transition: all 0.3s ease;
   }
 
-  /* ---- NON RENEWED TABLE ---- */
+  /* ---- SCROLL TABLE ---- */
   .scroll-table {
     max-height: 480px;
     overflow-y: auto;
@@ -447,7 +474,7 @@
   /* ---- INSIGHTS ---- */
   .insight-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 16px;
   }
 
@@ -458,6 +485,11 @@
     box-shadow: var(--shadow);
     border-left: 3px solid var(--blue);
     transition: all 0.3s ease;
+  }
+
+  .insight-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
   }
 
   .insight-card.warning { border-left-color: var(--red); }
@@ -569,31 +601,6 @@
     color: var(--text);
   }
 
-  /* ---- FOOTER ---- */
-  .footer {
-    text-align: center;
-    padding: 60px 0 40px;
-    font-size: 13px;
-    color: var(--text-tertiary);
-  }
-
-  /* ---- ANIMATIONS ---- */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Donut center label */
-  .donut-wrap {
-    position: relative;
-  }
-
   /* ---- SERVICE TAG ---- */
   .tag-service {
     font-size: 11px;
@@ -612,124 +619,34 @@
     color: var(--green);
   }
 
-  :root {
-    --bg: #FAFAFA;
-    --surface: #FFFFFF;
-    --text: #1D1D1F;
-    --text-secondary: #86868B;
-    --text-tertiary: #AEAEB2;
-    --blue: #0071E3;
-    --green: #34C759;
-    --red: #FF3B30;
-    --orange: #FF9500;
-    --gold: #E8B84A;
-    --lime: #C6F432;
-    --violet: #8B5CF6;
-    --border-subtle: rgba(0,0,0,0.04);
-    --shadow: 0 2px 12px rgba(0,0,0,0.04);
-    --shadow-hover: 0 4px 24px rgba(0,0,0,0.08);
-    --radius: 16px;
-    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
-    --mono: 'SF Mono', 'IBM Plex Mono', 'Fira Code', monospace;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  .container {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  /* ---- HERO ---- */
-  .hero {
-    padding: 100px 0 40px;
+  /* ---- FOOTER ---- */
+  .footer {
     text-align: center;
+    padding: 60px 0 40px;
+    border-top: 1px solid var(--border-subtle);
   }
 
-  .hero-badge {
-    display: inline-block;
+  .footer p {
     font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    background: var(--surface);
-    padding: 6px 16px;
-    border-radius: 100px;
-    box-shadow: var(--shadow);
-    margin-bottom: 32px;
-    letter-spacing: 0.02em;
-  }
-
-  .hero h1 {
-    font-size: clamp(2.5rem, 7vw, 5rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-    color: var(--text);
-  }
-
-  .hero h1 span {
-    background: linear-gradient(135deg, var(--violet), var(--blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero .subtitle {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    font-weight: 400;
-    color: var(--text-secondary);
-    margin-top: 16px;
-    letter-spacing: -0.01em;
-    max-width: 640px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* ---- SECTIONS ---- */
-  .section {
-    padding: 80px 0;
-  }
-
-  .section-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
     color: var(--text-tertiary);
-    margin-bottom: 16px;
   }
 
-  .section-title {
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
+  .footer a {
+    color: var(--violet);
+    text-decoration: none;
     font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-bottom: 16px;
-    color: var(--text);
+    transition: opacity 0.2s ease;
   }
 
-  .section-subtitle {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 48px;
-    max-width: 600px;
+  .footer a:hover {
+    opacity: 0.7;
   }
 
-  /* ---- REVEAL ---- */
+  /* ---- REVEAL ANIMATIONS ---- */
   .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .reveal.visible {
@@ -737,574 +654,13 @@
     transform: translateY(0);
   }
 
-  /* ---- SECTION A: DISCONNECTED ---- */
-  .diagram-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-  }
-
-  .diagram-boxes {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    width: 100%;
-    max-width: 900px;
-  }
-
-  @media (max-width: 700px) {
-    .diagram-boxes { grid-template-columns: 1fr; }
-  }
-
-  .system-box {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 32px 24px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    position: relative;
-  }
-
-  .system-box.disconnected {
-    border: 2px dashed rgba(255,59,48,0.3);
-  }
-
-  .system-box .sys-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    margin: 0 auto 16px;
-  }
-
-  .system-box h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-
-  .system-box ul {
-    list-style: none;
-    font-size: 13px;
-    color: var(--text-secondary);
-    text-align: left;
-  }
-
-  .system-box ul li {
-    padding: 4px 0;
-    padding-left: 20px;
-    position: relative;
-  }
-
-  .system-box ul li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-  }
-
-  .system-box.disconnected ul li::before {
-    background: var(--red);
-    opacity: 0.4;
-  }
-
-  .disconnect-lines {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;
-    padding: 8px 0;
-  }
-
-  .disconnect-line {
-    display: flex;
+  /* ---- LINK BUTTON ---- */
+  .link-btn {
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: var(--red);
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0.6;
-  }
-
-  .disconnect-line .dash {
-    width: 60px;
-    height: 2px;
-    background: repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 6px, transparent 6px, transparent 12px);
-  }
-
-  .x-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: rgba(255,59,48,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--red);
-  }
-
-  @media (max-width: 700px) {
-    .disconnect-lines { flex-direction: column; gap: 12px; }
-    .disconnect-line .dash { width: 40px; }
-  }
-
-  /* ---- SECTION B: CONNECTED ---- */
-  .unified-diagram {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 32px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .odoo-center {
-    background: linear-gradient(135deg, var(--violet), var(--blue));
-    color: #fff;
-    border-radius: var(--radius);
-    padding: 32px 48px;
-    text-align: center;
-    box-shadow: 0 8px 32px rgba(139,92,246,0.2);
-    position: relative;
-  }
-
-  .odoo-center h3 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  .odoo-center p {
-    font-size: 14px;
-    opacity: 0.85;
-  }
-
-  .connect-lines {
-    display: flex;
-    justify-content: center;
-    gap: 80px;
-  }
-
-  .connect-line {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .connect-line .solid {
-    width: 3px;
-    height: 40px;
-    background: var(--lime);
-    border-radius: 2px;
-  }
-
-  .connect-line .check-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: rgba(198,244,50,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    color: #6B8F00;
-    font-weight: 700;
-  }
-
-  .module-boxes {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    width: 100%;
-  }
-
-  @media (max-width: 700px) {
-    .module-boxes { grid-template-columns: 1fr; }
-    .connect-lines { gap: 40px; }
-  }
-
-  .module-mini {
-    background: var(--surface);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    border: 2px solid rgba(198,244,50,0.3);
-  }
-
-  .module-mini h4 {
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .module-mini p {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-top: 4px;
-  }
-
-  /* ---- SECTION C: MODULE CARDS ---- */
-  .module-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  @media (max-width: 900px) {
-    .module-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 600px) {
-    .module-grid { grid-template-columns: 1fr; }
-  }
-
-  .module-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 32px 28px;
-    box-shadow: var(--shadow);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    cursor: default;
-  }
-
-  .module-card:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-3px);
-  }
-
-  .module-card .glow {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    filter: blur(60px);
-    transform: translate(-50%, -50%);
-  }
-
-  .module-card:hover .glow {
-    opacity: 1;
-  }
-
-  .module-card .card-num {
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-tertiary);
-    margin-bottom: 12px;
-  }
-
-  .module-card .card-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    margin-bottom: 16px;
-  }
-
-  .module-card h3 {
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .module-card p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ---- SECTION D: ACCORDION ---- */
-  .accordion-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-width: 800px;
-  }
-
-  .accordion-item {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    transition: box-shadow 0.3s ease;
-  }
-
-  .accordion-item:hover {
-    box-shadow: var(--shadow-hover);
-  }
-
-  .accordion-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 24px 28px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .accordion-header .acc-num {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--violet);
-    min-width: 36px;
-  }
-
-  .accordion-header h3 {
-    font-size: 16px;
-    font-weight: 600;
-    flex: 1;
-  }
-
-  .accordion-header .acc-arrow {
-    font-size: 18px;
-    color: var(--text-tertiary);
-    transition: transform 0.3s ease;
-  }
-
-  .accordion-item.open .acc-arrow {
-    transform: rotate(180deg);
-  }
-
-  .accordion-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.4s ease;
-  }
-
-  .accordion-item.open .accordion-body {
-    max-height: 300px;
-  }
-
-  .accordion-body-inner {
-    padding: 0 28px 24px 80px;
-    font-size: 14px;
-    color: var(--text-secondary);
-    line-height: 1.7;
-  }
-
-  /* ---- SECTION E: PAYMENTS ---- */
-  .payment-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 48px;
-  }
-
-  @media (max-width: 700px) {
-    .payment-cards { grid-template-columns: 1fr; }
-  }
-
-  .payment-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 32px 28px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-  }
-
-  .payment-card:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-2px);
-  }
-
-  .payment-card .pay-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    margin: 0 auto 16px;
-  }
-
-  .payment-card h3 {
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .payment-card p {
-    font-size: 14px;
-    color: var(--text-secondary);
-  }
-
-  .payment-card .pay-methods {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin-top: 12px;
-  }
-
-  .payment-card .pay-methods span {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 100px;
-    background: rgba(0,0,0,0.04);
-    color: var(--text-secondary);
-  }
-
-  /* ---- MARQUEE ---- */
-  .marquee-wrap {
-    overflow: hidden;
-    padding: 24px 0;
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-  }
-
-  .marquee-track {
-    display: flex;
-    gap: 48px;
-    animation: marquee 30s linear infinite;
-    width: max-content;
-  }
-
-  .marquee-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    white-space: nowrap;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-secondary);
-  }
-
-  .marquee-item .m-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* ---- SECTION F: BEFORE/AFTER ---- */
-  .comparison-table {
-    width: 100%;
-    max-width: 900px;
-  }
-
-  .comparison-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    margin-bottom: 2px;
-  }
-
-  .comparison-row.header {
-    margin-bottom: 12px;
-  }
-
-  .comparison-row.header .comp-cell {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 16px 24px;
-    border-radius: 12px 12px 0 0;
-  }
-
-  .comp-cell {
-    padding: 18px 24px;
+    padding: 14px 32px;
     font-size: 15px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--surface);
-  }
-
-  .comp-cell:first-child {
-    border-radius: 8px 0 0 8px;
-  }
-
-  .comp-cell:last-child {
-    border-radius: 0 8px 8px 0;
-  }
-
-  .comp-cell.today {
-    color: var(--text-secondary);
-  }
-
-  .comp-cell.today .comp-icon {
-    color: var(--red);
-    font-weight: 700;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-
-  .comp-cell.odoo-col {
-    color: var(--text);
-    font-weight: 500;
-  }
-
-  .comp-cell.odoo-col .comp-icon {
-    color: var(--green);
-    font-weight: 700;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 600px) {
-    .comp-cell { font-size: 13px; padding: 14px 16px; gap: 8px; }
-  }
-
-  /* ---- CTA ---- */
-  .cta-section {
-    text-align: center;
-    padding: 80px 0 120px;
-  }
-
-  .cta-section h2 {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 12px;
-  }
-
-  .cta-section p {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 32px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .cta-btn {
-    display: inline-block;
-    padding: 16px 40px;
-    font-size: 16px;
     font-weight: 600;
     font-family: var(--font);
     color: #fff;
@@ -1315,91 +671,30 @@
     text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 20px rgba(139,92,246,0.3);
+    margin-top: 24px;
   }
 
-  .cta-btn:hover {
+  .link-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 32px rgba(139,92,246,0.4);
   }
-
-  /* ---- FOOTER ---- */
-  .footer {
-    text-align: center;
-    padding: 40px 0;
-    border-top: 1px solid var(--border-subtle);
-  }
-
-  .footer p {
-    font-size: 13px;
-    color: var(--text-tertiary);
-  }
-
-  /* ---- NAV STICKY ---- */
-  .nav-bar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(250,250,250,0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border-subtle);
-    transition: box-shadow 0.3s ease;
-  }
-
-  .nav-bar.scrolled {
-    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-  }
-
-  .nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .nav-pill {
-    font-size: 13px;
-    font-weight: 500;
-    padding: 6px 16px;
-    border-radius: 100px;
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    border: 1.5px solid transparent;
-  }
-
-  .nav-pill:hover {
-    color: var(--text);
-    background: rgba(0,0,0,0.03);
-  }
-
-  .nav-pill.active {
-    background: var(--text);
-    color: #fff;
-  }
-
-  @media (max-width: 600px) {
-    .nav-pill { font-size: 11px; padding: 5px 12px; }
-  }
-
 </style>
 </head>
 <body>
 
-<div class="container">
-
-  <!-- HERO -->
-  <header class="hero fade-in">
-    <div class="hero-badge">13 de abril, 2026</div>
-    <h1>Informe DOJO</h1>
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      13 de abril, 2026
+    </div>
+    <h1>Informe <span class="gradient-text">DOJO</span></h1>
     <p class="subtitle">Q1 2026 &mdash; Enero a Marzo</p>
-  </header>
+  </div>
+</section>
 
-</div>
-
-<!-- FILTER BAR -->
+<!-- ============== FILTER BAR ============== -->
 <div class="filter-bar" id="filterBar">
   <div class="container">
     <div class="filter-row">
@@ -1421,10 +716,9 @@
   </div>
 </div>
 
-<div class="container">
-
-  <!-- KPIs -->
-  <section class="section fade-in">
+<!-- ============== KPIs ============== -->
+<section class="section reveal">
+  <div class="container">
     <p class="section-label">Indicadores Clave</p>
     <div class="kpi-grid">
       <div class="kpi-card">
@@ -1444,26 +738,30 @@
       </div>
       <div class="kpi-card">
         <div class="kpi-number" id="kpi-churn"></div>
-        <div class="kpi-label">Tasa de desercion</div>
+        <div class="kpi-label">Tasa de deserci&oacute;n</div>
         <span class="kpi-delta neutral" id="kpi-churn-delta"></span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- EVOLUTION -->
-  <section class="section fade-in">
-    <p class="section-label">Evolucion</p>
+<!-- ============== EVOLUTION ============== -->
+<section class="section reveal">
+  <div class="container">
+    <p class="section-label">Evoluci&oacute;n</p>
     <div class="card">
       <div class="card-title" id="titleEvolution">Usuarios activos por mes</div>
       <div class="chart-wrap">
         <canvas id="chartEvolution"></canvas>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ACTIVES BY PLAN + NUEVOS vs RECOMPRA -->
-  <section class="section fade-in">
-    <p class="section-label">Composición</p>
+<!-- ============== COMPOSITION: Plans + Nuevos vs Recompra ============== -->
+<section class="section reveal">
+  <div class="container">
+    <p class="section-label">Composici&oacute;n</p>
     <div class="two-col">
       <div class="card">
         <div class="card-title" id="titlePlans">Activos por plan</div>
@@ -1478,13 +776,15 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- DONUT -->
-  <section class="section fade-in">
+<!-- ============== DONUT + ALTAS TABLE ============== -->
+<section class="section reveal">
+  <div class="container">
     <div class="two-col">
       <div class="card">
-        <div class="card-title" id="titleDonut">Composición — Ventas por tipo</div>
+        <div class="card-title" id="titleDonut">Composici&oacute;n &mdash; Ventas por tipo</div>
         <div class="chart-wrap" style="max-height:300px;">
           <canvas id="chartDonut"></canvas>
         </div>
@@ -1507,10 +807,12 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- REVENUE -->
-  <section class="section fade-in">
+<!-- ============== REVENUE ============== -->
+<section class="section reveal">
+  <div class="container">
     <p class="section-label">Ingresos</p>
     <div class="card">
       <div class="card-title" id="titleRevenue">Ingresos mensuales</div>
@@ -1519,11 +821,13 @@
       </div>
       <div class="rev-grid" id="revCards"></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- NON RENEWED -->
-  <section class="section fade-in">
-    <p class="section-label">Retencion</p>
+<!-- ============== NON RENEWED ============== -->
+<section class="section reveal">
+  <div class="container">
+    <p class="section-label">Retenci&oacute;n</p>
     <div class="card">
       <div class="card-title">Usuarios sin renovar</div>
       <div class="search-wrap">
@@ -1538,8 +842,8 @@
               <th>Plan</th>
               <th>Servicio</th>
               <th>Cierre</th>
-              <th class="text-right sortable" data-sort="dias_fuera">Dias fuera</th>
-              <th class="text-right sortable" data-sort="ultimo_monto">Ultimo monto</th>
+              <th class="text-right sortable" data-sort="dias_fuera">D&iacute;as fuera</th>
+              <th class="text-right sortable" data-sort="ultimo_monto">&Uacute;ltimo monto</th>
             </tr>
           </thead>
           <tbody id="tblNonRenewed"></tbody>
@@ -1547,243 +851,26 @@
       </div>
       <div class="table-count" id="nonRenewedCount"></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- INSIGHTS -->
-  <section class="section fade-in">
+<!-- ============== INSIGHTS ============== -->
+<section class="section reveal">
+  <div class="container">
     <p class="section-label">Hallazgos</p>
     <div class="insight-grid" id="insights"></div>
-  </section>
-
-  
-<!-- ============================================== -->
-<!-- PROPUESTA ODOO PARA DOJO                       -->
-<!-- ============================================== -->
-<div style="height: 120px; display: flex; align-items: center; justify-content: center; margin: 60px 0;">
-  <div style="width: 80px; height: 2px; background: #E8B84A; border-radius: 1px;"></div>
-</div>
-<section class="hero">
-  <div class="container">
-    <div class="hero-badge">Propuesta Comercial -- DOJO Gym</div>
-    <h1>Un solo sistema.<br><span>Todo conectado.</span></h1>
-    <p class="subtitle">La plataforma que unifica suscripciones, cafe, tienda, nomina y operaciones de DOJO en una sola base de datos.</p>
   </div>
 </section>
-<section class="section" id="problema">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Diagnostico</p>
-      <h2 class="section-title">El problema: tres sistemas desconectados</h2>
-      <p class="section-subtitle">Hoy, tu negocio vive en tres mundos que no se hablan.</p>
-    </div>
 
-    <div class="diagram-container reveal">
-      <div class="diagram-boxes">
-        <!-- Sistema Coworking -->
-        <div class="system-box disconnected">
-          <div class="sys-icon" style="background: rgba(0,113,227,0.1);">
-            <span style="color:var(--blue);">&#9749;</span>
-          </div>
-          <h3>Sistema Coworking</h3>
-          <ul>
-            <li>Reservas de espacios</li>
-            <li>Consumo de cafe</li>
-            <li>No ve suscripciones</li>
-            <li>No ve pagos vencidos</li>
-          </ul>
-        </div>
-        <!-- Sistema Suscripciones -->
-        <div class="system-box disconnected">
-          <div class="sys-icon" style="background: rgba(232,184,74,0.1);">
-            <span style="color:var(--gold);">&#9733;</span>
-          </div>
-          <h3>Sistema Suscripciones</h3>
-          <ul>
-            <li>Planes y renovaciones</li>
-            <li>Cobros manuales</li>
-            <li>No ve asistencia real</li>
-            <li>No ve inventario</li>
-          </ul>
-        </div>
-        <!-- Sistema Nomina -->
-        <div class="system-box disconnected">
-          <div class="sys-icon" style="background: rgba(139,92,246,0.1);">
-            <span style="color:var(--violet);">&#128101;</span>
-          </div>
-          <h3>Sistema Nomina</h3>
-          <ul>
-            <li>Pagos a empleados</li>
-            <li>Turnos y horarios</li>
-            <li>No ve ingresos</li>
-            <li>No reporta a DIAN</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="disconnect-lines">
-        <div class="disconnect-line">
-          <div class="dash"></div>
-          <div class="x-icon">&times;</div>
-          <div class="dash"></div>
-        </div>
-        <div class="disconnect-line">
-          <div class="dash"></div>
-          <div class="x-icon">&times;</div>
-          <div class="dash"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="section" id="solucion" style="background: linear-gradient(180deg, #F5F5F7 0%, var(--bg) 100%);">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">La solucion</p>
-      <h2 class="section-title">Un solo Odoo, todo conectado</h2>
-      <p class="section-subtitle">En Odoo, todo vive en la misma base de datos.</p>
-    </div>
-
-    <div class="unified-diagram reveal">
-      <div class="odoo-center">
-        <h3>Odoo</h3>
-        <p>Una base de datos -- Todos los modulos</p>
-      </div>
-
-      <div class="connect-lines">
-        <div class="connect-line">
-          <div class="check-icon">&#10003;</div>
-          <div class="solid"></div>
-        </div>
-        <div class="connect-line">
-          <div class="check-icon">&#10003;</div>
-          <div class="solid"></div>
-        </div>
-        <div class="connect-line">
-          <div class="check-icon">&#10003;</div>
-          <div class="solid"></div>
-        </div>
-      </div>
-
-      <div class="module-boxes">
-        <div class="module-mini">
-          <h4>Suscripciones + Cafe + Tienda</h4>
-          <p>Ventas unificadas</p>
-        </div>
-        <div class="module-mini">
-          <h4>Contabilidad + Nomina</h4>
-          <p>Finanzas y DIAN</p>
-        </div>
-        <div class="module-mini">
-          <h4>Inventario + CRM + Dashboards</h4>
-          <p>Operaciones e inteligencia</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="section" id="modulos">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Modulos Odoo</p>
-      <h2 class="section-title">Modulos Odoo aplicados a DOJO</h2>
-      <p class="section-subtitle">Cada area de tu negocio, cubierta por un modulo nativo de Odoo.</p>
-    </div>
-
-    <div class="module-grid reveal" id="moduleGrid">
-      <!-- Cards generated by JS -->
-    </div>
-  </div>
-</section>
-<section class="section" id="custom" style="background: linear-gradient(180deg, #F5F5F7 0%, var(--bg) 100%);">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Desarrollos a medida</p>
-      <h2 class="section-title">Desarrollos custom para DOJO</h2>
-      <p class="section-subtitle">Funcionalidades que no existen en Odoo estandar, disenadas exclusivamente para tu operacion.</p>
-    </div>
-
-    <div class="accordion-list reveal" id="accordionList">
-      <!-- Generated by JS -->
-    </div>
-  </div>
-</section>
-<section class="section" id="pagos">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Integraciones</p>
-      <h2 class="section-title">Integraciones de pago colombianas</h2>
-      <p class="section-subtitle">Tus socios pagan como quieran. Todo se reconcilia automaticamente.</p>
-    </div>
-
-    <div class="payment-cards reveal">
-      <div class="payment-card">
-        <div class="pay-icon" style="background: rgba(0,113,227,0.08);">
-          <span style="color:var(--blue);">W</span>
-        </div>
-        <h3>Wompi</h3>
-        <p>Pasarela de pagos colombiana con soporte nativo en Odoo.</p>
-        <div class="pay-methods">
-          <span>PSE</span>
-          <span>Tarjetas</span>
-          <span>Nequi</span>
-        </div>
-      </div>
-      <div class="payment-card">
-        <div class="pay-icon" style="background: rgba(198,244,50,0.15);">
-          <span style="color:#6B8F00;">A</span>
-        </div>
-        <h3>Addi</h3>
-        <p>Financiacion para planes trimestrales y anuales.</p>
-        <div class="pay-methods">
-          <span>Cuotas</span>
-          <span>Aprobacion inmediata</span>
-        </div>
-      </div>
-      <div class="payment-card">
-        <div class="pay-icon" style="background: rgba(139,92,246,0.08);">
-          <span style="color:var(--violet);">S</span>
-        </div>
-        <h3>Sistecredito</h3>
-        <p>Financiacion premium para planes de alto valor.</p>
-        <div class="pay-methods">
-          <span>Credito directo</span>
-          <span>Cuotas flexibles</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="marquee-wrap reveal">
-      <div class="marquee-track" id="marqueeTrack">
-        <!-- Duplicated by JS -->
-      </div>
-    </div>
-  </div>
-</section>
-<section class="section" id="comparativa" style="background: linear-gradient(180deg, #F5F5F7 0%, var(--bg) 100%);">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Comparativa</p>
-      <h2 class="section-title">El antes y el despues</h2>
-      <p class="section-subtitle">El control de tu negocio, en un solo lugar.</p>
-    </div>
-
-    <div class="comparison-table reveal" id="comparisonTable">
-      <!-- Generated by JS -->
-    </div>
-  </div>
-</section>
-<section class="cta-section reveal">
-  <div class="container">
-    <h2>El control de tu negocio,<br>en un solo lugar.</h2>
-    <p>Agenda una sesion de descubrimiento con nuestro equipo para disenar tu implementacion.</p>
-    <a href="#" class="cta-btn">Agendar sesion de descubrimiento</a>
-  </div>
-</section>
+<!-- ============== FOOTER ============== -->
 <footer class="footer">
-    Informe generado automaticamente &middot; DOJO Medellin &middot; Q1 2026
-  </footer>
-
-</div>
+  <div class="container">
+    <p style="margin-bottom:16px;">
+      <a href="propuesta-odoo-dojo.html" class="link-btn">Ver propuesta Odoo para DOJO &rarr;</a>
+    </p>
+    <p>Informe generado autom&aacute;ticamente &middot; DOJO Medell&iacute;n &middot; Q1 2026</p>
+  </div>
+</footer>
 
 <!-- Plan detail tooltip -->
 <div class="plan-tooltip" id="planTooltip">
@@ -1795,7 +882,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 // DATA
-const DATA = {"kpis": {"activos_marzo": 36, "growth_pct": -44.6, "revenue_q1": 14736000.0, "churn_rate": 72.5}, "active_evolution": {"labels": ["Dic 2025", "Ene 2026", "Feb 2026", "Mar 2026"], "total": [65, 33, 48, 36], "entrenamiento": [50, 26, 32, 27], "yoga": [15, 7, 16, 9]}, "active_by_plan": {"Enero": {"PLAN CHU": 3, "PLAN GI": 1, "PLAN REI": 8, "PLAN YU": 1, "TIQUETERA X14": 5, "TIQUETERA X7": 8, "YOGA X4": 1, "YOGA X8": 6}, "Febrero": {"PLAN CHU": 3, "PLAN GI": 1, "PLAN REI": 8, "PLAN YU": 10, "SOUSHIN": 2, "TIQUETERA X14": 4, "TIQUETERA X7": 4, "YOGA 24+6": 3, "YOGA X4": 8, "YOGA X8": 5}, "Marzo": {"PLAN CHU": 1, "PLAN GI": 1, "PLAN REI": 7, "PLAN YU": 11, "SOUSHIN": 2, "TIQUETERA X7": 5, "YOGA X24": 1, "YOGA X4": 4, "YOGA X8": 4}}, "sales_nuevos_recompra": {"Enero": {"nuevos_count": 20, "nuevos_amount": 2936000.0, "recompra_count": 28, "recompra_amount": 5161200.0, "total_count": 48, "total_amount": 8097200.0}, "Febrero": {"nuevos_count": 13, "nuevos_amount": 1602000.0, "recompra_count": 22, "recompra_amount": 4116800.0, "total_count": 35, "total_amount": 5718800.0}, "Marzo": {"nuevos_count": 6, "nuevos_amount": 160000.0, "recompra_count": 15, "recompra_amount": 760000.0, "total_count": 21, "total_amount": 920000.0}}, "altas_deserciones": {"Enero": {"altas": 1, "bajas": 33, "neto": -32, "total_activos": 33}, "Febrero": {"altas": 38, "bajas": 23, "neto": 15, "total_activos": 48}, "Marzo": {"altas": 27, "bajas": 39, "neto": -12, "total_activos": 36}}, "revenue": {"Enero": {"total": 8097200.0, "entrenamiento": 5197200.0, "yoga": 2900000.0, "nuevos": 2936000.0, "recompra": 5161200.0}, "Febrero": {"total": 5718800.0, "entrenamiento": 3898800.0, "yoga": 1820000.0, "nuevos": 1602000.0, "recompra": 4116800.0}, "Marzo": {"total": 920000.0, "entrenamiento": 420000.0, "yoga": 500000.0, "nuevos": 160000.0, "recompra": 760000.0}}, "revenue_by_plan": {"Enero": {"ENTRENO US YOGA": 20000.0, "PLAN REI": 2579200.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 300000.0, "TIQUETERA X14": 1008000.0, "TIQUETERA X7": 770000.0, "YOGA X1 -50%": 280000.0, "YOGA X1 FULL": 280000.0, "YOGA X4": 1120000.0, "YOGA X8": 1200000.0}, "Febrero": {"PLAN REI": 2348800.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 240000.0, "TIQUETERA X7": 770000.0, "YOGA X1 -50%": 260000.0, "YOGA X1 FULL": 40000.0, "YOGA X4": 560000.0, "YOGA X8": 960000.0}, "Marzo": {"TIQUETERA X1": 420000.0, "YOGA X1 -50%": 460000.0, "YOGA X1 FULL": 40000.0}}, "non_renewed": [{"nombre": "PAULA ANDREA QUINTERO OLAYA", "plan": "YOGA X4", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 140000.0}, {"nombre": "DANIEL  CHAMORRO", "plan": "TIQUETERA X7", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 154000.0}, {"nombre": "BEATRIZ MARTINEZ MONTOYA ", "plan": "YOGA X8", "cierre": "2026-02-27", "dias_fuera": 32, "ultimo_monto": 240000.0}, {"nombre": "PAULA MAZO CORTES", "plan": "PLAN YU", "cierre": "2026-02-27", "dias_fuera": 32, "ultimo_monto": 840000.0}, {"nombre": "COPPELIA HERRAN", "plan": "YOGA X8", "cierre": "2026-02-26", "dias_fuera": 33, "ultimo_monto": 240000.0}, {"nombre": "MARIA ISABEL  ERAZO DILSON", "plan": "PLAN YU", "cierre": "2026-02-25", "dias_fuera": 34, "ultimo_monto": 840000.0}, {"nombre": "JONATAN LONDOÑO", "plan": "PLAN YU", "cierre": "2026-02-25", "dias_fuera": 34, "ultimo_monto": 756000.0}, {"nombre": "JUAN CAMILO ALZATE", "plan": "YOGA X4", "cierre": "2026-02-24", "dias_fuera": 35, "ultimo_monto": 140000.0}, {"nombre": "ANA MILENA GONZALEZ JARAMILLO", "plan": "YOGA X4", "cierre": "2026-02-24", "dias_fuera": 35, "ultimo_monto": 140000.0}, {"nombre": "JULIANA GOMEZ", "plan": "TIQUETERA X14", "cierre": "2026-02-23", "dias_fuera": 36, "ultimo_monto": 252000.0}, {"nombre": "NATHALY VARGAS MESA", "plan": "PLAN YU", "cierre": "2026-02-21", "dias_fuera": 38, "ultimo_monto": 840000.0}, {"nombre": "SARA SIERRA VELEZ", "plan": "PLAN REI", "cierre": "2026-02-20", "dias_fuera": 39, "ultimo_monto": 360000.0}, {"nombre": "ANTON SIEDLITZHI", "plan": "PLAN REI", "cierre": "2026-02-20", "dias_fuera": 39, "ultimo_monto": 360000.0}, {"nombre": "ELISA VELASQUEZ", "plan": "PLAN CHU", "cierre": "2026-02-19", "dias_fuera": 40, "ultimo_monto": 2106000.0}, {"nombre": "JOSE LISANDRO LOPEZ RODRIGUEZ", "plan": "PLAN YU", "cierre": "2026-02-18", "dias_fuera": 41, "ultimo_monto": 840000.0}, {"nombre": "SUSANA  DUQUE", "plan": "PLAN YU", "cierre": "2026-02-18", "dias_fuera": 41, "ultimo_monto": 840000.0}, {"nombre": "MARIA ANTONIETA  LONDOÑO", "plan": "PLAN YU", "cierre": "2026-02-17", "dias_fuera": 42, "ultimo_monto": 840000.0}, {"nombre": "SANTIAGO BARRANTES MORENO", "plan": "PLAN YU", "cierre": "2026-02-17", "dias_fuera": 42, "ultimo_monto": 840000.0}, {"nombre": "MARGARITA MARIA  LOPEZ SEGURA", "plan": "PLAN GI", "cierre": "2026-02-16", "dias_fuera": 43, "ultimo_monto": 1350600.0}, {"nombre": "DAVID JOSE SANCHEZ", "plan": "YOGA X8", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 240000.0}, {"nombre": "ASTRID ELIANA VARGAS JIMENEZ", "plan": "TIQUETERA X14", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 252000.0}, {"nombre": "SAYUMI KASANO", "plan": "YOGA X8", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 240000.0}, {"nombre": "ANA MARIA CORREA LOPERA", "plan": "YOGA X8", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 240000.0}, {"nombre": "CATALINA OCAMPO", "plan": "YOGA X4", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 140000.0}, {"nombre": "YENIFER PEREZ SIERRA", "plan": "SOUSHIN", "cierre": "2026-02-12", "dias_fuera": 47, "ultimo_monto": 270000.0}, {"nombre": "CAMILO ANDRES  SOTO ARISTIZABAL", "plan": "SOUSHIN", "cierre": "2026-02-12", "dias_fuera": 47, "ultimo_monto": 270000.0}, {"nombre": "LILLIAN NELLY MARIN YEPES", "plan": "YOGA 24+6", "cierre": "2026-02-11", "dias_fuera": 48, "ultimo_monto": 650000.0}, {"nombre": "JUAN CARLOS MUÑOZ", "plan": "PLAN CHU", "cierre": "2026-02-11", "dias_fuera": 48, "ultimo_monto": 2340000.0}, {"nombre": "JUAN FELIPE SOTO", "plan": "YOGA X4", "cierre": "2026-02-10", "dias_fuera": 49, "ultimo_monto": 140000.0}, {"nombre": "KAORY BARRIENTOS", "plan": "YOGA 24+6", "cierre": "2026-02-08", "dias_fuera": 51, "ultimo_monto": 650000.0}, {"nombre": "JUAN ESTEBAN BETANCUR", "plan": "YOGA 24+6", "cierre": "2026-02-08", "dias_fuera": 51, "ultimo_monto": 650000.0}, {"nombre": "GUSTAVO DIAZ", "plan": "YOGA X4", "cierre": "2026-02-06", "dias_fuera": 53, "ultimo_monto": 140000.0}, {"nombre": "ESTEBAN ORTIZ PIEDRAHITA", "plan": "PLAN YU", "cierre": "2026-02-04", "dias_fuera": 55, "ultimo_monto": 840000.0}, {"nombre": "NATALIA  MENDEZ", "plan": "PLAN YU", "cierre": "2026-02-04", "dias_fuera": 55, "ultimo_monto": 840000.0}, {"nombre": "LINA  GUISAO", "plan": "PLAN CHU", "cierre": "2026-02-03", "dias_fuera": 56, "ultimo_monto": 2340000.0}, {"nombre": "DANIEL FERNANDO  ATEHORTUA BARRAGAN", "plan": "PLAN REI", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 316800.0}, {"nombre": "CLAUDIA LORENA MUNOZ ARISTIZABAL", "plan": "PLAN REI", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 316800.0}, {"nombre": "MIGUEL SANTIAGO CORREA GARCIA", "plan": "PLAN REI", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 316800.0}, {"nombre": "DANIEL HERNANDEZ", "plan": "TIQUETERA X7", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 154000.0}, {"nombre": "ALEJANDRO  PIEDRAHITA", "plan": "PLAN YU", "cierre": "2026-01-30", "dias_fuera": 60, "ultimo_monto": 840000.0}, {"nombre": "LINA VALDERRAMA", "plan": "TIQUETERA X7", "cierre": "2026-01-29", "dias_fuera": 61, "ultimo_monto": 154000.0}, {"nombre": "GIOVANA PEREZ", "plan": "PLAN GI", "cierre": "2026-01-24", "dias_fuera": 66, "ultimo_monto": 1500000.0}, {"nombre": "JUAN FELIPE  VILLA MANRIQUE ", "plan": "PLAN REI", "cierre": "2026-01-18", "dias_fuera": 72, "ultimo_monto": 120000.0}, {"nombre": "DANIEL JARAMILLO", "plan": "YOGA X4", "cierre": "2026-01-16", "dias_fuera": 74, "ultimo_monto": 140000.0}, {"nombre": "LINA ALZATE", "plan": "TIQUETERA X7", "cierre": "2026-01-16", "dias_fuera": 74, "ultimo_monto": 154000.0}, {"nombre": "ALEXANDRA AGUIRRE", "plan": "TIQUETERA X7", "cierre": "2026-01-15", "dias_fuera": 75, "ultimo_monto": 154000.0}, {"nombre": "CHRISTIAN DUQUE", "plan": "PLAN CHU", "cierre": "2026-01-13", "dias_fuera": 77, "ultimo_monto": 2340000.0}, {"nombre": "SEBASTIAN JIMENEZ MARIN", "plan": "PLAN CHU", "cierre": "2026-01-13", "dias_fuera": 77, "ultimo_monto": 2340000.0}, {"nombre": "JESSICA MACIAS GOMEZ", "plan": "PLAN CHU", "cierre": "2026-01-13", "dias_fuera": 77, "ultimo_monto": 2340000.0}, {"nombre": "JUAN DAVID MEJIA", "plan": "PLAN REI", "cierre": "2026-01-11", "dias_fuera": 79, "ultimo_monto": 232000.0}], "growth_by_month": {"Enero": -49.2, "Febrero": 45.5, "Marzo": -25.0}};
+const DATA = {"kpis": {"activos_marzo": 36, "growth_pct": -44.6, "revenue_q1": 14736000.0, "churn_rate": 72.5}, "active_evolution": {"labels": ["Dic 2025", "Ene 2026", "Feb 2026", "Mar 2026"], "total": [65, 33, 48, 36], "entrenamiento": [50, 26, 32, 27], "yoga": [15, 7, 16, 9]}, "active_by_plan": {"Enero": {"PLAN CHU": 3, "PLAN GI": 1, "PLAN REI": 8, "PLAN YU": 1, "TIQUETERA X14": 5, "TIQUETERA X7": 8, "YOGA X4": 1, "YOGA X8": 6}, "Febrero": {"PLAN CHU": 3, "PLAN GI": 1, "PLAN REI": 8, "PLAN YU": 10, "SOUSHIN": 2, "TIQUETERA X14": 4, "TIQUETERA X7": 4, "YOGA 24+6": 3, "YOGA X4": 8, "YOGA X8": 5}, "Marzo": {"PLAN CHU": 1, "PLAN GI": 1, "PLAN REI": 7, "PLAN YU": 11, "SOUSHIN": 2, "TIQUETERA X7": 5, "YOGA X24": 1, "YOGA X4": 4, "YOGA X8": 4}}, "sales_nuevos_recompra": {"Enero": {"nuevos_count": 20, "nuevos_amount": 2936000.0, "recompra_count": 28, "recompra_amount": 5161200.0, "total_count": 48, "total_amount": 8097200.0}, "Febrero": {"nuevos_count": 13, "nuevos_amount": 1602000.0, "recompra_count": 22, "recompra_amount": 4116800.0, "total_count": 35, "total_amount": 5718800.0}, "Marzo": {"nuevos_count": 6, "nuevos_amount": 160000.0, "recompra_count": 15, "recompra_amount": 760000.0, "total_count": 21, "total_amount": 920000.0}}, "altas_deserciones": {"Enero": {"altas": 1, "bajas": 33, "neto": -32, "total_activos": 33}, "Febrero": {"altas": 38, "bajas": 23, "neto": 15, "total_activos": 48}, "Marzo": {"altas": 27, "bajas": 39, "neto": -12, "total_activos": 36}}, "revenue": {"Enero": {"total": 8097200.0, "entrenamiento": 5197200.0, "yoga": 2900000.0, "nuevos": 2936000.0, "recompra": 5161200.0}, "Febrero": {"total": 5718800.0, "entrenamiento": 3898800.0, "yoga": 1820000.0, "nuevos": 1602000.0, "recompra": 4116800.0}, "Marzo": {"total": 920000.0, "entrenamiento": 420000.0, "yoga": 500000.0, "nuevos": 160000.0, "recompra": 760000.0}}, "revenue_by_plan": {"Enero": {"ENTRENO US YOGA": 20000.0, "PLAN REI": 2579200.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 300000.0, "TIQUETERA X14": 1008000.0, "TIQUETERA X7": 770000.0, "YOGA X1 -50%": 280000.0, "YOGA X1 FULL": 280000.0, "YOGA X4": 1120000.0, "YOGA X8": 1200000.0}, "Febrero": {"PLAN REI": 2348800.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 240000.0, "TIQUETERA X7": 770000.0, "YOGA X1 -50%": 260000.0, "YOGA X1 FULL": 40000.0, "YOGA X4": 560000.0, "YOGA X8": 960000.0}, "Marzo": {"TIQUETERA X1": 420000.0, "YOGA X1 -50%": 460000.0, "YOGA X1 FULL": 40000.0}}, "non_renewed": [{"nombre": "PAULA ANDREA QUINTERO OLAYA", "plan": "YOGA X4", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 140000.0}, {"nombre": "DANIEL  CHAMORRO", "plan": "TIQUETERA X7", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 154000.0}, {"nombre": "BEATRIZ MARTINEZ MONTOYA ", "plan": "YOGA X8", "cierre": "2026-02-27", "dias_fuera": 32, "ultimo_monto": 240000.0}, {"nombre": "PAULA MAZO CORTES", "plan": "PLAN YU", "cierre": "2026-02-27", "dias_fuera": 32, "ultimo_monto": 840000.0}, {"nombre": "COPPELIA HERRAN", "plan": "YOGA X8", "cierre": "2026-02-26", "dias_fuera": 33, "ultimo_monto": 240000.0}, {"nombre": "MARIA ISABEL  ERAZO DILSON", "plan": "PLAN YU", "cierre": "2026-02-25", "dias_fuera": 34, "ultimo_monto": 840000.0}, {"nombre": "JONATAN LONDO\u00d1O", "plan": "PLAN YU", "cierre": "2026-02-25", "dias_fuera": 34, "ultimo_monto": 756000.0}, {"nombre": "JUAN CAMILO ALZATE", "plan": "YOGA X4", "cierre": "2026-02-24", "dias_fuera": 35, "ultimo_monto": 140000.0}, {"nombre": "ANA MILENA GONZALEZ JARAMILLO", "plan": "YOGA X4", "cierre": "2026-02-24", "dias_fuera": 35, "ultimo_monto": 140000.0}, {"nombre": "JULIANA GOMEZ", "plan": "TIQUETERA X14", "cierre": "2026-02-23", "dias_fuera": 36, "ultimo_monto": 252000.0}, {"nombre": "NATHALY VARGAS MESA", "plan": "PLAN YU", "cierre": "2026-02-21", "dias_fuera": 38, "ultimo_monto": 840000.0}, {"nombre": "SARA SIERRA VELEZ", "plan": "PLAN REI", "cierre": "2026-02-20", "dias_fuera": 39, "ultimo_monto": 360000.0}, {"nombre": "ANTON SIEDLITZHI", "plan": "PLAN REI", "cierre": "2026-02-20", "dias_fuera": 39, "ultimo_monto": 360000.0}, {"nombre": "ELISA VELASQUEZ", "plan": "PLAN CHU", "cierre": "2026-02-19", "dias_fuera": 40, "ultimo_monto": 2106000.0}, {"nombre": "JOSE LISANDRO LOPEZ RODRIGUEZ", "plan": "PLAN YU", "cierre": "2026-02-18", "dias_fuera": 41, "ultimo_monto": 840000.0}, {"nombre": "SUSANA  DUQUE", "plan": "PLAN YU", "cierre": "2026-02-18", "dias_fuera": 41, "ultimo_monto": 840000.0}, {"nombre": "MARIA ANTONIETA  LONDO\u00d1O", "plan": "PLAN YU", "cierre": "2026-02-17", "dias_fuera": 42, "ultimo_monto": 840000.0}, {"nombre": "SANTIAGO BARRANTES MORENO", "plan": "PLAN YU", "cierre": "2026-02-17", "dias_fuera": 42, "ultimo_monto": 840000.0}, {"nombre": "MARGARITA MARIA  LOPEZ SEGURA", "plan": "PLAN GI", "cierre": "2026-02-16", "dias_fuera": 43, "ultimo_monto": 1350600.0}, {"nombre": "DAVID JOSE SANCHEZ", "plan": "YOGA X8", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 240000.0}, {"nombre": "ASTRID ELIANA VARGAS JIMENEZ", "plan": "TIQUETERA X14", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 252000.0}, {"nombre": "SAYUMI KASANO", "plan": "YOGA X8", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 240000.0}, {"nombre": "ANA MARIA CORREA LOPERA", "plan": "YOGA X8", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 240000.0}, {"nombre": "CATALINA OCAMPO", "plan": "YOGA X4", "cierre": "2026-02-14", "dias_fuera": 45, "ultimo_monto": 140000.0}, {"nombre": "YENIFER PEREZ SIERRA", "plan": "SOUSHIN", "cierre": "2026-02-12", "dias_fuera": 47, "ultimo_monto": 270000.0}, {"nombre": "CAMILO ANDRES  SOTO ARISTIZABAL", "plan": "SOUSHIN", "cierre": "2026-02-12", "dias_fuera": 47, "ultimo_monto": 270000.0}, {"nombre": "LILLIAN NELLY MARIN YEPES", "plan": "YOGA 24+6", "cierre": "2026-02-11", "dias_fuera": 48, "ultimo_monto": 650000.0}, {"nombre": "JUAN CARLOS MU\u00d1OZ", "plan": "PLAN CHU", "cierre": "2026-02-11", "dias_fuera": 48, "ultimo_monto": 2340000.0}, {"nombre": "JUAN FELIPE SOTO", "plan": "YOGA X4", "cierre": "2026-02-10", "dias_fuera": 49, "ultimo_monto": 140000.0}, {"nombre": "KAORY BARRIENTOS", "plan": "YOGA 24+6", "cierre": "2026-02-08", "dias_fuera": 51, "ultimo_monto": 650000.0}, {"nombre": "JUAN ESTEBAN BETANCUR", "plan": "YOGA 24+6", "cierre": "2026-02-08", "dias_fuera": 51, "ultimo_monto": 650000.0}, {"nombre": "GUSTAVO DIAZ", "plan": "YOGA X4", "cierre": "2026-02-06", "dias_fuera": 53, "ultimo_monto": 140000.0}, {"nombre": "ESTEBAN ORTIZ PIEDRAHITA", "plan": "PLAN YU", "cierre": "2026-02-04", "dias_fuera": 55, "ultimo_monto": 840000.0}, {"nombre": "NATALIA  MENDEZ", "plan": "PLAN YU", "cierre": "2026-02-04", "dias_fuera": 55, "ultimo_monto": 840000.0}, {"nombre": "LINA  GUISAO", "plan": "PLAN CHU", "cierre": "2026-02-03", "dias_fuera": 56, "ultimo_monto": 2340000.0}, {"nombre": "DANIEL FERNANDO  ATEHORTUA BARRAGAN", "plan": "PLAN REI", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 316800.0}, {"nombre": "CLAUDIA LORENA MUNOZ ARISTIZABAL", "plan": "PLAN REI", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 316800.0}, {"nombre": "MIGUEL SANTIAGO CORREA GARCIA", "plan": "PLAN REI", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 316800.0}, {"nombre": "DANIEL HERNANDEZ", "plan": "TIQUETERA X7", "cierre": "2026-02-02", "dias_fuera": 57, "ultimo_monto": 154000.0}, {"nombre": "ALEJANDRO  PIEDRAHITA", "plan": "PLAN YU", "cierre": "2026-01-30", "dias_fuera": 60, "ultimo_monto": 840000.0}, {"nombre": "LINA VALDERRAMA", "plan": "TIQUETERA X7", "cierre": "2026-01-29", "dias_fuera": 61, "ultimo_monto": 154000.0}, {"nombre": "GIOVANA PEREZ", "plan": "PLAN GI", "cierre": "2026-01-24", "dias_fuera": 66, "ultimo_monto": 1500000.0}, {"nombre": "JUAN FELIPE  VILLA MANRIQUE ", "plan": "PLAN REI", "cierre": "2026-01-18", "dias_fuera": 72, "ultimo_monto": 120000.0}, {"nombre": "DANIEL JARAMILLO", "plan": "YOGA X4", "cierre": "2026-01-16", "dias_fuera": 74, "ultimo_monto": 140000.0}, {"nombre": "LINA ALZATE", "plan": "TIQUETERA X7", "cierre": "2026-01-16", "dias_fuera": 74, "ultimo_monto": 154000.0}, {"nombre": "ALEXANDRA AGUIRRE", "plan": "TIQUETERA X7", "cierre": "2026-01-15", "dias_fuera": 75, "ultimo_monto": 154000.0}, {"nombre": "CHRISTIAN DUQUE", "plan": "PLAN CHU", "cierre": "2026-01-13", "dias_fuera": 77, "ultimo_monto": 2340000.0}, {"nombre": "SEBASTIAN JIMENEZ MARIN", "plan": "PLAN CHU", "cierre": "2026-01-13", "dias_fuera": 77, "ultimo_monto": 2340000.0}, {"nombre": "JESSICA MACIAS GOMEZ", "plan": "PLAN CHU", "cierre": "2026-01-13", "dias_fuera": 77, "ultimo_monto": 2340000.0}, {"nombre": "JUAN DAVID MEJIA", "plan": "PLAN REI", "cierre": "2026-01-11", "dias_fuera": 79, "ultimo_monto": 232000.0}], "growth_by_month": {"Enero": -49.2, "Febrero": 45.5, "Marzo": -25.0}};
 
 // Plan classification: yoga vs entrenamiento
 const YOGA_PLANS = ['YOGA X4', 'YOGA X8', 'YOGA X24', 'YOGA 24+6', 'YOGA X1 -50%', 'YOGA X1 FULL'];
@@ -1863,7 +950,7 @@ document.querySelectorAll('.pill').forEach(pill => {
     const filterType = this.dataset.filter;
     const value = this.dataset.value;
 
-    document.querySelectorAll(`.pill[data-filter="${filterType}"]`).forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.pill[data-filter="' + filterType + '"]').forEach(p => p.classList.remove('active'));
     this.classList.add('active');
 
     if (filterType === 'month') currentMonth = value;
@@ -1977,13 +1064,13 @@ function updateAltasTable() {
   fm.forEach(m => {
     const d = DATA.altas_deserciones[m];
     const netoClass = d.neto >= 0 ? 'tag-green' : 'tag-red';
-    tblAltas.innerHTML += `<tr>
-      <td style="font-weight:500">${m}</td>
-      <td class="text-right text-mono"><span class="tag tag-green">${d.altas}</span></td>
-      <td class="text-right text-mono"><span class="tag tag-red">${d.bajas}</span></td>
-      <td class="text-right text-mono"><span class="tag ${netoClass}">${d.neto > 0 ? '+' : ''}${d.neto}</span></td>
-      <td class="text-right text-mono" style="font-weight:600">${d.total_activos}</td>
-    </tr>`;
+    tblAltas.innerHTML += '<tr>' +
+      '<td style="font-weight:500">' + m + '</td>' +
+      '<td class="text-right text-mono"><span class="tag tag-green">' + d.altas + '</span></td>' +
+      '<td class="text-right text-mono"><span class="tag tag-red">' + d.bajas + '</span></td>' +
+      '<td class="text-right text-mono"><span class="tag ' + netoClass + '">' + (d.neto > 0 ? '+' : '') + d.neto + '</span></td>' +
+      '<td class="text-right text-mono" style="font-weight:600">' + d.total_activos + '</td>' +
+      '</tr>';
   });
 }
 
@@ -2003,14 +1090,14 @@ function updateRevCards() {
       detail = 'Entrenamiento';
     } else {
       amount = r.total;
-      detail = `Entreno ${fmtCurrency(r.entrenamiento)} &middot; Yoga ${fmtCurrency(r.yoga)}`;
+      detail = 'Entreno ' + fmtCurrency(r.entrenamiento) + ' &middot; Yoga ' + fmtCurrency(r.yoga);
     }
     const highlight = fm.length === 1 ? ' highlight' : '';
-    revCards.innerHTML += `<div class="rev-card${highlight}">
-      <div class="rev-card-month">${m}</div>
-      <div class="rev-card-amount">${fmtCurrency(amount)}</div>
-      <div class="rev-card-detail">${detail}</div>
-    </div>`;
+    revCards.innerHTML += '<div class="rev-card' + highlight + '">' +
+      '<div class="rev-card-month">' + m + '</div>' +
+      '<div class="rev-card-amount">' + fmtCurrency(amount) + '</div>' +
+      '<div class="rev-card-detail">' + detail + '</div>' +
+      '</div>';
   });
 }
 
@@ -2064,14 +1151,14 @@ function updateNonRenewedTable() {
   items.forEach(u => {
     const service = getService(u.plan);
     const svcClass = service === 'Yoga' ? 'yoga' : 'entreno';
-    tblNR.innerHTML += `<tr>
-      <td style="font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px">${u.nombre}</td>
-      <td><span class="tag tag-blue">${u.plan}</span></td>
-      <td><span class="tag-service ${svcClass}">${service}</span></td>
-      <td class="text-mono">${u.cierre}</td>
-      <td class="text-right"><span class="tag ${urgencyTag(u.dias_fuera)}">${u.dias_fuera}d</span></td>
-      <td class="text-right text-mono">${fmtFull(u.ultimo_monto)}</td>
-    </tr>`;
+    tblNR.innerHTML += '<tr>' +
+      '<td style="font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px">' + u.nombre + '</td>' +
+      '<td><span class="tag tag-blue">' + u.plan + '</span></td>' +
+      '<td><span class="tag-service ' + svcClass + '">' + service + '</span></td>' +
+      '<td class="text-mono">' + u.cierre + '</td>' +
+      '<td class="text-right"><span class="tag ' + urgencyTag(u.dias_fuera) + '">' + u.dias_fuera + 'd</span></td>' +
+      '<td class="text-right text-mono">' + fmtFull(u.ultimo_monto) + '</td>' +
+      '</tr>';
   });
 
   document.getElementById('nonRenewedCount').textContent = items.length + ' de ' + DATA.non_renewed.length + ' usuarios';
@@ -2107,16 +1194,16 @@ document.getElementById('searchNonRenewed').addEventListener('input', function()
 // ---- INSIGHTS ----
 const insights = document.getElementById('insights');
 const insightData = [
-  { type: 'warning', title: 'Caida critica en marzo', body: 'Los ingresos de marzo ($920K) representan solo el 11% de enero ($8.1M). Posible problema de facturacion o cierre tardio de ventas.' },
-  { type: 'warning', title: 'Desercion alta', body: '72.5% de churn acumulado en Q1. 50 usuarios no han renovado, con un valor potencial de $27.5M en renovaciones perdidas.' },
+  { type: 'warning', title: 'Ca\u00edda cr\u00edtica en marzo', body: 'Los ingresos de marzo ($920K) representan solo el 11% de enero ($8.1M). Posible problema de facturaci\u00f3n o cierre tard\u00edo de ventas.' },
+  { type: 'warning', title: 'Deserci\u00f3n alta', body: '72.5% de churn acumulado en Q1. 50 usuarios no han renovado, con un valor potencial de $27.5M en renovaciones perdidas.' },
   { type: 'info', title: 'PLAN YU lidera en marzo', body: 'Con 11 usuarios activos, PLAN YU es el plan dominante. Los planes premium (CHU, GI) solo retienen 2 usuarios entre ambos.' },
-  { type: 'success', title: 'Recuperacion en febrero', body: 'Febrero mostro 38 altas vs 23 bajas (+15 neto), demostrando capacidad de atraccion. El reto es sostener ese impulso.' }
+  { type: 'success', title: 'Recuperaci\u00f3n en febrero', body: 'Febrero mostr\u00f3 38 altas vs 23 bajas (+15 neto), demostrando capacidad de atracci\u00f3n. El reto es sostener ese impulso.' }
 ];
 insightData.forEach(i => {
-  insights.innerHTML += `<div class="insight-card ${i.type}">
-    <div class="insight-title">${i.title}</div>
-    <div class="insight-body">${i.body}</div>
-  </div>`;
+  insights.innerHTML += '<div class="insight-card ' + i.type + '">' +
+    '<div class="insight-title">' + i.title + '</div>' +
+    '<div class="insight-body">' + i.body + '</div>' +
+    '</div>';
 });
 
 // ---- INITIAL RENDER ----
@@ -2129,7 +1216,7 @@ updateNonRenewedTable();
 const chartInstances = {};
 
 try {
-  const fontFamily = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif";
+  const fontFamily = "'Inter', -apple-system, BlinkMacSystemFont, sans-serif";
   Chart.defaults.font.family = fontFamily;
   Chart.defaults.font.size = 12;
   Chart.defaults.color = '#86868B';
@@ -2228,7 +1315,6 @@ try {
     fm.forEach(m => {
       const planData = DATA.active_by_plan[m];
       Object.keys(planData).forEach(k => {
-        // Activity filter
         if (currentActivity === 'yoga' && !isYogaPlan(k)) return;
         if (currentActivity === 'entrenamiento' && isYogaPlan(k)) return;
         merged[k] = (merged[k] || 0) + planData[k];
@@ -2265,7 +1351,6 @@ try {
           callbacks: {
             afterLabel: function(ctx) {
               const plan = ctx.label;
-              // Show revenue for this plan
               const fm = getMonths();
               let rev = 0;
               fm.forEach(m => { rev += (DATA.revenue_by_plan[m]?.[plan] || 0); });
@@ -2307,12 +1392,12 @@ try {
     const service = getService(plan);
 
     document.getElementById('planTooltipTitle').textContent = plan;
-    let body = `<div class="plan-tooltip-row"><span class="label">Servicio</span><span class="value">${service}</span></div>`;
+    let body = '<div class="plan-tooltip-row"><span class="label">Servicio</span><span class="value">' + service + '</span></div>';
     monthDetails.forEach(d => {
-      body += `<div class="plan-tooltip-row"><span class="label">${d.month}</span><span class="value">${d.users} usr &middot; ${fmtCurrency(d.rev)}</span></div>`;
+      body += '<div class="plan-tooltip-row"><span class="label">' + d.month + '</span><span class="value">' + d.users + ' usr &middot; ' + fmtCurrency(d.rev) + '</span></div>';
     });
     if (fm.length > 1) {
-      body += `<div style="border-top:1px solid var(--border-subtle);margin-top:8px;padding-top:8px;" class="plan-tooltip-row"><span class="label">Total</span><span class="value">${totalUsers} usr &middot; ${fmtCurrency(totalRev)}</span></div>`;
+      body += '<div style="border-top:1px solid var(--border-subtle);margin-top:8px;padding-top:8px;" class="plan-tooltip-row"><span class="label">Total</span><span class="value">' + totalUsers + ' usr &middot; ' + fmtCurrency(totalRev) + '</span></div>';
     }
     document.getElementById('planTooltipBody').innerHTML = body;
 
@@ -2511,9 +1596,9 @@ try {
 
     // Update plans title
     if (currentMonth === 'q1') {
-      document.getElementById('titlePlans').textContent = 'Activos por plan — Promedio Q1';
+      document.getElementById('titlePlans').textContent = 'Activos por plan \u2014 Promedio Q1';
     } else {
-      document.getElementById('titlePlans').textContent = 'Activos por plan — ' + currentMonth;
+      document.getElementById('titlePlans').textContent = 'Activos por plan \u2014 ' + currentMonth;
     }
 
     // Nuevos vs Recompra
@@ -2529,7 +1614,7 @@ try {
     donutChart.update();
 
     // Update donut title
-    document.getElementById('titleDonut').textContent = 'Composición ' + (currentMonth === 'q1' ? 'Q1' : currentMonth) + ' — Ventas por tipo';
+    document.getElementById('titleDonut').textContent = 'Composici\u00f3n ' + (currentMonth === 'q1' ? 'Q1' : currentMonth) + ' \u2014 Ventas por tipo';
 
     // Revenue
     const revChart = chartInstances.revenue;
@@ -2586,7 +1671,7 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 }); // DOMContentLoaded
 </script>
