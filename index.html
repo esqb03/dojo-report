@@ -30,6 +30,8 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow-x: hidden; width: 100%; }
+  canvas { max-width: 100% !important; }
   html { scroll-behavior: smooth; }
 
   body {
@@ -44,7 +46,9 @@
 
   .container {
     max-width: 1080px;
+    width: 100%;
     padding: 0 24px;
+    overflow: hidden;
     margin: 0 auto;
   }
 
@@ -218,6 +222,8 @@
 
   /* ---- KPI GRID ---- */
   .kpi-grid {
+    width: 100%;
+    overflow: hidden;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
@@ -285,6 +291,8 @@
 
   /* ---- CARD ---- */
   .card {
+    max-width: 100%;
+    overflow: hidden;
     background: var(--surface);
     border-radius: var(--radius);
     padding: 32px;
@@ -301,6 +309,8 @@
   }
 
   .chart-wrap {
+    max-width: 100%;
+    overflow: hidden;
     position: relative;
     height: 360px;
   }
@@ -312,6 +322,8 @@
 
   /* ---- TWO COL ---- */
   .two-col {
+    max-width: 100%;
+    overflow: hidden;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
