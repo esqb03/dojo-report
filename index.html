@@ -988,43 +988,42 @@ document.querySelectorAll('.pill').forEach(pill => {
 
     if (filterType === 'month') {
       if (value === 'q1') {
-        // Q1 toggles all 3 months on
+        // Q1 selects all 3 months
         selectedMonths = new Set(['Enero', 'Febrero', 'Marzo']);
         q1Active = true;
-        // Update pill states
-        document.querySelectorAll('.pill[data-filter="month"]').forEach(p => {
-          if (p.dataset.value === 'q1') p.classList.add('active');
-          else p.classList.remove('active');
-        });
       } else {
-        // Toggle individual month
-        q1Active = false;
-        document.querySelector('.pill[data-filter="month"][data-value="q1"]').classList.remove('active');
-
-        if (selectedMonths.has(value)) {
-          selectedMonths.delete(value);
-          this.classList.remove('active');
+        // When coming from Q1, start fresh with just this month
+        if (q1Active) {
+          selectedMonths = new Set([value]);
+          q1Active = false;
         } else {
-          selectedMonths.add(value);
-          this.classList.add('active');
+          // Toggle individual month
+          if (selectedMonths.has(value)) {
+            selectedMonths.delete(value);
+          } else {
+            selectedMonths.add(value);
+          }
         }
-
-        // If all 3 selected, activate Q1 pill too
-        if (selectedMonths.size === 3 && selectedMonths.has('Enero') && selectedMonths.has('Febrero') && selectedMonths.has('Marzo')) {
+        // If all 3 selected, back to Q1 mode
+        if (selectedMonths.size === 3) {
           q1Active = true;
-          document.querySelector('.pill[data-filter="month"][data-value="q1"]').classList.add('active');
         }
-
-        // If none selected, default to all (Q1)
+        // If none selected, default back to Q1
         if (selectedMonths.size === 0) {
           selectedMonths = new Set(['Enero', 'Febrero', 'Marzo']);
           q1Active = true;
-          document.querySelectorAll('.pill[data-filter="month"]').forEach(p => {
-            if (p.dataset.value === 'q1') p.classList.add('active');
-            else p.classList.remove('active');
-          });
         }
       }
+
+      // Sync visual state from selectedMonths/q1Active
+      document.querySelectorAll('.pill[data-filter="month"]').forEach(p => {
+        const v = p.dataset.value;
+        if (v === 'q1') {
+          p.classList.toggle('active', q1Active);
+        } else {
+          p.classList.toggle('active', !q1Active && selectedMonths.has(v));
+        }
+      });
     } else if (filterType === 'activity') {
       document.querySelectorAll('.pill[data-filter="activity"]').forEach(p => p.classList.remove('active'));
       this.classList.add('active');
