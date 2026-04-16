@@ -914,12 +914,13 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 // DATA
-const DATA = {"kpis": {"activos_marzo": 102, "growth_pct": -4.7, "revenue_q1": 85338600.0, "churn_rate": 26.1}, "active_evolution": {"labels": ["Dic 2025", "Ene 2026", "Feb 2026", "Mar 2026"], "total": [80, 110, 107, 102], "entrenamiento": [69, 92, 92, 87], "yoga": [11, 18, 15, 15]}, "active_by_plan": {"Enero": {"CORTESIA ENTRENAMIENTO": 1, "CORTESIA X30": 1, "PLAN CHU": 17, "PLAN GI": 12, "PLAN REI": 8, "PLAN YU": 43, "SOUSHIN": 2, "TIQUETERA X14": 4, "TIQUETERA X7": 4, "YOGA 24+6": 4, "YOGA X24": 3, "YOGA X4": 8, "YOGA X8": 5}, "Febrero": {"CORTESIA ENTRENAMIENTO": 1, "CORTESIA X15": 1, "CORTESIA X30": 2, "CORTESIA YOGA": 1, "PLAN CHU": 16, "PLAN GI": 19, "PLAN REI": 7, "PLAN YU": 38, "SOUSHIN": 2, "TIQUETERA X7": 7, "YOGA 24+6": 1, "YOGA X24": 4, "YOGA X4": 5, "YOGA X8": 4}, "Marzo": {"CORTESIA ENTRENAMIENTO": 1, "CORTESIA X30": 2, "PLAN CHU": 15, "PLAN GI": 19, "PLAN REI": 5, "PLAN YU": 34, "SOUSHIN": 2, "TIQUETERA X1": 3, "TIQUETERA X14": 1, "TIQUETERA X7": 5, "YOGA 24+6": 3, "YOGA X24": 3, "YOGA X4": 4, "YOGA X8": 5}}, "sales_nuevos_recompra": {"Enero": {"nuevos_count": 68, "nuevos_amount": 11176000.0, "recompra_count": 88, "recompra_amount": 33521200.0, "total_count": 156, "total_amount": 44697200.0}, "Febrero": {"nuevos_count": 31, "nuevos_amount": 1802000.0, "recompra_count": 72, "recompra_amount": 25446800.0, "total_count": 103, "total_amount": 27248800.0}, "Marzo": {"nuevos_count": 25, "nuevos_amount": 1574000.0, "recompra_count": 81, "recompra_amount": 11818600.0, "total_count": 106, "total_amount": 13392600.0}}, "altas_deserciones": {"Enero": {"altas": 50, "bajas": 20, "neto": 30, "total_activos": 110}, "Febrero": {"altas": 17, "bajas": 20, "neto": -3, "total_activos": 107}, "Marzo": {"altas": 16, "bajas": 21, "neto": -5, "total_activos": 102}}, "revenue": {"Enero": {"total": 44697200.0, "entrenamiento": 39847200.0, "yoga": 4850000.0, "nuevos": 11176000.0, "recompra": 33521200.0}, "Febrero": {"total": 27248800.0, "entrenamiento": 24778800.0, "yoga": 2470000.0, "nuevos": 1802000.0, "recompra": 25446800.0}, "Marzo": {"total": 13392600.0, "entrenamiento": 9832600.0, "yoga": 3560000.0, "nuevos": 1574000.0, "recompra": 11818600.0}}, "revenue_by_plan": {"Enero": {"ENTRENO US YOGA": 20000.0, "PLAN CHU": 9594000.0, "PLAN GI": 7500000.0, "PLAN REI": 2579200.0, "PLAN YU": 17556000.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 300000.0, "TIQUETERA X14": 1008000.0, "TIQUETERA X7": 770000.0, "YOGA 24+6": 650000.0, "YOGA X1 -50%": 280000.0, "YOGA X1 FULL": 280000.0, "YOGA X24": 1300000.0, "YOGA X4": 1120000.0, "YOGA X8": 1200000.0}, "Febrero": {"PLAN CHU": 4680000.0, "PLAN GI": 12000000.0, "PLAN REI": 2348800.0, "PLAN YU": 4200000.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 240000.0, "TIQUETERA X7": 770000.0, "YOGA X1 -50%": 260000.0, "YOGA X1 FULL": 40000.0, "YOGA X24": 650000.0, "YOGA X4": 560000.0, "YOGA X8": 960000.0}, "Marzo": {"PLAN GI": 1350600.0, "PLAN REI": 1544000.0, "PLAN YU": 4956000.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 420000.0, "TIQUETERA X14": 252000.0, "TIQUETERA X7": 770000.0, "YOGA 24+6": 1300000.0, "YOGA X1 -50%": 460000.0, "YOGA X1 FULL": 40000.0, "YOGA X4": 560000.0, "YOGA X8": 1200000.0}}, "non_renewed": [{"nombre": "SUSANA ARROYAVE", "plan": "PLAN REI", "cierre": "2026-03-25", "dias_fuera": 6, "ultimo_monto": 360000.0}, {"nombre": "MARCELA BERMUDEZ", "plan": "YOGA X4", "cierre": "2026-03-24", "dias_fuera": 7, "ultimo_monto": 140000.0}, {"nombre": "ASTRID  PEÑA", "plan": "CORTESIA YOGA", "cierre": "2026-03-23", "dias_fuera": 8, "ultimo_monto": 0.0}, {"nombre": "ALEXANDER OCHOA", "plan": "TIQUETERA X7", "cierre": "2026-03-19", "dias_fuera": 12, "ultimo_monto": 154000.0}, {"nombre": "VALENTINA FORERO", "plan": "TIQUETERA X7", "cierre": "2026-03-19", "dias_fuera": 12, "ultimo_monto": 154000.0}, {"nombre": "KATHERING LATORRE", "plan": "CORTESIA YOGA", "cierre": "2026-03-19", "dias_fuera": 12, "ultimo_monto": 0.0}, {"nombre": "CRISTINA RENDON", "plan": "TIQUETERA X7", "cierre": "2026-03-17", "dias_fuera": 14, "ultimo_monto": 154000.0}, {"nombre": "VANESSA ARDILA", "plan": "PLAN REI", "cierre": "2026-03-16", "dias_fuera": 15, "ultimo_monto": 360000.0}, {"nombre": "CLAUDIA CASTRO", "plan": "YOGA X4", "cierre": "2026-03-13", "dias_fuera": 18, "ultimo_monto": 140000.0}, {"nombre": "MARIA  ISAZA", "plan": "PLAN GI", "cierre": "2026-03-10", "dias_fuera": 21, "ultimo_monto": 1350600.0}, {"nombre": "ELISA VELASQUEZ", "plan": "CORTESIA X15", "cierre": "2026-03-07", "dias_fuera": 24, "ultimo_monto": 0.0}, {"nombre": "NATALIA  MENDEZ", "plan": "CORTESIA X30", "cierre": "2026-03-07", "dias_fuera": 24, "ultimo_monto": 0.0}, {"nombre": "KATERINE  VILLARREAL", "plan": "PLAN YU", "cierre": "2026-03-05", "dias_fuera": 26, "ultimo_monto": 588000.0}, {"nombre": "MARIANA RINCON", "plan": "TIQUETERA X7", "cierre": "2026-03-04", "dias_fuera": 27, "ultimo_monto": 154000.0}, {"nombre": "ALEJANDRA SERNA CASTAÑO", "plan": "PLAN YU", "cierre": "2026-03-04", "dias_fuera": 27, "ultimo_monto": 840000.0}, {"nombre": "JORGE  LEONARDO  ZULUAGA RESTREPO", "plan": "PLAN REI", "cierre": "2026-03-03", "dias_fuera": 28, "ultimo_monto": 316800.0}, {"nombre": "ANDRÉS VALENCIA", "plan": "PLAN REI", "cierre": "2026-03-03", "dias_fuera": 28, "ultimo_monto": 360000.0}, {"nombre": "LUISA HOYOS", "plan": "PLAN REI", "cierre": "2026-03-02", "dias_fuera": 29, "ultimo_monto": 232000.0}, {"nombre": "STEFANIE SEYEDMEHDI", "plan": "PLAN YU", "cierre": "2026-03-01", "dias_fuera": 30, "ultimo_monto": 588000.0}, {"nombre": "DANIEL  CHAMORRO", "plan": "TIQUETERA X7", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 154000.0}, {"nombre": "LUIS  LUCENA", "plan": "CORTESIA ENTRENAMIENTO", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 0.0}], "growth_by_month": {"Enero": 37.5, "Febrero": -2.7, "Marzo": -4.7}};
+const DATA = {"kpis": {"activos_marzo": 102, "growth_pct": -4.7, "revenue_q1": 85338600.0, "churn_rate": 26.1}, "active_evolution": {"labels": ["Dic 2025", "Ene 2026", "Feb 2026", "Mar 2026"], "total": [80, 110, 107, 102], "entrenamiento": [69, 92, 92, 87], "yoga": [11, 18, 15, 15]}, "active_by_plan": {"Enero": {"CORTESIA ENTRENAMIENTO": 1, "CORTESIA X30": 1, "PLAN CHU": 17, "PLAN GI": 12, "PLAN REI": 8, "PLAN YU": 43, "SOUSHIN": 2, "TIQUETERA X14": 4, "TIQUETERA X7": 4, "YOGA 24+6": 4, "YOGA X24": 3, "YOGA X4": 8, "YOGA X8": 5}, "Febrero": {"CORTESIA ENTRENAMIENTO": 1, "CORTESIA X15": 1, "CORTESIA X30": 2, "CORTESIA YOGA": 1, "PLAN CHU": 16, "PLAN GI": 19, "PLAN REI": 7, "PLAN YU": 38, "SOUSHIN": 2, "TIQUETERA X7": 7, "YOGA 24+6": 1, "YOGA X24": 4, "YOGA X4": 5, "YOGA X8": 4}, "Marzo": {"CORTESIA ENTRENAMIENTO": 1, "CORTESIA X30": 2, "PLAN CHU": 15, "PLAN GI": 19, "PLAN REI": 5, "PLAN YU": 34, "SOUSHIN": 2, "TIQUETERA X1": 3, "TIQUETERA X14": 1, "TIQUETERA X7": 5, "YOGA 24+6": 3, "YOGA X24": 3, "YOGA X4": 4, "YOGA X8": 5}}, "sales_nuevos_recompra": {"Enero": {"nuevos_count": 68, "nuevos_amount": 11176000.0, "recompra_count": 88, "recompra_amount": 33521200.0, "total_count": 156, "total_amount": 44697200.0}, "Febrero": {"nuevos_count": 31, "nuevos_amount": 1802000.0, "recompra_count": 72, "recompra_amount": 25446800.0, "total_count": 103, "total_amount": 27248800.0}, "Marzo": {"nuevos_count": 25, "nuevos_amount": 1574000.0, "recompra_count": 81, "recompra_amount": 11818600.0, "total_count": 106, "total_amount": 13392600.0}}, "altas_deserciones": {"Enero": {"altas": 50, "bajas": 20, "neto": 30, "total_activos": 110}, "Febrero": {"altas": 17, "bajas": 20, "neto": -3, "total_activos": 107}, "Marzo": {"altas": 16, "bajas": 21, "neto": -5, "total_activos": 102}}, "revenue": {"Enero": {"total": 44697200.0, "entrenamiento": 39847200.0, "yoga": 4850000.0, "nuevos": 11176000.0, "recompra": 33521200.0}, "Febrero": {"total": 27248800.0, "entrenamiento": 24778800.0, "yoga": 2470000.0, "nuevos": 1802000.0, "recompra": 25446800.0}, "Marzo": {"total": 13392600.0, "entrenamiento": 9832600.0, "yoga": 3560000.0, "nuevos": 1574000.0, "recompra": 11818600.0}}, "revenue_by_plan": {"Enero": {"ENTRENO US YOGA": 20000.0, "PLAN CHU": 9594000.0, "PLAN GI": 7500000.0, "PLAN REI": 2579200.0, "PLAN YU": 17556000.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 300000.0, "TIQUETERA X14": 1008000.0, "TIQUETERA X7": 770000.0, "YOGA 24+6": 650000.0, "YOGA X1 -50%": 280000.0, "YOGA X1 FULL": 280000.0, "YOGA X24": 1300000.0, "YOGA X4": 1120000.0, "YOGA X8": 1200000.0}, "Febrero": {"PLAN CHU": 4680000.0, "PLAN GI": 12000000.0, "PLAN REI": 2348800.0, "PLAN YU": 4200000.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 240000.0, "TIQUETERA X7": 770000.0, "YOGA X1 -50%": 260000.0, "YOGA X1 FULL": 40000.0, "YOGA X24": 650000.0, "YOGA X4": 560000.0, "YOGA X8": 960000.0}, "Marzo": {"PLAN GI": 1350600.0, "PLAN REI": 1544000.0, "PLAN YU": 4956000.0, "SOUSHIN": 540000.0, "TIQUETERA X1": 420000.0, "TIQUETERA X14": 252000.0, "TIQUETERA X7": 770000.0, "YOGA 24+6": 1300000.0, "YOGA X1 -50%": 460000.0, "YOGA X1 FULL": 40000.0, "YOGA X4": 560000.0, "YOGA X8": 1200000.0}}, "non_renewed": [{"nombre": "SUSANA ARROYAVE", "plan": "PLAN REI", "cierre": "2026-03-25", "dias_fuera": 6, "ultimo_monto": 360000.0}, {"nombre": "MARCELA BERMUDEZ", "plan": "YOGA X4", "cierre": "2026-03-24", "dias_fuera": 7, "ultimo_monto": 140000.0}, {"nombre": "ASTRID  PE\u00d1A", "plan": "CORTESIA YOGA", "cierre": "2026-03-23", "dias_fuera": 8, "ultimo_monto": 0.0}, {"nombre": "ALEXANDER OCHOA", "plan": "TIQUETERA X7", "cierre": "2026-03-19", "dias_fuera": 12, "ultimo_monto": 154000.0}, {"nombre": "VALENTINA FORERO", "plan": "TIQUETERA X7", "cierre": "2026-03-19", "dias_fuera": 12, "ultimo_monto": 154000.0}, {"nombre": "KATHERING LATORRE", "plan": "CORTESIA YOGA", "cierre": "2026-03-19", "dias_fuera": 12, "ultimo_monto": 0.0}, {"nombre": "CRISTINA RENDON", "plan": "TIQUETERA X7", "cierre": "2026-03-17", "dias_fuera": 14, "ultimo_monto": 154000.0}, {"nombre": "VANESSA ARDILA", "plan": "PLAN REI", "cierre": "2026-03-16", "dias_fuera": 15, "ultimo_monto": 360000.0}, {"nombre": "CLAUDIA CASTRO", "plan": "YOGA X4", "cierre": "2026-03-13", "dias_fuera": 18, "ultimo_monto": 140000.0}, {"nombre": "MARIA  ISAZA", "plan": "PLAN GI", "cierre": "2026-03-10", "dias_fuera": 21, "ultimo_monto": 1350600.0}, {"nombre": "ELISA VELASQUEZ", "plan": "CORTESIA X15", "cierre": "2026-03-07", "dias_fuera": 24, "ultimo_monto": 0.0}, {"nombre": "NATALIA  MENDEZ", "plan": "CORTESIA X30", "cierre": "2026-03-07", "dias_fuera": 24, "ultimo_monto": 0.0}, {"nombre": "KATERINE  VILLARREAL", "plan": "PLAN YU", "cierre": "2026-03-05", "dias_fuera": 26, "ultimo_monto": 588000.0}, {"nombre": "MARIANA RINCON", "plan": "TIQUETERA X7", "cierre": "2026-03-04", "dias_fuera": 27, "ultimo_monto": 154000.0}, {"nombre": "ALEJANDRA SERNA CASTA\u00d1O", "plan": "PLAN YU", "cierre": "2026-03-04", "dias_fuera": 27, "ultimo_monto": 840000.0}, {"nombre": "JORGE  LEONARDO  ZULUAGA RESTREPO", "plan": "PLAN REI", "cierre": "2026-03-03", "dias_fuera": 28, "ultimo_monto": 316800.0}, {"nombre": "ANDR\u00c9S VALENCIA", "plan": "PLAN REI", "cierre": "2026-03-03", "dias_fuera": 28, "ultimo_monto": 360000.0}, {"nombre": "LUISA HOYOS", "plan": "PLAN REI", "cierre": "2026-03-02", "dias_fuera": 29, "ultimo_monto": 232000.0}, {"nombre": "STEFANIE SEYEDMEHDI", "plan": "PLAN YU", "cierre": "2026-03-01", "dias_fuera": 30, "ultimo_monto": 588000.0}, {"nombre": "DANIEL  CHAMORRO", "plan": "TIQUETERA X7", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 154000.0}, {"nombre": "LUIS  LUCENA", "plan": "CORTESIA ENTRENAMIENTO", "cierre": "2026-02-28", "dias_fuera": 31, "ultimo_monto": 0.0}], "growth_by_month": {"Enero": 37.5, "Febrero": -2.7, "Marzo": -4.7}};
 
 // Plan classification: yoga vs entrenamiento
 const YOGA_PLANS = ['YOGA X4', 'YOGA X8', 'YOGA X24', 'YOGA 24+6', 'YOGA X1 -50%', 'YOGA X1 FULL'];
 const isYogaPlan = (plan) => plan.toUpperCase().includes('YOGA');
 const isEntrenoPlan = (plan) => !isYogaPlan(plan);
+const isCortesiaPlan = (plan) => plan.toUpperCase().includes('CORTESIA');
 const getService = (plan) => isYogaPlan(plan) ? 'Yoga' : 'Entrenamiento';
 
 // UTILS
@@ -972,21 +973,63 @@ function animateCurrency(el, target, duration) {
 }
 
 // ---- FILTER STATE ----
-let currentMonth = 'q1';
+// FIX #3: Multi-select months. selectedMonths is a Set.
+let selectedMonths = new Set(['Enero', 'Febrero', 'Marzo']); // Q1 = all 3
+let q1Active = true; // tracks if Q1 pill is active
 let currentActivity = 'todo';
 const months = ['Enero','Febrero','Marzo'];
 
 // ---- FILTER PILLS ----
+// FIX #3: Multi-select month pills
 document.querySelectorAll('.pill').forEach(pill => {
   pill.addEventListener('click', function() {
     const filterType = this.dataset.filter;
     const value = this.dataset.value;
 
-    document.querySelectorAll('.pill[data-filter="' + filterType + '"]').forEach(p => p.classList.remove('active'));
-    this.classList.add('active');
+    if (filterType === 'month') {
+      if (value === 'q1') {
+        // Q1 toggles all 3 months on
+        selectedMonths = new Set(['Enero', 'Febrero', 'Marzo']);
+        q1Active = true;
+        // Update pill states
+        document.querySelectorAll('.pill[data-filter="month"]').forEach(p => {
+          if (p.dataset.value === 'q1') p.classList.add('active');
+          else p.classList.remove('active');
+        });
+      } else {
+        // Toggle individual month
+        q1Active = false;
+        document.querySelector('.pill[data-filter="month"][data-value="q1"]').classList.remove('active');
 
-    if (filterType === 'month') currentMonth = value;
-    if (filterType === 'activity') currentActivity = value;
+        if (selectedMonths.has(value)) {
+          selectedMonths.delete(value);
+          this.classList.remove('active');
+        } else {
+          selectedMonths.add(value);
+          this.classList.add('active');
+        }
+
+        // If all 3 selected, activate Q1 pill too
+        if (selectedMonths.size === 3 && selectedMonths.has('Enero') && selectedMonths.has('Febrero') && selectedMonths.has('Marzo')) {
+          q1Active = true;
+          document.querySelector('.pill[data-filter="month"][data-value="q1"]').classList.add('active');
+        }
+
+        // If none selected, default to all (Q1)
+        if (selectedMonths.size === 0) {
+          selectedMonths = new Set(['Enero', 'Febrero', 'Marzo']);
+          q1Active = true;
+          document.querySelectorAll('.pill[data-filter="month"]').forEach(p => {
+            if (p.dataset.value === 'q1') p.classList.add('active');
+            else p.classList.remove('active');
+          });
+        }
+      }
+    } else if (filterType === 'activity') {
+      document.querySelectorAll('.pill[data-filter="activity"]').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+      currentActivity = value;
+    }
 
     applyFilters();
   });
@@ -999,9 +1042,10 @@ window.addEventListener('scroll', () => {
 });
 
 // ---- GET FILTERED MONTHS ----
+// FIX #1 & #3: Returns selected months in chronological order
 function getMonths() {
-  if (currentMonth === 'q1') return ['Enero','Febrero','Marzo'];
-  return [currentMonth];
+  const ordered = months.filter(m => selectedMonths.has(m));
+  return ordered.length > 0 ? ordered : months; // fallback to all
 }
 
 // ---- APPLY FILTERS ----
@@ -1010,74 +1054,111 @@ function applyFilters() {
   updateAltasTable();
   updateRevCards();
   updateNonRenewedTable();
+  updateInsights();
   if (typeof chartInstances !== 'undefined') {
     updateCharts();
   }
 }
 
+// ---- Helper: get activos for a given month by activity filter ----
+function getActivosForMonth(monthName) {
+  const monthIdx = ['Enero','Febrero','Marzo'].indexOf(monthName);
+  if (monthIdx < 0) return 0;
+  const evoIdx = monthIdx + 1; // +1 because Dic is index 0
+  if (currentActivity === 'yoga') return DATA.active_evolution.yoga[evoIdx];
+  if (currentActivity === 'entrenamiento') return DATA.active_evolution.entrenamiento[evoIdx];
+  return DATA.active_evolution.total[evoIdx];
+}
+
+function getActivosForEvoIdx(idx) {
+  if (currentActivity === 'yoga') return DATA.active_evolution.yoga[idx];
+  if (currentActivity === 'entrenamiento') return DATA.active_evolution.entrenamiento[idx];
+  return DATA.active_evolution.total[idx];
+}
+
+// ---- Helper: get revenue for a month by activity filter ----
+function getRevenueForMonth(monthName) {
+  if (currentActivity === 'yoga') return DATA.revenue[monthName].yoga;
+  if (currentActivity === 'entrenamiento') return DATA.revenue[monthName].entrenamiento;
+  return DATA.revenue[monthName].total;
+}
+
 // ---- KPI CARDS ----
+// FIX #1: Q1 sums all months properly
+// FIX #2: Delta compares vs previous month (or Q4 vs Q1)
 function updateKPIs() {
   const fm = getMonths();
   const lastMonth = fm[fm.length - 1];
   const lastIdx = ['Enero','Febrero','Marzo'].indexOf(lastMonth);
 
-  // Activos: last selected month
-  const evoIdx = lastIdx + 1; // +1 because Dic is index 0
-  let activos;
-  if (currentActivity === 'yoga') {
-    activos = DATA.active_evolution.yoga[evoIdx];
-  } else if (currentActivity === 'entrenamiento') {
-    activos = DATA.active_evolution.entrenamiento[evoIdx];
-  } else {
-    activos = DATA.active_evolution.total[evoIdx];
-  }
+  // Activos: last selected month's value
+  const activos = getActivosForMonth(lastMonth);
 
-  const prevActivos = currentActivity === 'yoga'
-    ? DATA.active_evolution.yoga[0]
-    : currentActivity === 'entrenamiento'
-    ? DATA.active_evolution.entrenamiento[0]
-    : DATA.active_evolution.total[0];
+  // FIX #2: Previous month comparison
+  let prevActivos;
+  let prevLabel;
+  if (fm.length === 3 && q1Active) {
+    // Q1 selected: compare vs Dec (Q4)
+    prevActivos = getActivosForEvoIdx(0); // Dic 2025
+    prevLabel = 'vs Dic 2025';
+  } else if (fm.length === 1) {
+    // Single month: compare vs previous month
+    const prevEvoIdx = lastIdx; // lastIdx+1 is current in evo array, so lastIdx is previous
+    prevActivos = getActivosForEvoIdx(prevEvoIdx);
+    const prevMonthNames = ['Dic 2025', 'Enero', 'Febrero'];
+    prevLabel = 'vs ' + prevMonthNames[lastIdx];
+  } else {
+    // Multiple months selected (not Q1): compare last vs first
+    const firstMonth = fm[0];
+    prevActivos = getActivosForMonth(firstMonth);
+    prevLabel = 'vs ' + firstMonth;
+  }
 
   const growthPct = prevActivos ? ((activos - prevActivos) / prevActivos * 100) : 0;
 
   animateNumber(document.getElementById('kpi-activos'), activos, '', '', 600);
   const deltaActivos = document.getElementById('kpi-activos-delta');
-  deltaActivos.textContent = fmtPct(growthPct) + ' vs mes anterior';
+  deltaActivos.textContent = fmtPct(growthPct) + ' ' + prevLabel;
   deltaActivos.className = 'kpi-delta ' + (growthPct >= 0 ? 'positive' : 'negative');
 
   // Growth
   const growthEl = document.getElementById('kpi-growth');
   growthEl.textContent = fmtPct(growthPct);
   const deltaGrowth = document.getElementById('kpi-growth-delta');
-  deltaGrowth.textContent = 'Dic 2025 a ' + lastMonth + ' 2026';
+  deltaGrowth.textContent = prevLabel;
   deltaGrowth.className = 'kpi-delta ' + (growthPct >= 0 ? 'positive' : 'negative');
 
-  // Revenue
+  // Revenue - FIX #1: sum ALL selected months
   let revenue = 0;
   fm.forEach(m => {
-    if (currentActivity === 'yoga') revenue += DATA.revenue[m].yoga;
-    else if (currentActivity === 'entrenamiento') revenue += DATA.revenue[m].entrenamiento;
-    else revenue += DATA.revenue[m].total;
+    revenue += getRevenueForMonth(m);
   });
 
   animateCurrency(document.getElementById('kpi-revenue'), revenue, 600);
   const kpiRevDelta = document.getElementById('kpi-revenue-delta');
   if (fm.length > 1) {
-    const first = currentActivity === 'yoga' ? DATA.revenue[fm[0]].yoga
-      : currentActivity === 'entrenamiento' ? DATA.revenue[fm[0]].entrenamiento
-      : DATA.revenue[fm[0]].total;
-    const last = currentActivity === 'yoga' ? DATA.revenue[fm[fm.length-1]].yoga
-      : currentActivity === 'entrenamiento' ? DATA.revenue[fm[fm.length-1]].entrenamiento
-      : DATA.revenue[fm[fm.length-1]].total;
-    const revDelta = first ? ((last - first) / first * 100) : 0;
+    const firstRev = getRevenueForMonth(fm[0]);
+    const lastRev = getRevenueForMonth(fm[fm.length-1]);
+    const revDelta = firstRev ? ((lastRev - firstRev) / firstRev * 100) : 0;
     kpiRevDelta.textContent = fmtPct(revDelta) + ' ' + fm[0] + ' a ' + fm[fm.length-1];
     kpiRevDelta.className = 'kpi-delta ' + (revDelta >= 0 ? 'positive' : 'negative');
   } else {
-    kpiRevDelta.textContent = fm[0] + ' 2026';
-    kpiRevDelta.className = 'kpi-delta neutral';
+    // FIX #2: compare vs previous month revenue
+    const prevMonthIdx = lastIdx - 1;
+    if (prevMonthIdx >= 0) {
+      const prevMonthName = months[prevMonthIdx];
+      const prevRev = getRevenueForMonth(prevMonthName);
+      const revDelta = prevRev ? ((revenue - prevRev) / prevRev * 100) : 0;
+      kpiRevDelta.textContent = fmtPct(revDelta) + ' vs ' + prevMonthName;
+      kpiRevDelta.className = 'kpi-delta ' + (revDelta >= 0 ? 'positive' : 'negative');
+    } else {
+      // January: compare vs no previous data available
+      kpiRevDelta.textContent = fm[0] + ' 2026';
+      kpiRevDelta.className = 'kpi-delta neutral';
+    }
   }
 
-  // Churn
+  // Churn - FIX #1: sum all selected months
   let totalAltas = 0, totalBajas = 0;
   fm.forEach(m => {
     totalAltas += DATA.altas_deserciones[m].altas;
@@ -1085,7 +1166,8 @@ function updateKPIs() {
   });
   const churnVal = totalAltas ? ((totalBajas / (totalAltas + totalBajas)) * 100).toFixed(1) : '0.0';
   document.getElementById('kpi-churn').textContent = churnVal + '%';
-  document.getElementById('kpi-churn-delta').textContent = 'Deserciones ' + (currentMonth === 'q1' ? 'Q1' : currentMonth);
+  const periodLabel = fm.length === 3 && q1Active ? 'Q1' : fm.join(', ');
+  document.getElementById('kpi-churn-delta').textContent = 'Deserciones ' + periodLabel;
 }
 
 // ---- ALTAS TABLE ----
@@ -1134,10 +1216,15 @@ function updateRevCards() {
 }
 
 // ---- NON RENEWED TABLE ----
+// FIX #9: Exclude CORTESIA plans from non-renewed
 let nonRenewedSort = { field: 'dias_fuera', dir: 'asc' };
 
 function getFilteredNonRenewed() {
   let items = [...DATA.non_renewed];
+
+  // FIX #9: Always exclude CORTESIA plans
+  items = items.filter(u => !isCortesiaPlan(u.plan));
+
   const search = (document.getElementById('searchNonRenewed').value || '').toLowerCase().trim();
 
   // Activity filter
@@ -1148,10 +1235,11 @@ function getFilteredNonRenewed() {
   }
 
   // Month filter: filter by cierre month
-  if (currentMonth !== 'q1') {
+  const fm = getMonths();
+  if (fm.length < 3) {
     const monthMap = { 'Enero': '01', 'Febrero': '02', 'Marzo': '03' };
-    const mm = monthMap[currentMonth];
-    items = items.filter(u => u.cierre.substring(5,7) === mm);
+    const allowedMonths = fm.map(m => monthMap[m]);
+    items = items.filter(u => allowedMonths.includes(u.cierre.substring(5,7)));
   }
 
   // Search
@@ -1179,6 +1267,9 @@ function updateNonRenewedTable() {
   const tblNR = document.getElementById('tblNonRenewed');
   const urgencyTag = (d) => d <= 35 ? 'tag-orange' : 'tag-red';
 
+  // Total count excludes cortesias too
+  const totalNonCortesia = DATA.non_renewed.filter(u => !isCortesiaPlan(u.plan)).length;
+
   tblNR.innerHTML = '';
   items.forEach(u => {
     const service = getService(u.plan);
@@ -1193,7 +1284,7 @@ function updateNonRenewedTable() {
       '</tr>';
   });
 
-  document.getElementById('nonRenewedCount').textContent = items.length + ' de ' + DATA.non_renewed.length + ' usuarios';
+  document.getElementById('nonRenewedCount').textContent = items.length + ' de ' + totalNonCortesia + ' usuarios';
 
   // Update sort indicators
   document.querySelectorAll('th.sortable').forEach(th => {
@@ -1224,25 +1315,101 @@ document.getElementById('searchNonRenewed').addEventListener('input', function()
 });
 
 // ---- INSIGHTS ----
-const insights = document.getElementById('insights');
-const insightData = [
-  { type: 'warning', title: 'Ca\u00edda cr\u00edtica en marzo', body: 'Los ingresos de marzo ($920K) representan solo el 11% de enero ($8.1M). Posible problema de facturaci\u00f3n o cierre tard\u00edo de ventas.' },
-  { type: 'warning', title: 'Deserci\u00f3n alta', body: '72.5% de churn acumulado en Q1. 50 usuarios no han renovado, con un valor potencial de $27.5M en renovaciones perdidas.' },
-  { type: 'info', title: 'PLAN YU lidera en marzo', body: 'Con 11 usuarios activos, PLAN YU es el plan dominante. Los planes premium (CHU, GI) solo retienen 2 usuarios entre ambos.' },
-  { type: 'success', title: 'Recuperaci\u00f3n en febrero', body: 'Febrero mostr\u00f3 38 altas vs 23 bajas (+15 neto), demostrando capacidad de atracci\u00f3n. El reto es sostener ese impulso.' }
-];
-insightData.forEach(i => {
-  insights.innerHTML += '<div class="insight-card ' + i.type + '">' +
-    '<div class="insight-title">' + i.title + '</div>' +
-    '<div class="insight-body">' + i.body + '</div>' +
-    '</div>';
-});
+// FIX #10: Dynamic insights based on selected period
+function updateInsights() {
+  const fm = getMonths();
+  const insights = document.getElementById('insights');
+  insights.innerHTML = '';
+
+  // Calculate data for current selection
+  let totalRevenue = 0;
+  let totalNuevos = 0, totalRecompra = 0;
+  let totalNuevosCount = 0, totalRecompraCount = 0;
+  let totalAltas = 0, totalBajas = 0;
+  fm.forEach(m => {
+    totalRevenue += getRevenueForMonth(m);
+    totalNuevos += DATA.sales_nuevos_recompra[m].nuevos_amount;
+    totalRecompra += DATA.sales_nuevos_recompra[m].recompra_amount;
+    totalNuevosCount += DATA.sales_nuevos_recompra[m].nuevos_count;
+    totalRecompraCount += DATA.sales_nuevos_recompra[m].recompra_count;
+    totalAltas += DATA.altas_deserciones[m].altas;
+    totalBajas += DATA.altas_deserciones[m].bajas;
+  });
+
+  const lastMonth = fm[fm.length - 1];
+  const activos = getActivosForMonth(lastMonth);
+
+  // Non-renewed count (excluding cortesias)
+  const nonRenewedNoCortesia = DATA.non_renewed.filter(u => !isCortesiaPlan(u.plan));
+  let nonRenewedFiltered = nonRenewedNoCortesia;
+  if (fm.length < 3) {
+    const monthMap = { 'Enero': '01', 'Febrero': '02', 'Marzo': '03' };
+    const allowedMonths = fm.map(m => monthMap[m]);
+    nonRenewedFiltered = nonRenewedNoCortesia.filter(u => allowedMonths.includes(u.cierre.substring(5,7)));
+  }
+  const nonRenewedCount = nonRenewedFiltered.length;
+  const nonRenewedValue = nonRenewedFiltered.reduce((s, u) => s + u.ultimo_monto, 0);
+
+  const churnPct = (totalAltas + totalBajas) > 0 ? ((totalBajas / (totalAltas + totalBajas)) * 100).toFixed(1) : '0.0';
+
+  const periodLabel = fm.length === 3 && q1Active ? 'Q1' : fm.join(', ');
+
+  // Find dominant plan for last selected month (excluding cortesia)
+  const lastPlanData = DATA.active_by_plan[lastMonth];
+  let dominantPlan = '', dominantCount = 0;
+  Object.keys(lastPlanData).forEach(k => {
+    if (!isCortesiaPlan(k)) {
+      if (currentActivity === 'yoga' && !isYogaPlan(k)) return;
+      if (currentActivity === 'entrenamiento' && isYogaPlan(k)) return;
+      if (lastPlanData[k] > dominantCount) {
+        dominantCount = lastPlanData[k];
+        dominantPlan = k;
+      }
+    }
+  });
+
+  // Revenue insight
+  if (fm.length > 1) {
+    const firstRev = getRevenueForMonth(fm[0]);
+    const lastRev = getRevenueForMonth(fm[fm.length - 1]);
+    const revChange = firstRev ? ((lastRev - firstRev) / firstRev * 100).toFixed(0) : 0;
+    if (lastRev < firstRev) {
+      insightData = [{ type: 'warning', title: 'Caida en ingresos en ' + periodLabel, body: 'Los ingresos de ' + fm[fm.length-1] + ' (' + fmtCurrency(lastRev) + ') representan el ' + (firstRev ? Math.round(lastRev/firstRev*100) : 0) + '% de ' + fm[0] + ' (' + fmtCurrency(firstRev) + '). Ingresos totales del periodo: ' + fmtCurrency(totalRevenue) + '.' }];
+    } else {
+      insightData = [{ type: 'success', title: 'Crecimiento en ingresos', body: 'Los ingresos crecieron ' + revChange + '% de ' + fm[0] + ' a ' + fm[fm.length-1] + '. Total periodo: ' + fmtCurrency(totalRevenue) + '.' }];
+    }
+  } else {
+    insightData = [{ type: 'info', title: 'Ingresos ' + lastMonth, body: 'Ingresos totales de ' + lastMonth + ': ' + fmtCurrency(totalRevenue) + '. Nuevos: ' + fmtCurrency(totalNuevos) + ', Recompra: ' + fmtCurrency(totalRecompra) + '.' }];
+  }
+
+  // Churn insight
+  insightData.push({ type: parseFloat(churnPct) > 40 ? 'warning' : 'info', title: 'Desercion ' + periodLabel + ': ' + churnPct + '%', body: nonRenewedCount + ' usuarios sin renovar con un valor potencial de ' + fmtCurrency(nonRenewedValue) + ' en renovaciones perdidas. ' + totalAltas + ' altas vs ' + totalBajas + ' bajas en el periodo.' });
+
+  // Dominant plan
+  insightData.push({ type: 'info', title: dominantPlan + ' lidera en ' + lastMonth, body: 'Con ' + dominantCount + ' usuarios activos, ' + dominantPlan + ' es el plan dominante. Total activos: ' + activos + '.' });
+
+  // Altas neto
+  const neto = totalAltas - totalBajas;
+  if (neto > 0) {
+    insightData.push({ type: 'success', title: 'Crecimiento neto positivo', body: periodLabel + ' mostro ' + totalAltas + ' altas vs ' + totalBajas + ' bajas (neto +' + neto + '), demostrando capacidad de atraccion.' });
+  } else {
+    insightData.push({ type: 'warning', title: 'Crecimiento neto negativo', body: periodLabel + ' mostro ' + totalAltas + ' altas vs ' + totalBajas + ' bajas (neto ' + neto + '). Se necesitan estrategias de retencion.' });
+  }
+
+  insightData.forEach(i => {
+    insights.innerHTML += '<div class="insight-card ' + i.type + '">' +
+      '<div class="insight-title">' + i.title + '</div>' +
+      '<div class="insight-body">' + i.body + '</div>' +
+      '</div>';
+  });
+}
 
 // ---- INITIAL RENDER ----
 updateKPIs();
 updateAltasTable();
 updateRevCards();
 updateNonRenewedTable();
+updateInsights();
 
 // ---- CHARTS ----
 const chartInstances = {};
@@ -1272,15 +1439,58 @@ try {
   const gridStyle = { color: 'rgba(0,0,0,0.04)', drawBorder: false };
   const tickStyle = { padding: 8 };
 
+  // FIX #5: Helper to get evolution data filtered by selected months
+  function getEvolutionFilteredData() {
+    const fm = getMonths();
+    const allLabels = DATA.active_evolution.labels; // ["Dic 2025", "Ene 2026", "Feb 2026", "Mar 2026"]
+    const monthToLabel = { 'Enero': 'Ene 2026', 'Febrero': 'Feb 2026', 'Marzo': 'Mar 2026' };
+
+    if (fm.length === 3 && q1Active) {
+      // Show all data points
+      return {
+        labels: allLabels,
+        total: DATA.active_evolution.total,
+        entrenamiento: DATA.active_evolution.entrenamiento,
+        yoga: DATA.active_evolution.yoga
+      };
+    } else {
+      // FIX #5: Only show selected months + preceding month for context
+      const selectedLabelSet = new Set(fm.map(m => monthToLabel[m]));
+      // Always include the month before the earliest selected for context
+      const firstSelectedIdx = months.indexOf(fm[0]);
+      const contextIdx = firstSelectedIdx; // index in allLabels (0=Dic, 1=Ene, 2=Feb, 3=Mar)
+      // Build filtered arrays
+      const filteredLabels = [];
+      const filteredTotal = [];
+      const filteredEntreno = [];
+      const filteredYoga = [];
+      allLabels.forEach((lbl, idx) => {
+        if (selectedLabelSet.has(lbl) || idx === contextIdx) {
+          filteredLabels.push(lbl);
+          filteredTotal.push(DATA.active_evolution.total[idx]);
+          filteredEntreno.push(DATA.active_evolution.entrenamiento[idx]);
+          filteredYoga.push(DATA.active_evolution.yoga[idx]);
+        }
+      });
+      return {
+        labels: filteredLabels,
+        total: filteredTotal,
+        entrenamiento: filteredEntreno,
+        yoga: filteredYoga
+      };
+    }
+  }
+
   // CHART: Evolution
+  const initEvo = getEvolutionFilteredData();
   chartInstances.evolution = new Chart(document.getElementById('chartEvolution'), {
     type: 'line',
     data: {
-      labels: DATA.active_evolution.labels,
+      labels: initEvo.labels,
       datasets: [
         {
           label: 'Total',
-          data: DATA.active_evolution.total,
+          data: initEvo.total,
           borderColor: '#0071E3',
           backgroundColor: (ctx) => {
             const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 360);
@@ -1299,7 +1509,7 @@ try {
         },
         {
           label: 'Entrenamiento',
-          data: DATA.active_evolution.entrenamiento,
+          data: initEvo.entrenamiento,
           borderColor: '#86868B',
           backgroundColor: 'transparent',
           borderWidth: 1.5,
@@ -1313,7 +1523,7 @@ try {
         },
         {
           label: 'Yoga',
-          data: DATA.active_evolution.yoga,
+          data: initEvo.yoga,
           borderColor: '#34C759',
           backgroundColor: 'transparent',
           borderWidth: 1.5,
@@ -1341,12 +1551,15 @@ try {
   });
 
   // CHART: Plans (horizontal bar)
+  // FIX #7: Exclude CORTESIA plans
   function getPlansData() {
     const fm = getMonths();
     const merged = {};
     fm.forEach(m => {
       const planData = DATA.active_by_plan[m];
       Object.keys(planData).forEach(k => {
+        // FIX #7: Skip CORTESIA plans
+        if (isCortesiaPlan(k)) return;
         if (currentActivity === 'yoga' && !isYogaPlan(k)) return;
         if (currentActivity === 'entrenamiento' && isYogaPlan(k)) return;
         merged[k] = (merged[k] || 0) + planData[k];
@@ -1468,22 +1681,23 @@ try {
     }, 10);
   }
 
-  // CHART: Nuevos vs Recompra (stacked bar)
+  // CHART: Nuevos vs Recompra (stacked bar) - FIX #6: initialized with getMonths()
+  const initFm = getMonths();
   chartInstances.nuevosRecompra = new Chart(document.getElementById('chartNuevosRecompra'), {
     type: 'bar',
     data: {
-      labels: months,
+      labels: initFm,
       datasets: [
         {
           label: 'Nuevos',
-          data: months.map(m => DATA.sales_nuevos_recompra[m].nuevos_count),
+          data: initFm.map(m => DATA.sales_nuevos_recompra[m].nuevos_count),
           backgroundColor: '#0071E3',
           borderRadius: { topLeft: 6, topRight: 6 },
           barThickness: 40
         },
         {
           label: 'Recompra',
-          data: months.map(m => DATA.sales_nuevos_recompra[m].recompra_count),
+          data: initFm.map(m => DATA.sales_nuevos_recompra[m].recompra_count),
           backgroundColor: '#AEAEB2',
           borderRadius: { topLeft: 6, topRight: 6 },
           barThickness: 40
@@ -1502,7 +1716,7 @@ try {
     }
   });
 
-  // CHART: Donut
+  // CHART: Donut - FIX #8: correct composition numbers
   function getDonutData() {
     const fm = getMonths();
     let totalNuevos = 0, totalRecompra = 0;
@@ -1544,18 +1758,18 @@ try {
   chartInstances.revenue = new Chart(document.getElementById('chartRevenue'), {
     type: 'bar',
     data: {
-      labels: months,
+      labels: initFm,
       datasets: [
         {
           label: 'Entrenamiento',
-          data: months.map(m => DATA.revenue[m].entrenamiento),
+          data: initFm.map(m => DATA.revenue[m].entrenamiento),
           backgroundColor: '#0071E3',
           borderRadius: 6,
           barThickness: 48
         },
         {
           label: 'Yoga',
-          data: months.map(m => DATA.revenue[m].yoga),
+          data: initFm.map(m => DATA.revenue[m].yoga),
           backgroundColor: '#34C759',
           borderRadius: 6,
           barThickness: 48
@@ -1591,34 +1805,36 @@ try {
   function updateCharts() {
     const fm = getMonths();
 
-    // Evolution: highlight selected months
+    // FIX #5: Evolution chart - filter to selected months only
     const evoChart = chartInstances.evolution;
+    const evoData = getEvolutionFilteredData();
+
     if (currentActivity === 'yoga') {
-      evoChart.data.datasets[0].data = DATA.active_evolution.yoga;
+      evoChart.data.labels = evoData.labels;
+      evoChart.data.datasets[0].data = evoData.yoga;
       evoChart.data.datasets[0].borderColor = '#34C759';
       evoChart.data.datasets[1].data = [];
       evoChart.data.datasets[2].data = [];
     } else if (currentActivity === 'entrenamiento') {
-      evoChart.data.datasets[0].data = DATA.active_evolution.entrenamiento;
+      evoChart.data.labels = evoData.labels;
+      evoChart.data.datasets[0].data = evoData.entrenamiento;
       evoChart.data.datasets[0].borderColor = '#0071E3';
       evoChart.data.datasets[1].data = [];
       evoChart.data.datasets[2].data = [];
     } else {
-      evoChart.data.datasets[0].data = DATA.active_evolution.total;
+      evoChart.data.labels = evoData.labels;
+      evoChart.data.datasets[0].data = evoData.total;
       evoChart.data.datasets[0].borderColor = '#0071E3';
-      evoChart.data.datasets[1].data = DATA.active_evolution.entrenamiento;
-      evoChart.data.datasets[2].data = DATA.active_evolution.yoga;
+      evoChart.data.datasets[1].data = evoData.entrenamiento;
+      evoChart.data.datasets[2].data = evoData.yoga;
     }
 
-    // Point sizes: highlight selected months
-    const allLabels = DATA.active_evolution.labels;
-    const monthToLabel = { 'Enero': 'Ene 2026', 'Febrero': 'Feb 2026', 'Marzo': 'Mar 2026' };
-    const selectedLabels = currentMonth === 'q1' ? allLabels : fm.map(m => monthToLabel[m]);
-    const pointRadii = allLabels.map(l => selectedLabels.includes(l) ? 7 : 4);
+    // Point sizes: all visible points are highlighted
+    const pointRadii = evoData.labels.map(() => 6);
     evoChart.data.datasets[0].pointRadius = pointRadii;
     evoChart.update();
 
-    // Plans
+    // Plans - FIX #7: CORTESIA excluded via getPlansData()
     const planChart = chartInstances.plans;
     const pd = getPlansData();
     planChart.data.labels = pd.labels;
@@ -1627,26 +1843,27 @@ try {
     planChart.update();
 
     // Update plans title
-    if (currentMonth === 'q1') {
-      document.getElementById('titlePlans').textContent = 'Activos por plan \u2014 Promedio Q1';
-    } else {
-      document.getElementById('titlePlans').textContent = 'Activos por plan \u2014 ' + currentMonth;
-    }
+    const periodLabel = fm.length === 3 && q1Active ? 'Promedio Q1' : fm.join(', ');
+    document.getElementById('titlePlans').textContent = 'Activos por plan \u2014 ' + periodLabel;
 
-    // Nuevos vs Recompra
+    // FIX #6: Nuevos vs Recompra - update with correct filtered months
     const nrChart = chartInstances.nuevosRecompra;
     nrChart.data.labels = fm;
     nrChart.data.datasets[0].data = fm.map(m => DATA.sales_nuevos_recompra[m].nuevos_count);
     nrChart.data.datasets[1].data = fm.map(m => DATA.sales_nuevos_recompra[m].recompra_count);
     nrChart.update();
 
-    // Donut
+    // Update title
+    const nrPeriodLabel = fm.length === 3 && q1Active ? 'Q1' : fm.join(', ');
+    document.getElementById('titleNuevosRecompra').textContent = 'Nuevos vs Recompra \u2014 ' + nrPeriodLabel;
+
+    // FIX #8: Donut - correct composition numbers
     const donutChart = chartInstances.donut;
     donutChart.data.datasets[0].data = getDonutData();
     donutChart.update();
 
     // Update donut title
-    document.getElementById('titleDonut').textContent = 'Composici\u00f3n ' + (currentMonth === 'q1' ? 'Q1' : currentMonth) + ' \u2014 Ventas por tipo';
+    document.getElementById('titleDonut').textContent = 'Composici\u00f3n ' + (fm.length === 3 && q1Active ? 'Q1' : fm.join(', ')) + ' \u2014 Ventas por tipo';
 
     // Revenue
     const revChart = chartInstances.revenue;
