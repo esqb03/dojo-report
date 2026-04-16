@@ -3,31 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Propuesta Odoo — DOJO Gym</title>
+<title>Being CoRe — Implementacion Odoo</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
   :root {
-    --bg: #FAFAFA;
-    --bg-end: #F0F0F5;
-    --surface: #FFFFFF;
-    --text: #1D1D1F;
-    --text-secondary: #86868B;
-    --text-tertiary: #AEAEB2;
-    --dark: #1D1D1F;
-    --dark-surface: #2C2C2E;
-    --blue: #0071E3;
+    --bg: #0A0A0B;
+    --bg-end: #111114;
+    --surface: #17171A;
+    --surface-2: #1E1E22;
+    --text: #F5F5F7;
+    --text-secondary: #A1A1A6;
+    --text-tertiary: #6E6E73;
+    --gold: #D4A857;
+    --gold-soft: #E8C579;
+    --gold-deep: #B88B3A;
+    --accent: #E8B84A;
     --green: #34C759;
-    --red: #FF3B30;
-    --orange: #FF9500;
-    --gold: #E8B84A;
-    --lime: #C6F432;
-    --violet: #8B5CF6;
-    --border-subtle: rgba(0,0,0,0.06);
-    --glass-bg: rgba(255,255,255,0.65);
-    --glass-border: rgba(255,255,255,0.18);
-    --shadow: 0 2px 12px rgba(0,0,0,0.04);
-    --shadow-hover: 0 8px 40px rgba(0,0,0,0.12);
+    --red: #FF453A;
+    --border-subtle: rgba(255,255,255,0.08);
+    --glass-bg: rgba(255,255,255,0.035);
+    --glass-border: rgba(255,255,255,0.08);
+    --shadow: 0 2px 20px rgba(0,0,0,0.4);
+    --shadow-hover: 0 20px 60px rgba(0,0,0,0.6);
     --radius: 20px;
     --font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
     --mono: 'IBM Plex Mono', 'SF Mono', 'Fira Code', monospace;
@@ -72,11 +70,9 @@
   /* ---- NAV ---- */
   .nav-bar {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     z-index: 1000;
-    background: rgba(250,250,250,0.7);
+    background: rgba(10,10,11,0.75);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 16px 0;
@@ -85,7 +81,7 @@
   }
   .nav-bar.scrolled {
     border-bottom-color: var(--border-subtle);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
   }
   .nav-inner {
     display: flex;
@@ -106,12 +102,12 @@
   }
   .nav-pill:hover {
     color: var(--text);
-    background: rgba(0,0,0,0.04);
+    background: rgba(255,255,255,0.05);
   }
   .nav-pill.active {
-    background: var(--text);
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    background: var(--gold);
+    color: #111;
+    box-shadow: 0 2px 14px rgba(212,168,87,0.35);
   }
 
   /* ---- HERO ---- */
@@ -134,28 +130,37 @@
   .hero-bg .shape {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.35;
+    filter: blur(100px);
+    opacity: 0.25;
     animation: float 20s ease-in-out infinite;
   }
   .hero-bg .shape-1 {
     width: 600px; height: 600px;
-    background: var(--violet);
+    background: var(--gold);
     top: -200px; right: -100px;
     animation-delay: 0s;
   }
   .hero-bg .shape-2 {
     width: 500px; height: 500px;
-    background: var(--gold);
+    background: var(--gold-deep);
     bottom: -150px; left: -100px;
     animation-delay: -7s;
   }
   .hero-bg .shape-3 {
     width: 400px; height: 400px;
-    background: var(--blue);
+    background: #5B3A1A;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     animation-delay: -14s;
+    opacity: 0.4;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(212,168,87,0.06), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(212,168,87,0.04), transparent 50%);
   }
   @keyframes float {
     0%, 100% { transform: translate(0, 0) scale(1); }
@@ -166,28 +171,30 @@
   .hero-content {
     position: relative;
     z-index: 1;
-    max-width: 900px;
+    max-width: 920px;
   }
   .hero-badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
+    gap: 10px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--text-secondary);
-    background: var(--glass-bg);
+    background: rgba(255,255,255,0.04);
     backdrop-filter: blur(10px);
-    padding: 10px 24px;
+    padding: 10px 22px;
     border-radius: 100px;
     border: 1px solid var(--glass-border);
     margin-bottom: 40px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
   .hero-badge .badge-dot {
     width: 8px; height: 8px;
     border-radius: 50%;
-    background: var(--lime);
-    animation: pulse-dot 2s ease-in-out infinite;
+    background: var(--gold);
+    box-shadow: 0 0 12px rgba(212,168,87,0.8);
+    animation: pulse-dot 2.2s ease-in-out infinite;
   }
   @keyframes pulse-dot {
     0%, 100% { opacity: 1; transform: scale(1); }
@@ -195,26 +202,36 @@
   }
 
   .hero h1 {
-    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-size: clamp(3rem, 8vw, 5.8rem);
     font-weight: 800;
     letter-spacing: -0.04em;
-    line-height: 1.05;
+    line-height: 1.02;
     color: var(--text);
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
   .hero h1 .gradient-text {
-    background: linear-gradient(135deg, var(--dark) 0%, var(--gold) 100%);
+    background: linear-gradient(135deg, #FFF 0%, var(--gold) 60%, var(--gold-deep) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  .hero .tagline {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 500;
+    font-style: italic;
+    color: var(--gold);
+    max-width: 640px;
+    margin: 0 auto 24px;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+  }
   .hero .subtitle {
-    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    font-size: clamp(1rem, 2vw, 1.15rem);
     font-weight: 400;
     color: var(--text-secondary);
-    max-width: 640px;
+    max-width: 620px;
     margin: 0 auto 48px;
-    line-height: 1.6;
+    line-height: 1.7;
   }
   .scroll-indicator {
     position: absolute;
@@ -226,14 +243,14 @@
     align-items: center;
     gap: 8px;
     color: var(--text-tertiary);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     animation: bounce-down 2s ease-in-out infinite;
   }
   .scroll-indicator .arrow {
-    width: 24px; height: 24px;
+    width: 22px; height: 22px;
     border-right: 2px solid var(--text-tertiary);
     border-bottom: 2px solid var(--text-tertiary);
     transform: rotate(45deg);
@@ -243,405 +260,420 @@
     50% { transform: translateX(-50%) translateY(12px); opacity: 0.5; }
   }
 
-  /* ---- STATS ---- */
-  .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    border-radius: var(--radius);
-    border: 1px solid var(--glass-border);
-    overflow: hidden;
-    margin-top: -60px;
+  /* ---- SECTIONS ---- */
+  .section {
+    padding: 120px 0;
     position: relative;
-    z-index: 2;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+    overflow: hidden;
   }
-  .stat-item {
-    text-align: center;
-    padding: 40px 20px;
+  .section-alt {
+    background: linear-gradient(180deg, var(--bg-end) 0%, #0D0D10 100%);
   }
-  .stat-item .stat-number {
-    font-size: clamp(2rem, 4vw, 3rem);
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .section-title {
+    font-size: clamp(2rem, 5vw, 3.4rem);
     font-weight: 800;
-    font-family: var(--mono);
-    background: linear-gradient(135deg, var(--violet), var(--blue));
+    letter-spacing: -0.03em;
+    margin-bottom: 18px;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .section-title .accent {
+    background: linear-gradient(135deg, var(--gold-soft) 0%, var(--gold-deep) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .stat-item .stat-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-top: 4px;
-  }
-
-  /* ---- DARK SECTION: PROBLEM ---- */
-  .section-dark {
-    background: var(--dark);
-    color: #fff;
-    padding: 120px 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .section-dark .section-label {
-    color: var(--red);
-    opacity: 0.8;
-  }
-  .section-dark .section-title {
-    color: #fff;
-  }
-  .section-dark .section-subtitle {
-    color: rgba(255,255,255,0.6);
-  }
-
-  .section-light {
-    padding: 120px 0;
-    position: relative;
-  }
-
-  .section-label {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--violet);
-    margin-bottom: 16px;
-  }
-  .section-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 16px;
-    line-height: 1.1;
-  }
   .section-subtitle {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--text-secondary);
     margin-bottom: 64px;
-    max-width: 600px;
-    line-height: 1.6;
+    max-width: 640px;
+    line-height: 1.7;
+  }
+  .section-header-center {
+    text-align: center;
+    margin: 0 auto 64px;
+  }
+  .section-header-center .section-subtitle {
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  /* ---- DISCONNECTED DIAGRAM ---- */
-  .diagram-boxes {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    max-width: 1000px;
-    margin: 0 auto;
-    perspective: 1000px;
-  }
-  .system-box {
-    background: var(--dark-surface);
-    border-radius: var(--radius);
-    padding: 36px 28px;
-    text-align: center;
+  /* ---- PORQUE ODOO — ONE BIG CARD ---- */
+  .why-card {
+    background: linear-gradient(135deg, rgba(212,168,87,0.08) 0%, rgba(212,168,87,0.02) 100%);
+    border: 1px solid rgba(212,168,87,0.18);
+    border-radius: 24px;
+    padding: 56px;
     position: relative;
-    border: 2px solid transparent;
-    transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
     overflow: hidden;
   }
-  .system-box::before {
+  .why-card::before {
     content: '';
     position: absolute;
-    inset: 0;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(212,168,87,0.12), transparent 60%);
+    filter: blur(40px);
+  }
+  .why-card h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    line-height: 1.25;
+    position: relative;
+  }
+  .why-card p {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 780px;
+    position: relative;
+  }
+  .why-card p strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .why-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+    position: relative;
+  }
+  .why-pill {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    color: var(--text);
+  }
+
+  /* ---- CAPAS — 3 LAYERS ---- */
+  .layers-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  .layer {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 32px;
+    align-items: center;
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius);
+    padding: 36px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .layer:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212,168,87,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .layer::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, transparent, var(--gold), transparent);
     opacity: 0;
-    transition: opacity 1s ease;
+    transition: opacity 0.4s ease;
   }
-  .system-box.drifted {
-    border-color: rgba(255,59,48,0.4);
+  .layer:hover::before { opacity: 1; }
+  .layer-num {
+    font-family: var(--mono);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--gold);
+    line-height: 1;
+    letter-spacing: -0.02em;
   }
-  .system-box.drifted:nth-child(1) { transform: translateX(-30px) rotate(-2deg); }
-  .system-box.drifted:nth-child(2) { transform: translateY(-20px); }
-  .system-box.drifted:nth-child(3) { transform: translateX(30px) rotate(2deg); }
-  .system-box.drifted::before {
-    opacity: 1;
-    background: radial-gradient(circle at center, rgba(255,59,48,0.08) 0%, transparent 70%);
+  .layer-body h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .layer-body h3 .layer-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(212,168,87,0.12);
+    color: var(--gold);
+    margin-left: 10px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .layer-body .layer-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .layer-body p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
   }
 
-  .crack-lines {
+  /* ---- TIERS ---- */
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .tier-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tier-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212,168,87,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .tier-card.featured {
+    background: linear-gradient(180deg, rgba(212,168,87,0.12) 0%, rgba(212,168,87,0.02) 100%);
+    border-color: rgba(212,168,87,0.3);
+  }
+  .tier-card.featured::after {
+    content: 'Mas vendido';
     position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 10;
+    top: 20px; right: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: var(--gold);
+    color: #111;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
-  .crack-line {
-    position: absolute;
-    background: var(--red);
-    opacity: 0;
-    transition: opacity 0.8s ease;
+  .tier-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 14px;
+    letter-spacing: 0.1em;
   }
-  .crack-line.active { opacity: 0.5; }
-  .crack-h {
-    height: 2px;
-    width: 60px;
-    top: 50%;
+  .tier-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text);
+    letter-spacing: -0.01em;
   }
-  .crack-h-1 { left: calc(33.33% - 30px); }
-  .crack-h-2 { left: calc(66.66% - 30px); }
+  .tier-sub {
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .tier-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .tier-meta {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+  }
 
-  .sys-icon {
-    width: 56px; height: 56px;
-    border-radius: 16px;
+  /* ---- EQUIPO ---- */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  .team-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 44px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .team-card:hover {
+    border-color: rgba(212,168,87,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    transform: translateY(-4px);
+  }
+  .team-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(212,168,87,0.15), transparent 60%);
+    filter: blur(20px);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .team-card:hover::before { opacity: 1; }
+  .team-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 26px;
-    margin: 0 auto 20px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 24px;
+    font-family: var(--mono);
+    box-shadow: 0 10px 30px rgba(212,168,87,0.25);
   }
-  .system-box h3 {
-    font-size: 18px;
+  .team-card h3 {
+    font-size: 1.35rem;
     font-weight: 700;
-    margin-bottom: 16px;
-    color: #fff;
+    margin-bottom: 6px;
+    color: var(--text);
+    letter-spacing: -0.01em;
   }
-  .system-box ul {
-    list-style: none;
+  .team-role {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .team-card p {
     font-size: 14px;
-    color: rgba(255,255,255,0.5);
-    text-align: left;
-  }
-  .system-box ul li {
-    padding: 6px 0;
-    padding-left: 24px;
-    position: relative;
-  }
-  .system-box ul li::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 50%;
-    transform: translateY(-50%);
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--red);
-    opacity: 0.4;
-  }
-  .pain-points {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    max-width: 800px;
-    margin: 64px auto 0;
-  }
-  .pain-point {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px 24px;
-    background: rgba(255,59,48,0.06);
-    border-radius: 14px;
-    border: 1px solid rgba(255,59,48,0.12);
-    transition: transform 0.3s ease, background 0.3s ease;
-  }
-  .pain-point:hover {
-    transform: translateX(4px);
-    background: rgba(255,59,48,0.1);
-  }
-  .pain-point .pp-icon {
-    font-size: 20px;
-    flex-shrink: 0;
-    width: 36px; height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,59,48,0.12);
-    border-radius: 10px;
-    color: var(--red);
-    font-weight: 700;
-  }
-  .pain-point p {
-    font-size: 14px;
-    color: rgba(255,255,255,0.7);
-    line-height: 1.5;
+    color: var(--text-secondary);
+    line-height: 1.8;
   }
 
-  /* ---- SOLUTION SECTION ---- */
-  .solution-diagram {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .odoo-hub {
-    background: linear-gradient(135deg, var(--violet), var(--blue));
-    color: #fff;
-    border-radius: 24px;
-    padding: 48px;
-    box-shadow: 0 20px 60px rgba(139,92,246,0.25);
-    margin-bottom: 40px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .odoo-hub::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.15) 0%, transparent 50%);
-  }
-  .odoo-hub h3 {
-    font-size: 36px;
-    font-weight: 900;
-    position: relative;
-    z-index: 1;
-  }
-  .odoo-hub p {
-    font-size: 16px;
-    opacity: 0.85;
-    position: relative;
-    z-index: 1;
-    margin-top: 4px;
-  }
-  .connect-grid {
+  /* ---- INCLUIDO / APARTE GRIDS ---- */
+  .twin-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
   }
-  .connect-node {
+  .twin-col {
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 28px 20px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .connect-node::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 40px; height: 3px;
-    background: var(--lime);
-    border-radius: 0 0 4px 4px;
-    transition: width 0.4s ease;
-  }
-  .connect-node:hover::before { width: 80px; }
-  .connect-node:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-  }
-  .connect-node .cn-check {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: rgba(198,244,50,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: #6B8F00;
-    font-weight: 700;
-    margin: 0 auto 12px;
-  }
-  .connect-node h4 { font-size: 15px; font-weight: 700; }
-  .connect-node p { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
-
-  /* ---- MODULE CARDS ---- */
-  .module-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-  .module-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(14px);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
-    padding: 36px 28px;
+    padding: 40px 36px;
     position: relative;
     overflow: hidden;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    transform-style: preserve-3d;
   }
-  .module-card:hover {
-    box-shadow: var(--shadow-hover);
+  .twin-col.included {
+    border-color: rgba(52,199,89,0.2);
+    background: linear-gradient(180deg, rgba(52,199,89,0.04), rgba(52,199,89,0.01));
   }
-  .module-card .glow {
-    position: absolute;
-    width: 250px; height: 250px;
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    filter: blur(60px);
-    transform: translate(-50%, -50%);
-    z-index: 0;
+  .twin-col.aparte {
+    border-color: rgba(212,168,87,0.2);
+    background: linear-gradient(180deg, rgba(212,168,87,0.04), rgba(212,168,87,0.01));
   }
-  .module-card:hover .glow { opacity: 1; }
-  .module-card .card-num {
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-tertiary);
-    margin-bottom: 14px;
+  .twin-col h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .twin-col .twin-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .twin-col.included .twin-label {
+    background: rgba(52,199,89,0.12);
+    color: var(--green);
+  }
+  .twin-col.aparte .twin-label {
+    background: rgba(212,168,87,0.12);
+    color: var(--gold);
+  }
+  .twin-col ul {
+    list-style: none;
+    margin-top: 8px;
+  }
+  .twin-col ul li {
+    padding: 14px 0 14px 36px;
+    font-size: 15px;
+    color: var(--text);
     position: relative;
-    z-index: 1;
+    border-bottom: 1px solid var(--border-subtle);
+    line-height: 1.5;
   }
-  .module-card .card-icon {
-    width: 52px; height: 52px;
-    border-radius: 14px;
+  .twin-col ul li:last-child { border-bottom: none; }
+  .twin-col ul li::before {
+    position: absolute;
+    left: 0; top: 14px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    margin-bottom: 18px;
-    position: relative;
-    z-index: 1;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
   }
-  .module-card h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 1;
+  .twin-col.included ul li::before {
+    content: '\2713';
+    background: rgba(52,199,89,0.15);
+    color: var(--green);
   }
-  .module-card .card-desc {
-    font-size: 14px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    position: relative;
-    z-index: 1;
+  .twin-col.aparte ul li::before {
+    content: '+';
+    background: rgba(212,168,87,0.15);
+    color: var(--gold);
   }
-  .module-card .card-detail {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), margin-top 0.5s ease;
-    position: relative;
-    z-index: 1;
-  }
-  .module-card.expanded .card-detail {
-    max-height: 200px;
-    margin-top: 16px;
-  }
-  .module-card .card-detail-inner {
-    padding-top: 16px;
-    border-top: 1px solid var(--border-subtle);
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.7;
-  }
-  .module-card .expand-hint {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--violet);
-    margin-top: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s ease;
-  }
-  .module-card.expanded .expand-hint { display: none; }
 
   /* ---- TIMELINE ---- */
   .timeline {
     position: relative;
-    max-width: 900px;
+    max-width: 860px;
     margin: 0 auto;
     padding-left: 60px;
   }
@@ -651,13 +683,12 @@
     left: 24px;
     top: 0;
     bottom: 0;
-    width: 3px;
-    background: linear-gradient(180deg, var(--violet), var(--blue), var(--lime));
-    border-radius: 3px;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--gold) 15%, var(--gold-deep) 85%, transparent);
   }
   .timeline-item {
     position: relative;
-    margin-bottom: 40px;
+    margin-bottom: 28px;
   }
   .timeline-item:last-child { margin-bottom: 0; }
   .timeline-dot {
@@ -667,34 +698,38 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: var(--violet);
+    background: var(--gold);
     border: 4px solid var(--bg);
-    box-shadow: 0 0 0 3px rgba(139,92,246,0.2);
+    box-shadow: 0 0 0 3px rgba(212,168,87,0.25);
     z-index: 1;
   }
   .timeline-content {
     background: var(--glass-bg);
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(14px);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
-    padding: 32px;
-    transition: all 0.3s ease;
+    padding: 26px 32px;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .timeline-content:hover {
-    box-shadow: var(--shadow-hover);
     transform: translateX(8px);
+    border-color: rgba(212,168,87,0.3);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
   }
   .timeline-num {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    color: var(--violet);
-    margin-bottom: 8px;
+    color: var(--gold);
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
   }
   .timeline-content h3 {
-    font-size: 18px;
+    font-size: 1.15rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    color: var(--text);
+    letter-spacing: -0.01em;
   }
   .timeline-content p {
     font-size: 14px;
@@ -702,200 +737,71 @@
     line-height: 1.7;
   }
 
-  /* ---- INTEGRATIONS DARK ---- */
-  .section-integrations {
-    background: var(--dark);
-    color: #fff;
-    padding: 120px 0;
-    overflow: hidden;
-  }
-  .section-integrations .section-label { color: var(--lime); }
-  .section-integrations .section-title { color: #fff; }
-  .section-integrations .section-subtitle { color: rgba(255,255,255,0.6); }
-
-  .payment-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 64px;
-  }
-  .payment-card {
-    background: var(--dark-surface);
-    border-radius: var(--radius);
-    padding: 36px 28px;
-    text-align: center;
+  /* ---- INTERLOCUTOR (FEATURED CALLOUT) ---- */
+  .callout {
+    background: linear-gradient(135deg, rgba(212,168,87,0.1) 0%, rgba(212,168,87,0.02) 100%);
+    border: 1px solid rgba(212,168,87,0.25);
+    border-radius: 24px;
+    padding: 56px;
+    max-width: 980px;
+    margin: 0 auto;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.06);
-    transition: all 0.4s ease;
   }
-  .payment-card::before {
+  .callout::before {
     content: '';
     position: absolute;
-    inset: -1px;
-    border-radius: var(--radius);
-    padding: 1px;
-    background: linear-gradient(135deg, transparent, rgba(139,92,246,0.3), transparent);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    top: -120px; left: -120px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(212,168,87,0.15), transparent 60%);
+    filter: blur(40px);
   }
-  .payment-card:hover::before { opacity: 1; }
-  .payment-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  .callout-quote {
+    font-family: var(--mono);
+    font-size: 6rem;
+    line-height: 1;
+    color: var(--gold);
+    opacity: 0.4;
+    margin-bottom: -30px;
+    position: relative;
   }
-  .pay-icon {
-    width: 64px; height: 64px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    font-weight: 800;
-    margin: 0 auto 20px;
-  }
-  .payment-card h3 {
-    font-size: 20px;
+  .callout h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
     font-weight: 700;
-    margin-bottom: 8px;
-    color: #fff;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    position: relative;
   }
-  .payment-card p {
-    font-size: 14px;
-    color: rgba(255,255,255,0.6);
+  .callout p {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 780px;
+    position: relative;
     margin-bottom: 16px;
   }
-  .pay-methods {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-  }
-  .pay-methods span {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 100px;
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.7);
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-
-  /* ---- MARQUEE ---- */
-  .marquee-wrap {
-    overflow: hidden;
-    padding: 28px 0;
-    background: rgba(255,255,255,0.03);
-    border-radius: var(--radius);
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-  .marquee-wrap:hover .marquee-track {
-    animation-play-state: paused;
-  }
-  .marquee-track {
-    display: flex;
-    gap: 56px;
-    animation: marquee 25s linear infinite;
-    width: max-content;
-  }
-  .marquee-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    white-space: nowrap;
-    font-size: 15px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.5);
-    transition: color 0.3s ease;
-  }
-  .marquee-item:hover { color: rgba(255,255,255,0.9); }
-  .marquee-item .m-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    box-shadow: 0 0 8px currentColor;
-  }
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* ---- BEFORE/AFTER ---- */
-  .ba-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3px;
-    max-width: 1000px;
-    margin: 0 auto;
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .ba-header {
-    padding: 24px 32px;
-    font-size: 14px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .ba-header.today-h {
-    background: rgba(255,59,48,0.06);
-    color: var(--red);
-  }
-  .ba-header.odoo-h {
-    background: rgba(52,199,89,0.06);
-    color: var(--green);
-  }
-  .ba-cell {
-    padding: 22px 32px;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--surface);
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .ba-cell .ba-icon {
-    flex-shrink: 0;
-    font-weight: 800;
-    font-size: 16px;
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .ba-cell.today {
-    color: var(--text-secondary);
-  }
-  .ba-cell.today .ba-icon {
-    color: var(--red);
-    background: rgba(255,59,48,0.08);
-  }
-  .ba-cell.odoo {
+  .callout p strong {
     color: var(--text);
-    font-weight: 500;
+    font-weight: 600;
   }
-  .ba-cell.odoo .ba-icon {
-    color: var(--green);
-    background: rgba(52,199,89,0.08);
-  }
-  .ba-cell.transformed {
-    background: rgba(52,199,89,0.04);
-  }
-  .ba-cell.transformed .ba-icon {
-    color: #fff;
-    background: var(--green);
-    box-shadow: 0 2px 8px rgba(52,199,89,0.3);
+  .callout .callout-rule {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 100px;
+    background: rgba(212,168,87,0.15);
+    color: var(--gold);
+    border: 1px solid rgba(212,168,87,0.3);
+    position: relative;
+    letter-spacing: 0.04em;
   }
 
   /* ---- CTA ---- */
   .cta-section {
-    background: var(--dark);
+    background: #050506;
     min-height: 80vh;
     display: flex;
     align-items: center;
@@ -903,121 +809,134 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+    padding: 120px 0;
   }
   .cta-section::before {
     content: '';
     position: absolute;
-    width: 800px; height: 800px;
+    width: 900px; height: 900px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(232,184,74,0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(212,168,87,0.12) 0%, transparent 70%);
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
   }
   .cta-content {
     position: relative;
     z-index: 1;
+    max-width: 720px;
   }
   .cta-content h2 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 900;
     letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #fff 0%, var(--gold) 100%);
+    line-height: 1.05;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 60%, var(--gold-deep) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .cta-content p {
-    font-size: 1.15rem;
-    color: rgba(255,255,255,0.6);
-    margin-bottom: 48px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.65);
+    margin: 0 auto 48px;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   .cta-btn {
-    display: inline-block;
-    padding: 20px 56px;
-    font-size: 17px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 36px;
+    font-size: 15px;
     font-weight: 700;
     font-family: var(--font);
-    color: var(--dark);
-    background: linear-gradient(135deg, var(--gold) 0%, #F0D060 100%);
+    color: #111;
+    background: linear-gradient(135deg, var(--gold-soft) 0%, var(--gold-deep) 100%);
     border: none;
     border-radius: 100px;
     cursor: pointer;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 30px rgba(232,184,74,0.4);
-    position: relative;
-    overflow: hidden;
-    animation: cta-pulse 3s ease-in-out infinite;
+    box-shadow: 0 4px 30px rgba(212,168,87,0.35);
   }
   .cta-btn:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 50px rgba(232,184,74,0.5);
+    box-shadow: 0 12px 50px rgba(212,168,87,0.5);
   }
-  @keyframes cta-pulse {
-    0%, 100% { box-shadow: 0 4px 30px rgba(232,184,74,0.4); }
-    50% { box-shadow: 0 4px 50px rgba(232,184,74,0.6), 0 0 80px rgba(232,184,74,0.2); }
+  .cta-btn.secondary {
+    background: rgba(255,255,255,0.06);
+    color: var(--text);
+    border: 1px solid var(--glass-border);
+    box-shadow: none;
+  }
+  .cta-btn.secondary:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(212,168,87,0.4);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .cta-btn .btn-icon {
+    font-size: 18px;
   }
   .cta-brand {
-    margin-top: 64px;
-    font-size: 13px;
-    color: rgba(255,255,255,0.25);
+    margin-top: 72px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .cta-brand em {
+    font-style: italic;
+    color: var(--gold);
+    opacity: 0.6;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    font-size: 13px;
+    display: block;
+    margin-top: 12px;
   }
 
   /* ---- FOOTER ---- */
   .footer {
     text-align: center;
     padding: 40px 0;
-    background: var(--dark);
-    border-top: 1px solid rgba(255,255,255,0.06);
+    background: #050506;
+    border-top: 1px solid var(--border-subtle);
   }
   .footer p {
-    font-size: 13px;
+    font-size: 12px;
     color: rgba(255,255,255,0.25);
-  }
-
-  /* ---- PARALLAX WRAPPER ---- */
-  .parallax-section {
-    position: relative;
-    overflow: hidden;
-  }
-  .parallax-bg {
-    position: absolute;
-    inset: -100px;
-    z-index: 0;
-    will-change: transform;
+    letter-spacing: 0.05em;
   }
 
   /* ---- RESPONSIVE ---- */
-  @media (max-width: 900px) {
-    .module-grid { grid-template-columns: repeat(2, 1fr); }
-    .payment-cards { grid-template-columns: repeat(2, 1fr); }
-    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 960px) {
+    .tiers-grid { grid-template-columns: repeat(2, 1fr); }
+    .team-grid { grid-template-columns: 1fr; }
+    .twin-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 700px) {
-    .diagram-boxes { grid-template-columns: 1fr; gap: 16px; }
-    .system-box.drifted:nth-child(1) { transform: translateY(-15px); }
-    .system-box.drifted:nth-child(2) { transform: none; }
-    .system-box.drifted:nth-child(3) { transform: translateY(15px); }
-    .connect-grid { grid-template-columns: 1fr; }
-    .pain-points { grid-template-columns: 1fr; }
-    .module-grid { grid-template-columns: 1fr; }
-    .payment-cards { grid-template-columns: 1fr; }
-    .ba-grid { grid-template-columns: 1fr; }
-    .ba-header.today-h { display: none; }
-    .ba-cell.today { display: none; }
-    .stats-bar { grid-template-columns: repeat(2, 1fr); }
-    .timeline { padding-left: 50px; }
-    .timeline::before { left: 18px; }
-    .timeline-dot { left: -42px; }
+    .section { padding: 80px 0; }
+    .container { padding: 0 20px; }
+    .why-card, .callout { padding: 36px 24px; }
+    .tiers-grid { grid-template-columns: 1fr; }
+    .layer { grid-template-columns: 1fr; gap: 16px; padding: 28px 24px; text-align: left; }
+    .layer-num { font-size: 2.5rem; }
+    .timeline { padding-left: 44px; }
+    .timeline::before { left: 16px; }
+    .timeline-dot { left: -38px; }
+    .timeline-content { padding: 22px 24px; }
     .nav-pill { font-size: 11px; padding: 6px 12px; }
     .hero h1 { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+    .cta-buttons { flex-direction: column; align-items: stretch; }
+    .cta-btn { justify-content: center; }
   }
 </style>
 </head>
@@ -1027,12 +946,13 @@
 <nav class="nav-bar" id="navbar">
   <div class="container">
     <div class="nav-inner">
-      <a href="#problema" class="nav-pill">Problema</a>
-      <a href="#solución" class="nav-pill">Solución</a>
-      <a href="#módulos" class="nav-pill">Módulos</a>
-      <a href="#custom" class="nav-pill">Custom</a>
-      <a href="#pagos" class="nav-pill">Pagos</a>
-      <a href="#comparativa" class="nav-pill">Antes / Después</a>
+      <a href="#porque" class="nav-pill">Por que Odoo</a>
+      <a href="#capas" class="nav-pill">3 Capas</a>
+      <a href="#tiers" class="nav-pill">Tiers</a>
+      <a href="#equipo" class="nav-pill">Equipo</a>
+      <a href="#incluye" class="nav-pill">Incluye</a>
+      <a href="#proceso" class="nav-pill">Proceso</a>
+      <a href="#contacto" class="nav-pill">Contacto</a>
     </div>
   </div>
 </nav>
@@ -1048,254 +968,364 @@
     <div class="hero-content">
       <div class="hero-badge reveal">
         <span class="badge-dot"></span>
-        Propuesta Comercial &mdash; DOJO Gym
+        Being CoRe &middot; Implementacion Odoo
       </div>
-      <h1 class="reveal reveal-delay-1">Tu gimnasio merece<br>un sistema que<br><span class="gradient-text">piense como tú.</span></h1>
-      <p class="subtitle reveal reveal-delay-2">La plataforma que unifica suscripciones, café, tienda, nómina y operaciónes de DOJO en una sola base de datos inteligente.</p>
+      <h1 class="reveal reveal-delay-1">
+        Construir en orden<br>
+        <span class="gradient-text">para no romper<br>la palabra.</span>
+      </h1>
+      <p class="tagline reveal reveal-delay-2">Implementacion seria, por capas, sin atajos.</p>
+      <p class="subtitle reveal reveal-delay-3">
+        Consultoria e implementacion Odoo para empresas que quieren dejar de remendar procesos y construir un sistema que sostenga su operacion.
+      </p>
     </div>
   </div>
   <div class="scroll-indicator">
-    Explora
+    Baja
     <div class="arrow"></div>
   </div>
 </section>
 
-<!-- STATS BAR -->
-<div class="container">
-  <div class="stats-bar reveal">
-    <div class="stat-item">
-      <div class="stat-number" data-target="9">0</div>
-      <div class="stat-label">Módulos Odoo</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number" data-target="5">0</div>
-      <div class="stat-label">Desarrollos custom</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number" data-target="3">0</div>
-      <div class="stat-label">Pasarelas de pago</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number" data-target="1">0</div>
-      <div class="stat-label">Base de datos</div>
-    </div>
-  </div>
-</div>
-
-<!-- PROBLEM (DARK) -->
-<section class="section-dark parallax-section" id="problema" style="margin-top: 80px;">
+<!-- POR QUE ODOO -->
+<section class="section" id="porque">
   <div class="container">
     <div class="reveal">
-      <p class="section-label">Diagnóstico</p>
-      <h2 class="section-title">Hoy, tres mundos<br>que no se hablan.</h2>
-      <p class="section-subtitle">Tu negocio vive fragmentado en sistemas que no comparten datos, no se sincronizan y generan trabajo doble.</p>
+      <p class="section-label">Por que Odoo</p>
+      <h2 class="section-title">Un solo sistema.<br><span class="accent">Toda la operacion.</span></h2>
     </div>
 
-    <div class="diagram-boxes reveal" id="diagramBoxes" style="position: relative;">
-      <div class="crack-lines" id="crackLines">
-        <div class="crack-line crack-h crack-h-1"></div>
-        <div class="crack-line crack-h crack-h-2"></div>
+    <div class="why-card reveal reveal-delay-1">
+      <h2>Odoo es un ERP modular, todo en uno, escalable.</h2>
+      <p>
+        Reemplaza <strong>multiples sistemas sueltos</strong> (contabilidad, nomina, inventario, ventas, CRM, sitio web) por una sola base de datos donde todo se habla.
+        Software <strong>libre en su base</strong>, con soporte profesional, actualizaciones constantes y una comunidad global detras.
+        Crece contigo: arrancas con lo basico y vas sumando modulos cuando la empresa lo necesita, sin cambiar de plataforma.
+      </p>
+      <div class="why-pills">
+        <span class="why-pill">Modular</span>
+        <span class="why-pill">Todo en uno</span>
+        <span class="why-pill">Escalable</span>
+        <span class="why-pill">Software libre</span>
+        <span class="why-pill">Soporte profesional</span>
+        <span class="why-pill">Comunidad global</span>
       </div>
-      <div class="system-box" id="sysBox1">
-        <div class="sys-icon" style="background: rgba(0,113,227,0.15);">
-          <span style="color:var(--blue);">&#9749;</span>
+    </div>
+  </div>
+</section>
+
+<!-- CAPAS -->
+<section class="section section-alt" id="capas">
+  <div class="container">
+    <div class="reveal section-header-center">
+      <p class="section-label">Metodologia Being CoRe</p>
+      <h2 class="section-title">Las <span class="accent">3 capas</span>.</h2>
+      <p class="section-subtitle">
+        Implementar Odoo no es prender modulos al azar. Es construir en orden.
+        Primero los cimientos, luego la estructura, al final los acabados. Como una casa.
+      </p>
+    </div>
+
+    <div class="layers-wrap">
+      <div class="layer reveal reveal-delay-1">
+        <div class="layer-num">01</div>
+        <div class="layer-body">
+          <h3>Capa Financiera <span class="layer-tag">Cimientos</span></h3>
+          <div class="layer-sub">Contabilidad + Nomina</div>
+          <p>
+            Es la base sobre la que se apoya todo lo demas. Si la contabilidad no cuadra o la nomina tiene errores, no importa que tan bonito sea el resto: el edificio se cae.
+            Aqui empezamos siempre: PUC, terceros, impuestos, conceptos de nomina, seguridad social, DIAN.
+          </p>
         </div>
-        <h3>Sistema Coworking</h3>
+      </div>
+
+      <div class="layer reveal reveal-delay-2">
+        <div class="layer-num">02</div>
+        <div class="layer-body">
+          <h3>Capa Operativa <span class="layer-tag">Estructura</span></h3>
+          <div class="layer-sub">Inventario &middot; Logistica &middot; Manufactura</div>
+          <p>
+            Con los cimientos firmes, levantamos la estructura. Aqui entra inventario multi-bodega, rutas, lotes, trazabilidad, ordenes de produccion, BOMs y planeacion.
+            El flujo fisico de la empresa queda sincronizado con el contable.
+          </p>
+        </div>
+      </div>
+
+      <div class="layer reveal reveal-delay-3">
+        <div class="layer-num">03</div>
+        <div class="layer-body">
+          <h3>Capa Comercial <span class="layer-tag">Acabados</span></h3>
+          <div class="layer-sub">Ventas &middot; POS &middot; Web &middot; CRM</div>
+          <p>
+            Ultimo paso: la cara al cliente. Cotizaciones, ordenes de venta, punto de venta, tienda online, pipeline de CRM.
+            Al apoyarse en capas ya construidas, cada venta impacta inventario y contabilidad en tiempo real, sin trabajo doble.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="section" id="tiers">
+  <div class="container">
+    <div class="reveal section-header-center">
+      <p class="section-label">Nuestros servicios</p>
+      <h2 class="section-title">Los <span class="accent">5 Tiers</span>.</h2>
+      <p class="section-subtitle">
+        Cinco niveles de intervencion. Desde una parametrizacion rapida hasta el acompañamiento mensual continuo.
+      </p>
+    </div>
+
+    <div class="tiers-grid">
+      <div class="tier-card reveal reveal-delay-1">
+        <div class="tier-num">TIER 01</div>
+        <h3>Basica</h3>
+        <div class="tier-sub">Parametrizacion pura</div>
+        <p>
+          Configuracion de Odoo estandar para empresas que tienen sus datos ordenados. Ponemos el sistema a funcionar con lo que viene de fabrica, sin customizaciones.
+        </p>
+        <div class="tier-meta">Arranque rapido &middot; Alcance cerrado</div>
+      </div>
+
+      <div class="tier-card reveal reveal-delay-2">
+        <div class="tier-num">TIER 02</div>
+        <h3>Ajuste y limpieza</h3>
+        <div class="tier-sub">Datos + parametrizacion</div>
+        <p>
+          Para empresas que quieren empezar limpio. Ajustamos la base de datos, normalizamos terceros, cuentas, inventarios, y dejamos todo listo para operar.
+        </p>
+        <div class="tier-meta">Data migration &middot; Normalizacion</div>
+      </div>
+
+      <div class="tier-card reveal reveal-delay-3 featured">
+        <div class="tier-num">TIER 03</div>
+        <h3>Construccion desde cero</h3>
+        <div class="tier-sub">Consultoria completa</div>
+        <p>
+          Acompañamiento integral: diagnosticamos los procesos, diseñamos el modelo operativo y construimos la implementacion capa por capa. El core de Being CoRe.
+        </p>
+        <div class="tier-meta">Consultoria &middot; 3 capas &middot; Formal</div>
+      </div>
+
+      <div class="tier-card reveal reveal-delay-4">
+        <div class="tier-num">TIER 04</div>
+        <h3>Medium</h3>
+        <div class="tier-sub">Implementacion + desarrollo</div>
+        <p>
+          Cuando Odoo estandar no alcanza. Sumamos modulos custom, integraciones con terceros y reportes especificos. Sin adivinar, documentando antes de codear.
+        </p>
+        <div class="tier-meta">Custom dev &middot; Integraciones</div>
+      </div>
+
+      <div class="tier-card reveal reveal-delay-5">
+        <div class="tier-num">TIER 05</div>
+        <h3>Pro</h3>
+        <div class="tier-sub">Suscripcion mensual</div>
+        <p>
+          Acompañamiento continuo. Soporte, mejoras incrementales, nuevos modulos a medida que la empresa crece. Una relacion, no un proyecto puntual.
+        </p>
+        <div class="tier-meta">Mensual &middot; Continuo</div>
+      </div>
+
+      <div class="tier-card reveal reveal-delay-6" style="display:flex; flex-direction:column; align-items:flex-start; justify-content:center; background: transparent; border: 1px dashed rgba(255,255,255,0.15);">
+        <div class="tier-num" style="color: var(--text-tertiary);">ELIGE</div>
+        <h3 style="color: var(--text-secondary); font-weight: 600;">No estas seguro?</h3>
+        <div class="tier-sub" style="color: var(--text-tertiary);">Hablemos</div>
+        <p>
+          En la reunion de descubrimiento identificamos el tier adecuado. No vendemos mas de lo que necesitas.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section class="section section-alt" id="equipo">
+  <div class="container">
+    <div class="reveal section-header-center">
+      <p class="section-label">Quienes somos</p>
+      <h2 class="section-title">Nuestro <span class="accent">equipo</span>.</h2>
+      <p class="section-subtitle">
+        Dos disciplinas complementarias. Lo tecnico de Odoo y el orden empresarial. Una implementacion solida necesita las dos.
+      </p>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-avatar">EQ</div>
+        <h3>Técnico · Comercial Odoo</h3>
+        <div class="team-role">Tecnico &middot; Comercial Odoo</div>
+        <p>
+          Implementacion y desarrollo Odoo. Configuracion de modulos, integraciones, custom dev, carga de datos, DIAN, nomina electronica.
+          Construye el sistema que sostiene la operacion.
+        </p>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-avatar">SS</div>
+        <h3>Consultor · Orden Empresarial</h3>
+        <div class="team-role">Consultor &middot; Orden empresarial</div>
+        <p>
+          Modelo Ser Siendo aplicado a empresas. Jefatura, roles, procesos, comunicacion interna.
+          Ordena la empresa antes y durante la implementacion, para que el sistema no herede el caos.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCLUYE / APARTE -->
+<section class="section" id="incluye">
+  <div class="container">
+    <div class="reveal section-header-center">
+      <p class="section-label">Transparencia</p>
+      <h2 class="section-title">Que incluye, <span class="accent">que no</span>.</h2>
+      <p class="section-subtitle">
+        Sin letra pequeña. Lo que viene dentro de cada implementacion y lo que se cobra aparte, dicho desde el principio.
+      </p>
+    </div>
+
+    <div class="twin-grid">
+      <div class="twin-col included reveal reveal-delay-1">
+        <span class="twin-label">Incluido</span>
+        <h3>Cada implementacion trae</h3>
         <ul>
-          <li>Reservas de espacios.</li>
-          <li>Consumo de café</li>
-          <li>No ve suscripciones.</li>
-          <li>No ve pagos vencidos.</li>
+          <li>Configuracion de modulos segun alcance acordado</li>
+          <li>Carga de datos iniciales cuando vienen listos</li>
+          <li>Capacitacion al usuario clave designado</li>
+          <li>Acompañamiento en la primera operacion real</li>
+          <li>Documentacion formal del sistema entregado</li>
         </ul>
       </div>
-      <div class="system-box" id="sysBox2">
-        <div class="sys-icon" style="background: rgba(232,184,74,0.15);">
-          <span style="color:var(--gold);">&#9733;</span>
-        </div>
-        <h3>Sistema Suscripciones</h3>
+
+      <div class="twin-col aparte reveal reveal-delay-2">
+        <span class="twin-label">Se cobra aparte</span>
+        <h3>Por fuera del alcance</h3>
         <ul>
-          <li>Planes y renovaciónes.</li>
-          <li>Cobros manuales.</li>
-          <li>No ve asistencia real.</li>
-          <li>No ve inventario.</li>
-        </ul>
-      </div>
-      <div class="system-box" id="sysBox3">
-        <div class="sys-icon" style="background: rgba(139,92,246,0.15);">
-          <span style="color:var(--violet);">&#128101;</span>
-        </div>
-        <h3>Sistema Nómina</h3>
-        <ul>
-          <li>Pagos a empleados.</li>
-          <li>Turnos y horarios.</li>
-          <li>No ve ingresos.</li>
-          <li>No reporta a DIAN.</li>
+          <li>Limpieza de datos si no vienen listos</li>
+          <li>Capacitacion adicional mas alla del usuario clave</li>
+          <li>Desarrollos custom (modulos, vistas, reportes)</li>
+          <li>Integraciones con sistemas de terceros</li>
+          <li>Migraciones masivas desde otros sistemas</li>
+          <li>Atencion fuera de horario habil</li>
         </ul>
       </div>
     </div>
-
-    <div class="pain-points reveal">
-      <div class="pain-point reveal reveal-delay-1">
-        <div class="pp-icon">&times;</div>
-        <p>Los datos de un sistema no existen para el otro. Se pierden ventas, se duplican clientes.</p>
-      </div>
-      <div class="pain-point reveal reveal-delay-2">
-        <div class="pp-icon">&times;</div>
-        <p>Los cobros son manuales. No hay trazabilidad ni conciliación automática.</p>
-      </div>
-      <div class="pain-point reveal reveal-delay-3">
-        <div class="pp-icon">&times;</div>
-        <p>Reportar requiere exportar de tres fuentes y cruzar en Excel.</p>
-      </div>
-      <div class="pain-point reveal reveal-delay-4">
-        <div class="pp-icon">&times;</div>
-        <p>Imposible escalar. Cada nuevo servicio es un nuevo sistema que no se integra.</p>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- SOLUTION -->
-<section class="section-light" id="solución">
+<!-- PROCESO -->
+<section class="section section-alt" id="proceso">
   <div class="container">
-    <div class="reveal">
-      <p class="section-label">La solución</p>
-      <h2 class="section-title">Mañana, todo en uno.</h2>
-      <p class="section-subtitle">En Odoo, todo vive en la misma base de datos. Un dato se ingresa una vez y todo el ecosistema lo sabe.</p>
+    <div class="reveal section-header-center">
+      <p class="section-label">Como trabajamos</p>
+      <h2 class="section-title">El <span class="accent">proceso</span>.</h2>
+      <p class="section-subtitle">
+        Seis pasos, en orden. Cada paso se firma antes de pasar al siguiente.
+      </p>
     </div>
 
-    <div class="solution-diagram">
-      <div class="odoo-hub reveal">
-        <h3>Odoo</h3>
-        <p>Una base de datos &mdash; Todos los módulos</p>
+    <div class="timeline">
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-num">PASO 01</div>
+          <h3>Reunion de descubrimiento</h3>
+          <p>Entendemos el negocio, los procesos actuales, los dolores reales y las expectativas. Sin vender todavia.</p>
+        </div>
       </div>
 
-      <div class="connect-grid">
-        <div class="connect-node reveal reveal-delay-1">
-          <div class="cn-check">&#10003;</div>
-          <h4>Suscripciones + Café + Tienda</h4>
-          <p>Ventas unificadas en una sola pantalla.</p>
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-num">PASO 02</div>
+          <h3>Diagnostico por capas</h3>
+          <p>Revisamos el estado actual de la capa financiera, operativa y comercial. Identificamos que capa esta lista y cual hay que construir.</p>
         </div>
-        <div class="connect-node reveal reveal-delay-2">
-          <div class="cn-check">&#10003;</div>
-          <h4>Contabilidad + Nómina</h4>
-          <p>Finanzas, DIAN y cumplimiento legal.</p>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-num">PASO 03</div>
+          <h3>Propuesta con tiers</h3>
+          <p>Presentamos tier recomendado, alcance claro, lo que incluye y lo que no, tiempos y valor.</p>
         </div>
-        <div class="connect-node reveal reveal-delay-3">
-          <div class="cn-check">&#10003;</div>
-          <h4>Inventario + CRM + Dashboards</h4>
-          <p>Operaciónes e inteligencia de negocio</p>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-4">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-num">PASO 04</div>
+          <h3>Aprobacion y contrato</h3>
+          <p>Firma de contrato, designacion del interlocutor unico por parte del cliente, cronograma.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-5">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-num">PASO 05</div>
+          <h3>Implementacion capa por capa</h3>
+          <p>Construimos primero la capa financiera, luego la operativa, al final la comercial. Cada capa se valida antes de pasar a la siguiente.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-6">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-num">PASO 06</div>
+          <h3>Go-live y acompañamiento</h3>
+          <p>Salida en vivo, primera operacion real con nosotros al lado, ajustes finales, documentacion entregada y cierre formal.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MODULES -->
-<section class="section-light" id="módulos" style="background: linear-gradient(180deg, #F5F5F7 0%, var(--bg) 100%);">
+<!-- INTERLOCUTOR -->
+<section class="section" id="interlocutor">
   <div class="container">
-    <div class="reveal">
-      <p class="section-label">Módulos Odoo</p>
-      <h2 class="section-title">9 módulos. Cero fragmentación.</h2>
-      <p class="section-subtitle">Cada área de tu negocio, cubierta por un módulo nativo de Odoo. Haz clic en una tarjeta para ver el detalle.</p>
+    <div class="reveal section-header-center">
+      <p class="section-label">Regla del interlocutor unico</p>
+      <h2 class="section-title">La regla del <span class="accent">tercero</span>.</h2>
     </div>
 
-    <div class="module-grid" id="moduleGrid">
-      <!-- Generated by JS -->
-    </div>
-  </div>
-</section>
-
-<!-- CUSTOM DEV -->
-<section class="section-light" id="custom">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Desarrollos a medida</p>
-      <h2 class="section-title">Hecho a la medida de DOJO.</h2>
-      <p class="section-subtitle">Funcionalidades que no existen en Odoo estándar, diseñadas exclusivamente para tu operación.</p>
-    </div>
-
-    <div class="timeline" id="timeline">
-      <!-- Generated by JS -->
+    <div class="callout reveal reveal-delay-1">
+      <div class="callout-quote">&ldquo;</div>
+      <h3>Una sola voz del lado del cliente. Por escrito. Desde el dia uno.</h3>
+      <p>
+        Las implementaciones fallan cuando cada persona del cliente da una instruccion distinta. Hoy el contador pide una cosa, mañana el gerente pide otra, la semana siguiente entra alguien de otra area y cambia todo.
+      </p>
+      <p>
+        Por eso exigimos algo sencillo: <strong>el cliente designa formalmente a una persona con autoridad</strong> para aprobar decisiones, cambios de alcance y validaciones. Ese interlocutor habla en nombre de la empresa.
+      </p>
+      <p>
+        No es burocracia. Es proteger el proyecto. Si no hay interlocutor unico, no hay proyecto posible.
+      </p>
+      <div class="callout-rule">Designacion formal por escrito &middot; Autoridad real</div>
     </div>
   </div>
 </section>
 
-<!-- INTEGRATIONS (DARK) -->
-<section class="section-integrations" id="pagos">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Integraciónes</p>
-      <h2 class="section-title" style="color:#fff;">Tus socios pagan<br>como quieran.</h2>
-      <p class="section-subtitle">Todo se reconcilia automáticamente en la contabilidad. Cero trabajo manual.</p>
-    </div>
-
-    <div class="payment-cards reveal">
-      <div class="payment-card">
-        <div class="pay-icon" style="background: rgba(0,113,227,0.15);">
-          <span style="color:var(--blue);">W</span>
-        </div>
-        <h3>Wompi</h3>
-        <p>Pasarela de pagos colombiana con soporte nativo en Odoo.</p>
-        <div class="pay-methods">
-          <span>PSE</span>
-          <span>Tarjetas</span>
-          <span>Nequi</span>
-        </div>
-      </div>
-      <div class="payment-card">
-        <div class="pay-icon" style="background: rgba(198,244,50,0.15);">
-          <span style="color:#6B8F00;">A</span>
-        </div>
-        <h3>Addi</h3>
-        <p>Financiación para planes trimestrales y anuales.</p>
-        <div class="pay-methods">
-          <span>Cuotas</span>
-          <span>Aprobación inmediata</span>
-        </div>
-      </div>
-      <div class="payment-card">
-        <div class="pay-icon" style="background: rgba(139,92,246,0.15);">
-          <span style="color:var(--violet);">S</span>
-        </div>
-        <h3>Sistecrédito</h3>
-        <p>Financiación premium para planes de alto valor.</p>
-        <div class="pay-methods">
-          <span>Crédito directo</span>
-          <span>Cuotas flexibles</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="marquee-wrap reveal">
-      <div class="marquee-track" id="marqueeTrack"></div>
-    </div>
-  </div>
-</section>
-
-<!-- BEFORE/AFTER -->
-<section class="section-light" id="comparativa">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Comparativa</p>
-      <h2 class="section-title">El antes y el despues.</h2>
-      <p class="section-subtitle">No solo cambia el software. Cambia cómo operas, cómo decides, cómo creces.</p>
-    </div>
-
-    <div class="ba-grid reveal" id="baGrid">
-      <!-- Generated by JS -->
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-section">
+<!-- CTA / CONTACTO -->
+<section class="cta-section" id="contacto">
   <div class="container">
     <div class="cta-content">
-      <h2 class="reveal">El control de tu<br>negocio, en un<br>solo lugar.</h2>
-      <p class="reveal reveal-delay-1">Agenda una sesión de descubrimiento con nuestro equipo para diseñar tu implementación a medida.</p>
-      <a href="#" class="cta-btn reveal reveal-delay-2">Agendar sesión de descubrimiento</a>
-      <div class="cta-brand reveal reveal-delay-3">BEING CoRE</div>
+      <h2 class="reveal">Hablemos del orden<br>que tu empresa necesita.</h2>
+      <p class="reveal reveal-delay-1">
+        Agenda una reunion de descubrimiento. Sin compromiso. Te decimos con honestidad si Odoo te sirve o no.
+      </p>
+      <div class="cta-buttons reveal reveal-delay-2">
+        <a href="mailto:contacto@beingcore.co" class="cta-btn">
+          <span class="btn-icon">&#9993;</span>
+          Agendar reunion
+        </a>
+      </div>
+      <div class="cta-brand reveal reveal-delay-3">
+        Being CoRe &middot; Implementacion Odoo
+        <em>Construir en orden para no romper la palabra.</em>
+      </div>
     </div>
   </div>
 </section>
@@ -1303,228 +1333,54 @@
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
-    <p>Being CoRE &mdash; Propuesta DOJO Gym &mdash; Abril 2026</p>
+    <p>&copy; Being CoRe &middot; 2026</p>
   </div>
 </footer>
 
 <script>
-// ---- DATA ----
-const modules = [
-  { num: '01', title: 'Suscripciones', desc: 'Planes mensuales, trimestrales y anuales. Renovaciónes, pausas, upsell y control de acceso por zona.', detail: 'Reglas de renovación automática, notificaciones por WhatsApp antes del vencimiento, upsell inteligente basado en uso. Dashboard de churn rate y lifetime value.', icon: '&#9733;', color: 'var(--gold)', bg: 'rgba(232,184,74,0.08)', glow: 'rgba(232,184,74,0.2)' },
-  { num: '02', title: 'POS Café', desc: 'Punto de venta para café, proteinas y bowls. Descuentos automáticos para socios.', detail: 'Inventario en tiempo real del café. Descuento automático si el cliente es socio activo. Reportes de productos mas vendidos por franja horaria.', icon: '&#9749;', color: 'var(--blue)', bg: 'rgba(0,113,227,0.08)', glow: 'rgba(0,113,227,0.2)' },
-  { num: '03', title: 'POS Tienda Retail', desc: 'Ropa deportiva, accesorios y suplementos. Variantes de talla y color.', detail: 'Gestion de variantes (talla, color), alertas de stock bajo, codigo de barras. Mismo sistema, misma caja, misma base de datos que el café.', icon: '&#128722;', color: 'var(--violet)', bg: 'rgba(139,92,246,0.08)', glow: 'rgba(139,92,246,0.2)' },
-  { num: '04', title: 'Contabilidad Colombia', desc: 'Facturación electrónica DIAN, impuestos automáticos, plan de cuentas PUC.', detail: 'Reportes fiscales colombianos (IVA, retencion, ICA). Facturación electrónica directa a DIAN. Conciliacion bancaria automática con extractos.', icon: '&#128200;', color: 'var(--green)', bg: 'rgba(52,199,89,0.08)', glow: 'rgba(52,199,89,0.2)' },
-  { num: '05', title: 'Nómina Electrónica', desc: 'Entrenadores, recepcion, spa. Nómina electrónica DIAN.', detail: 'Ley 2466/2025 aplicada. Calculo automático de prestaciones, seguridad social, horas extras. Envio a DIAN con un clic.', icon: '&#128101;', color: 'var(--orange)', bg: 'rgba(255,149,0,0.08)', glow: 'rgba(255,149,0,0.2)' },
-  { num: '06', title: 'Inventario Unificado', desc: 'Café, tienda, consumibles spa. Stock en tiempo real.', detail: 'Alertas de reabastecimiento, reglas de reorden, trazabilidad por lote. Un solo inventario para todas las unidades de negocio.', icon: '&#128230;', color: '#00C7BE', bg: 'rgba(0,199,190,0.08)', glow: 'rgba(0,199,190,0.2)' },
-  { num: '07', title: 'CRM Socios', desc: 'Leads, tours programados, conversion, lifetime value por socio.', detail: 'Pipeline de ventas: tour agendado > prueba gratis > cierre. WhatsApp integrado. Segmentacion por plan, antiguedad y valor.', icon: '&#128172;', color: 'var(--blue)', bg: 'rgba(0,113,227,0.08)', glow: 'rgba(0,113,227,0.2)' },
-  { num: '08', title: 'Dashboards', desc: 'KPIs en tiempo real: ingresos, asistencia, renovaciónes, mora.', detail: 'Tableros ejecutivos con graficas interactivas. Filtros por periodo, zona, plan. Exportacion a PDF con un clic para juntas directivas.', icon: '&#128202;', color: 'var(--violet)', bg: 'rgba(139,92,246,0.08)', glow: 'rgba(139,92,246,0.2)' },
-  { num: '09', title: 'Mantenimiento', desc: 'Equipos de gimnasio, criogenica, spa. Calendarios preventivos.', detail: 'Ordenes de mantenimiento preventivo y correctivo. Historial de cada equipo. Alertas automáticas cuando toca revision.', icon: '&#128295;', color: 'var(--gold)', bg: 'rgba(232,184,74,0.08)', glow: 'rgba(232,184,74,0.2)' },
-];
+  // ---- REVEAL ON SCROLL ----
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 
-const customs = [
-  { num: 'C.01', title: 'Lector de asistencia inteligente', body: 'Identificacion por huella, QR o reconocimiento facial. Valida plan activo, zona autorizada y estado de pago. Si el socio tiene mora, cobra automáticamente o bloquea acceso segun politica.' },
-  { num: 'C.02', title: 'Control de acceso por zona', body: 'Plan Black accede a todas las zonas. Plan Essential solo al area principal. Los torniquetes validan en tiempo real contra la base de datos de Odoo, sin latencia.' },
-  { num: 'C.03', title: 'Portal del socio', body: 'Web y app: plan activo, historial de pagos, asistencia, reservas de clases, compras en el café. El socio gestiona todo sin llamar a recepcion.' },
-  { num: 'C.04', title: 'Motor de renovación automática', body: 'Recordatorio via WhatsApp 7 dias antes. Cobro automático el dia de vencimiento. Reintento a las 24h y 72h. Si falla, alerta al asesor comercial para gestion manual.' },
-  { num: 'C.05', title: 'Dashboard ejecutivo movil', body: 'KPIs clave en el celular: ingresos del dia, socios activos, mora, ocupacion por zona. Abrir, ver, decidir.' },
-];
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-const marqueeItems = [
-  { label: 'DIAN', color: 'var(--blue)' },
-  { label: 'Nómina Electrónica', color: 'var(--violet)' },
-  { label: 'Facturación Electrónica', color: 'var(--green)' },
-  { label: 'WhatsApp Business', color: '#25D366' },
-  { label: 'Wompi', color: 'var(--blue)' },
-  { label: 'Addi', color: 'var(--gold)' },
-  { label: 'Sistecrédito', color: 'var(--violet)' },
-  { label: 'Google Calendar', color: 'var(--red)' },
-  { label: 'Control de Acceso', color: 'var(--lime)' },
-  { label: 'Biometria', color: 'var(--orange)' },
-];
+  // ---- NAV SCROLL ----
+  const navbar = document.getElementById('navbar');
+  const sections = document.querySelectorAll('section[id]');
+  const navPills = document.querySelectorAll('.nav-pill');
 
-const comparisons = [
-  ['3 sistemas aislados', 'Una sola base de datos'],
-  ['Cobros manuales.', 'Cobros automáticos via Wompi/Addi'],
-  ['No saben que plan renta mas', 'Rentabilidad por plan en tiempo real'],
-  ['Inventario sin conexión', 'Inventario unificado con alertas'],
-  ['Asistencia no valida mora', 'Lector inteligente conectado a cobros'],
-  ['Cualquiera entra a cualquier zona', 'Control de acceso por zona y plan'],
-  ['Nómina aislada', 'Nómina electrónica DIAN integrada'],
-  ['Reportes manuales en Excel', 'Dashboards listos, un click'],
-];
-
-// ---- RENDER MODULE CARDS ----
-const grid = document.getElementById('moduleGrid');
-modules.forEach((m, i) => {
-  const card = document.createElement('div');
-  card.className = 'module-card reveal reveal-delay-' + Math.min((i % 3) + 1, 3);
-  card.innerHTML = `
-    <div class="glow" style="background:${m.glow};"></div>
-    <div class="card-num">${m.num}</div>
-    <div class="card-icon" style="background:${m.bg};"><span style="color:${m.color};">${m.icon}</span></div>
-    <h3>${m.title}</h3>
-    <div class="card-desc">${m.desc}</div>
-    <div class="card-detail"><div class="card-detail-inner">${m.detail}</div></div>
-    <div class="expand-hint">Ver mas</div>
-  `;
-  // 3D tilt + glow
-  card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / centerY * -6;
-    const rotateY = (x - centerX) / centerX * 6;
-    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-    const glow = card.querySelector('.glow');
-    glow.style.left = x + 'px';
-    glow.style.top = y + 'px';
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
-  card.addEventListener('click', () => {
-    card.classList.toggle('expanded');
-  });
-  grid.appendChild(card);
-});
-
-// ---- RENDER TIMELINE ----
-const timeline = document.getElementById('timeline');
-customs.forEach((c, i) => {
-  const item = document.createElement('div');
-  item.className = 'timeline-item reveal reveal-delay-' + Math.min(i + 1, 5);
-  item.innerHTML = `
-    <div class="timeline-dot" style="background: ${i % 2 === 0 ? 'var(--violet)' : 'var(--blue)'}"></div>
-    <div class="timeline-content">
-      <div class="timeline-num">${c.num}</div>
-      <h3>${c.title}</h3>
-      <p>${c.body}</p>
-    </div>
-  `;
-  timeline.appendChild(item);
-});
-
-// ---- RENDER MARQUEE ----
-const track = document.getElementById('marqueeTrack');
-const itemsHTML = marqueeItems.map(m => `<div class="marquee-item"><span class="m-dot" style="background:${m.color};"></span>${m.label}</div>`).join('');
-track.innerHTML = itemsHTML + itemsHTML;
-
-// ---- RENDER BEFORE/AFTER ----
-const baGrid = document.getElementById('baGrid');
-baGrid.innerHTML = `
-  <div class="ba-header today-h">&times; Hoy</div>
-  <div class="ba-header odoo-h">&#10003; Con Odoo</div>
-`;
-comparisons.forEach(([today, odoo], i) => {
-  baGrid.innerHTML += `
-    <div class="ba-cell today" data-ba="${i}"><span class="ba-icon">&times;</span>${today}</div>
-    <div class="ba-cell odoo" data-ba="${i}"><span class="ba-icon">&#10003;</span>${odoo}</div>
-  `;
-});
-
-// ---- INTERSECTION OBSERVER ----
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-// ---- ANIMATED COUNTERS ----
-let countersAnimated = false;
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !countersAnimated) {
-      countersAnimated = true;
-      document.querySelectorAll('.stat-number').forEach(el => {
-        const target = parseInt(el.dataset.target);
-        const duration = 1500;
-        const start = performance.now();
-        const animate = (now) => {
-          const elapsed = now - start;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(eased * target);
-          if (progress < 1) requestAnimationFrame(animate);
-        };
-        requestAnimationFrame(animate);
-      });
-    }
-  });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('.stats-bar').forEach(el => counterObserver.observe(el));
-
-// ---- DIAGRAM DRIFT ANIMATION ----
-const diagramObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        document.querySelectorAll('.system-box').forEach(box => box.classList.add('drifted'));
-        document.querySelectorAll('.crack-line').forEach(line => line.classList.add('active'));
-      }, 600);
-    }
-  });
-}, { threshold: 0.3 });
-
-const diagramBoxes = document.getElementById('diagramBoxes');
-if (diagramBoxes) diagramObserver.observe(diagramBoxes);
-
-// ---- BEFORE/AFTER TRANSFORM ON SCROLL ----
-const baObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const cells = entry.target.querySelectorAll('.ba-cell.odoo');
-      cells.forEach((cell, i) => {
-        setTimeout(() => {
-          cell.classList.add('transformed');
-        }, i * 120);
-      });
-    }
-  });
-}, { threshold: 0.2 });
-
-const baGridEl = document.getElementById('baGrid');
-if (baGridEl) baObserver.observe(baGridEl);
-
-// ---- NAV SCROLL ----
-const navbar = document.getElementById('navbar');
-const sections = document.querySelectorAll('section[id]');
-const navPills = document.querySelectorAll('.nav-pill');
-
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-
-  let current = '';
-  sections.forEach(s => {
-    const top = s.offsetTop - 150;
-    if (window.scrollY >= top) current = s.getAttribute('id');
-  });
-  navPills.forEach(p => {
-    p.classList.remove('active');
-    if (p.getAttribute('href') === '#' + current) p.classList.add('active');
-  });
-}, { passive: true });
-
-// ---- PARALLAX (disabled on mobile) ----
-if (window.innerWidth > 700) {
   window.addEventListener('scroll', () => {
-    requestAnimationFrame(() => {
-      const scrollY = window.scrollY;
-      document.querySelectorAll('.hero-bg .shape').forEach((shape, i) => {
-        const speed = 0.03 + i * 0.015;
-        shape.style.transform += ''; // ensure no conflict
-        const baseTransforms = ['', '', 'translate(-50%, -50%)'];
-        shape.style.transform = baseTransforms[i] + ` translateY(${scrollY * speed}px)`;
-      });
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+
+    let current = '';
+    sections.forEach(s => {
+      const top = s.offsetTop - 150;
+      if (window.scrollY >= top) current = s.getAttribute('id');
+    });
+    navPills.forEach(p => {
+      p.classList.remove('active');
+      if (p.getAttribute('href') === '#' + current) p.classList.add('active');
     });
   }, { passive: true });
-}
+
+  // ---- PARALLAX HERO (desktop only) ----
+  if (window.innerWidth > 700) {
+    window.addEventListener('scroll', () => {
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        document.querySelectorAll('.hero-bg .shape').forEach((shape, i) => {
+          const speed = 0.03 + i * 0.015;
+          const baseTransforms = ['', '', 'translate(-50%, -50%)'];
+          shape.style.transform = baseTransforms[i] + ` translateY(${scrollY * speed}px)`;
+        });
+      });
+    }, { passive: true });
+  }
 </script>
 
 </body>
