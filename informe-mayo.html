@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe DOJO · Enero–Mayo 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #FAFAFA; --bg-end: #F0F0F5; --surface: #FFFFFF; --text: #1D1D1F;
+  --text-secondary: #86868B; --text-tertiary: #AEAEB2;
+  --blue: #0071E3; --green: #34C759; --red: #FF3B30; --orange: #FF9500;
+  --gold: #E8B84A; --lime: #C6F432; --violet: #8B5CF6;
+  --border-subtle: rgba(0,0,0,0.06);
+  --shadow: 0 2px 12px rgba(0,0,0,0.04);
+  --shadow-hover: 0 8px 40px rgba(0,0,0,0.12);
+  --radius: 20px;
+  --font: 'Inter', -apple-system, system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; width: 100%; }
+canvas { max-width: 100% !important; }
+body {
+  font-family: var(--font);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-end) 100%);
+  color: var(--text); line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1080px; padding: 0 24px; margin: 0 auto; }
+.hero { padding: 80px 0 40px; text-align: center; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  background: rgba(255,255,255,0.65); backdrop-filter: blur(10px);
+  padding: 10px 22px; border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.18); margin-bottom: 28px;
+  letter-spacing: 0.02em;
+}
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); }
+.hero h1 {
+  font-size: clamp(40px, 7vw, 72px); font-weight: 900;
+  letter-spacing: -0.04em; line-height: 1.0; margin-bottom: 18px;
+}
+.hero p {
+  font-size: clamp(16px, 2vw, 20px); color: var(--text-secondary);
+  max-width: 620px; margin: 0 auto;
+}
+.kpi-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  margin: 56px 0;
+}
+.kpi-row .card {
+  background: var(--surface); padding: 24px; border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.kpi-row .kpi-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--text-tertiary); margin-bottom: 8px;
+}
+.kpi-row .kpi-val { font-size: 38px; font-weight: 800; letter-spacing: -0.02em; }
+.kpi-row .kpi-sub { font-size: 12px; color: var(--text-secondary); margin-top: 6px; }
+.chart-card {
+  background: var(--surface); border-radius: var(--radius); padding: 32px;
+  box-shadow: var(--shadow); margin: 24px 0;
+}
+.chart-card h3 {
+  font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--text-secondary); margin-bottom: 24px; font-weight: 600;
+}
+.tendencia-card table { width: 100%; }
+.month-section {
+  padding: 64px 0 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+.month-section:first-of-type { border-top: none; }
+.month-title {
+  font-size: clamp(32px, 5vw, 48px); font-weight: 800;
+  letter-spacing: -0.03em; margin-bottom: 32px;
+}
+.grid-2 {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 16px; margin-bottom: 16px;
+}
+@media (max-width: 720px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
+.card {
+  background: var(--surface); border-radius: var(--radius);
+  padding: 24px; box-shadow: var(--shadow); overflow: hidden;
+}
+.kpi-card { text-align: left; }
+.kpi-card .kpi-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--text-tertiary); font-weight: 600;
+}
+.kpi-card .kpi-value {
+  font-size: 56px; font-weight: 900; letter-spacing: -0.03em;
+  line-height: 1.0; margin-top: 8px;
+}
+.kpi-ent .kpi-value { color: var(--blue); }
+.kpi-yog .kpi-value { color: var(--violet); }
+.kpi-card .kpi-sub { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
+.kpi-card .kpi-trend {
+  font-size: 13px; font-weight: 600; margin-top: 16px;
+  padding: 6px 12px; border-radius: 100px; display: inline-block;
+}
+.kpi-card .kpi-trend.pos { background: rgba(52,199,89,0.1); color: var(--green); }
+.kpi-card .kpi-trend.neg { background: rgba(255,59,48,0.1); color: var(--red); }
+.kpi-card .kpi-extra { font-size: 12px; color: var(--text-tertiary); margin-top: 10px; }
+.section-h {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--text-secondary); margin-bottom: 16px; font-weight: 600;
+}
+.tbl {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+.tbl th, .tbl td {
+  padding: 8px 6px; border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+}
+.tbl thead th {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-tertiary); font-weight: 600;
+}
+.tbl tfoot th {
+  font-size: 12px; font-weight: 700; border-top: 2px solid var(--text);
+}
+.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
+.muted { color: var(--text-tertiary); }
+.revenue-card { text-align: center; padding: 40px; }
+.revenue-total {
+  font-size: 56px; font-weight: 900; letter-spacing: -0.03em;
+  color: var(--green); margin: 12px 0;
+}
+.revenue-sub { color: var(--text-secondary); font-size: 14px; }
+.footer {
+  text-align: center; padding: 60px 0; color: var(--text-tertiary);
+  font-size: 12px; border-top: 1px solid var(--border-subtle);
+  margin-top: 48px;
+}
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(250,250,250,0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 16px 0; margin-bottom: -1px;
+}
+.nav-inner {
+  max-width: 1080px; margin: 0 auto; padding: 0 24px;
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+}
+.nav a {
+  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  text-decoration: none; padding: 6px 14px; border-radius: 100px;
+}
+.nav a:hover { background: rgba(0,0,0,0.05); color: var(--text); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#resumen">Resumen</a>
+    <a href="#tendencia">Tendencia</a>
+    <a href="#enero-2026">Enero</a>
+    <a href="#febrero-2026">Febrero</a>
+    <a href="#marzo-2026">Marzo</a>
+    <a href="#abril-2026">Abril</a>
+    <a href="#mayo-2026">Mayo</a>
+  </div>
+</nav>
+
+<section class="hero" id="resumen">
+  <div class="container">
+    <div class="hero-badge"><span class="badge-dot"></span> DOJO · BEING CoRE · Enero–Mayo 2026</div>
+    <h1>Informe operativo<br>5 meses · 2026</h1>
+    <p>Membresía, ventas y retención mes a mes. Cortes al cierre de cada mes.</p>
+  </div>
+</section>
+
+<div class="container">
+  <div class="kpi-row">
+    <div class="card">
+      <div class="kpi-label">Activos Ene</div>
+      <div class="kpi-val">102</div>
+      <div class="kpi-sub">82 ent · 20 yoga</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Activos May</div>
+      <div class="kpi-val">81</div>
+      <div class="kpi-sub">64 ent · 17 yoga</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Ventas $ Total</div>
+      <div class="kpi-val">$111.548.600</div>
+      <div class="kpi-sub">5 meses</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Nuevos · Recompra</div>
+      <div class="kpi-val">187 · 469</div>
+      <div class="kpi-sub">acumulado 5 meses</div>
+    </div>
+  </div>
+
+  <div class="chart-card" id="tendencia">
+    <h3>Tendencia mensual de activos</h3>
+    <canvas id="chartActivos" height="100"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h3>Ventas $ por mes</h3>
+    <canvas id="chartVentas" height="100"></canvas>
+  </div>
+
+  <div class="card">
+    <h3 class="section-h">Tabla mes a mes</h3>
+    <table class="tbl">
+      <thead><tr><th>Mes</th><th class="num">Activos</th><th class="num">Nuevos</th><th class="num">Bajas (no renov.)</th><th class="num">Recompra (estim.)</th></tr></thead>
+      <tbody><tr><td>Enero</td><td class="num">102</td><td class="num">51</td><td class="num">10</td><td class="num">61</td></tr>
+<tr><td>Febrero</td><td class="num">95</td><td class="num">26</td><td class="num">21</td><td class="num">90</td></tr>
+<tr><td>Marzo</td><td class="num">90</td><td class="num">18</td><td class="num">16</td><td class="num">88</td></tr>
+<tr><td>Abril</td><td class="num">87</td><td class="num">49</td><td class="num">13</td><td class="num">51</td></tr>
+<tr><td>Mayo</td><td class="num">81</td><td class="num">43</td><td class="num">23</td><td class="num">61</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+
+<section class="month-section" id="enero-2026">
+  <div class="container">
+    <h2 class="month-title">Enero 2026</h2>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-ent">
+        <div class="kpi-label">Entrenamiento</div>
+        <div class="kpi-value">82</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend pos">vs mes anterior: +57.7%</div>
+        <div class="kpi-extra">+ 2 compensatorios</div>
+      </div>
+      <div class="card kpi-card kpi-yog">
+        <div class="kpi-label">Yoga</div>
+        <div class="kpi-value">20</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend pos">vs mes anterior: +81.8%</div>
+        <div class="kpi-extra">+ 0 compensatorios</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Entrenamiento</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>PLAN YU</td><td class="num">43</td><td class="num">52.4%</td></tr>
+<tr><td>PLAN CHU</td><td class="num">17</td><td class="num">20.7%</td></tr>
+<tr><td>PLAN GI</td><td class="num">12</td><td class="num">14.6%</td></tr>
+<tr><td>PLAN REI</td><td class="num">8</td><td class="num">9.8%</td></tr>
+<tr><td>SOUSHIN</td><td class="num">2</td><td class="num">2.4%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">82</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Yoga</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>YOGA X4</td><td class="num">8</td><td class="num">40.0%</td></tr>
+<tr><td>YOGA X8</td><td class="num">5</td><td class="num">25.0%</td></tr>
+<tr><td>YOGA 24+6</td><td class="num">4</td><td class="num">20.0%</td></tr>
+<tr><td>YOGA X24</td><td class="num">3</td><td class="num">15.0%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">20</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">30</td><td class="num">10</td><td class="num">40</td><td class="num">$0</td></tr>
+<tr><td>PLAN YU</td><td class="num">2</td><td class="num">20</td><td class="num">22</td><td class="num">$17.556.000</td></tr>
+<tr><td>TIQUETERA X1</td><td class="num">1</td><td class="num">9</td><td class="num">10</td><td class="num">$300.000</td></tr>
+<tr><td>PLAN REI</td><td class="num">1</td><td class="num">7</td><td class="num">8</td><td class="num">$2.579.200</td></tr>
+<tr><td>PLAN CHU</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$9.594.000</td></tr>
+<tr><td>PLAN GI</td><td class="num">1</td><td class="num">4</td><td class="num">5</td><td class="num">$7.500.000</td></tr>
+<tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$770.000</td></tr>
+<tr><td>TIQUETERA X14</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$1.008.000</td></tr>
+<tr><td>CORTESIA X15</td><td class="num">0</td><td class="num">3</td><td class="num">3</td><td class="num">$0</td></tr>
+<tr><td>SOUSHIN</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$540.000</td></tr>
+<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$0</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas Yoga (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">14</td><td class="num">14</td><td class="num">$280.000</td></tr>
+<tr><td>CORTESIA YOGA</td><td class="num">9</td><td class="num">4</td><td class="num">13</td><td class="num">$0</td></tr>
+<tr><td>YOGA X4</td><td class="num">1</td><td class="num">7</td><td class="num">8</td><td class="num">$1.120.000</td></tr>
+<tr><td>YOGA X1 FULL</td><td class="num">5</td><td class="num">2</td><td class="num">7</td><td class="num">$280.000</td></tr>
+<tr><td>YOGA X8</td><td class="num">1</td><td class="num">4</td><td class="num">5</td><td class="num">$1.200.000</td></tr>
+<tr><td>YOGA X24</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$1.300.000</td></tr>
+<tr><td>ENTRENO US YOGA</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$20.000</td></tr>
+<tr><td>YOGA 24+6</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$650.000</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">No renovaron — Entrenamiento (5)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>JESSICA MACIAS GOMEZ</td><td>PLAN CHU</td></tr>
+<tr><td>LUISA HOYOS</td><td>PLAN REI</td></tr>
+<tr><td>ALEJANDRO  PIEDRAHITA</td><td>PLAN YU</td></tr>
+<tr><td>JUAN FELIPE  VILLA MANRIQUE</td><td>PLAN REI</td></tr>
+<tr><td>CHRISTIAN DUQUE</td><td>PLAN CHU</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">No renovaron — Yoga (5)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>CAMILO GOMEZ</td><td>YOGA X8</td></tr>
+<tr><td>DANIEL CAMILO RIVERA MUÑOZ</td><td>YOGA X8</td></tr>
+<tr><td>RICHARD HOUANCHE</td><td>YOGA X8</td></tr>
+<tr><td>ERNESTO NARVAEZ</td><td>YOGA X8</td></tr>
+<tr><td>DANIEL JARAMILLO</td><td>YOGA X4</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Compensatorios / Cortesías (2)</h3>
+      <table class="tbl">
+        <thead><tr><th>Cliente</th><th>Plan</th></tr></thead>
+        <tbody><tr><td>FLOR SANCHEZ</td><td>CORTESIA ENTRENAMIENTO</td></tr>
+<tr><td>ANDRES  LALINDE</td><td>CORTESIA X30</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card revenue-card">
+      <h3 class="section-h">Resumen $</h3>
+      <div class="revenue-total">$44.697.200</div>
+      <div class="revenue-sub">Total ventas en Enero 2026</div>
+    </div>
+  </div>
+</section>
+
+
+<section class="month-section" id="febrero-2026">
+  <div class="container">
+    <h2 class="month-title">Febrero 2026</h2>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-ent">
+        <div class="kpi-label">Entrenamiento</div>
+        <div class="kpi-value">82</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend pos">vs mes anterior: +0.0%</div>
+        <div class="kpi-extra">+ 3 compensatorios</div>
+      </div>
+      <div class="card kpi-card kpi-yog">
+        <div class="kpi-label">Yoga</div>
+        <div class="kpi-value">13</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend neg">vs mes anterior: -35.0%</div>
+        <div class="kpi-extra">+ 0 compensatorios</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Entrenamiento</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>PLAN YU</td><td class="num">38</td><td class="num">46.3%</td></tr>
+<tr><td>PLAN GI</td><td class="num">19</td><td class="num">23.2%</td></tr>
+<tr><td>PLAN CHU</td><td class="num">16</td><td class="num">19.5%</td></tr>
+<tr><td>PLAN REI</td><td class="num">7</td><td class="num">8.5%</td></tr>
+<tr><td>SOUSHIN</td><td class="num">2</td><td class="num">2.4%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">82</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Yoga</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>YOGA X24</td><td class="num">4</td><td class="num">30.8%</td></tr>
+<tr><td>YOGA X4</td><td class="num">4</td><td class="num">30.8%</td></tr>
+<tr><td>YOGA X8</td><td class="num">4</td><td class="num">30.8%</td></tr>
+<tr><td>YOGA 24+6</td><td class="num">1</td><td class="num">7.7%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">13</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">16</td><td class="num">15</td><td class="num">31</td><td class="num">$0</td></tr>
+<tr><td>PLAN GI</td><td class="num">0</td><td class="num">8</td><td class="num">8</td><td class="num">$12.000.000</td></tr>
+<tr><td>TIQUETERA X1</td><td class="num">3</td><td class="num">5</td><td class="num">8</td><td class="num">$240.000</td></tr>
+<tr><td>PLAN REI</td><td class="num">0</td><td class="num">7</td><td class="num">7</td><td class="num">$2.348.800</td></tr>
+<tr><td>PLAN YU</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$4.200.000</td></tr>
+<tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$770.000</td></tr>
+<tr><td>CORTESIA X15</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
+<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
+<tr><td>PLAN CHU</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$4.680.000</td></tr>
+<tr><td>SOUSHIN</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$540.000</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas Yoga (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">13</td><td class="num">13</td><td class="num">$260.000</td></tr>
+<tr><td>CORTESIA YOGA</td><td class="num">5</td><td class="num">3</td><td class="num">8</td><td class="num">$0</td></tr>
+<tr><td>YOGA X4</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">$560.000</td></tr>
+<tr><td>YOGA X8</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">$960.000</td></tr>
+<tr><td>YOGA X1 FULL</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$40.000</td></tr>
+<tr><td>YOGA X24</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$650.000</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">No renovaron — Entrenamiento (10)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>MIGUEL SANTIAGO CORREA GARCIA</td><td>PLAN REI</td></tr>
+<tr><td>CAMILO ANDRES  SOTO ARISTIZABAL</td><td>SOUSHIN</td></tr>
+<tr><td>ANTON SIEDLITZHI</td><td>PLAN REI</td></tr>
+<tr><td>YENIFER PEREZ SIERRA</td><td>SOUSHIN</td></tr>
+<tr><td>ELISA VELASQUEZ</td><td>PLAN CHU</td></tr>
+<tr><td>PAULA MAZO CORTES</td><td>PLAN YU</td></tr>
+<tr><td>LINA  GUISAO</td><td>PLAN CHU</td></tr>
+<tr><td>NATALIA  MENDEZ</td><td>PLAN YU</td></tr>
+<tr><td>SARA SIERRA VELEZ</td><td>PLAN REI</td></tr>
+<tr><td>CLAUDIA LORENA MUNOZ ARISTIZABAL</td><td>PLAN REI</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">No renovaron — Yoga (11)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>JUAN CAMILO ALZATE</td><td>YOGA X4</td></tr>
+<tr><td>COPPELIA HERRAN</td><td>YOGA X8</td></tr>
+<tr><td>ANA MARIA CORREA LOPERA</td><td>YOGA X8</td></tr>
+<tr><td>KAORY BARRIENTOS</td><td>YOGA 24+6</td></tr>
+<tr><td>CATALINA OCAMPO</td><td>YOGA X4</td></tr>
+<tr><td>PAULA ANDREA QUINTERO OLAYA</td><td>YOGA X4</td></tr>
+<tr><td>SAYUMI KASANO</td><td>YOGA X8</td></tr>
+<tr><td>DAVID JOSE SANCHEZ</td><td>YOGA X8</td></tr>
+<tr><td>JUAN FELIPE SOTO</td><td>YOGA X4</td></tr>
+<tr><td>BEATRIZ MARTINEZ MONTOYA</td><td>YOGA X8</td></tr>
+<tr><td>ANA MILENA GONZALEZ JARAMILLO</td><td>YOGA X4</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Compensatorios / Cortesías (3)</h3>
+      <table class="tbl">
+        <thead><tr><th>Cliente</th><th>Plan</th></tr></thead>
+        <tbody><tr><td>ELISA VELASQUEZ</td><td>CORTESIA X15</td></tr>
+<tr><td>NATALIA  MENDEZ</td><td>CORTESIA X30</td></tr>
+<tr><td>LINA  GUISAO</td><td>CORTESIA X30</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card revenue-card">
+      <h3 class="section-h">Resumen $</h3>
+      <div class="revenue-total">$27.248.800</div>
+      <div class="revenue-sub">Total ventas en Febrero 2026</div>
+    </div>
+  </div>
+</section>
+
+
+<section class="month-section" id="marzo-2026">
+  <div class="container">
+    <h2 class="month-title">Marzo 2026</h2>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-ent">
+        <div class="kpi-label">Entrenamiento</div>
+        <div class="kpi-value">75</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend neg">vs mes anterior: -8.5%</div>
+        <div class="kpi-extra">+ 3 compensatorios</div>
+      </div>
+      <div class="card kpi-card kpi-yog">
+        <div class="kpi-label">Yoga</div>
+        <div class="kpi-value">15</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend pos">vs mes anterior: +15.4%</div>
+        <div class="kpi-extra">+ 0 compensatorios</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Entrenamiento</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>PLAN YU</td><td class="num">34</td><td class="num">45.3%</td></tr>
+<tr><td>PLAN GI</td><td class="num">19</td><td class="num">25.3%</td></tr>
+<tr><td>PLAN CHU</td><td class="num">15</td><td class="num">20.0%</td></tr>
+<tr><td>PLAN REI</td><td class="num">5</td><td class="num">6.7%</td></tr>
+<tr><td>SOUSHIN</td><td class="num">2</td><td class="num">2.7%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">75</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Yoga</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>YOGA X8</td><td class="num">5</td><td class="num">33.3%</td></tr>
+<tr><td>YOGA X4</td><td class="num">4</td><td class="num">26.7%</td></tr>
+<tr><td>YOGA 24+6</td><td class="num">3</td><td class="num">20.0%</td></tr>
+<tr><td>YOGA X24</td><td class="num">3</td><td class="num">20.0%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">15</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">13</td><td class="num">13</td><td class="num">26</td><td class="num">$0</td></tr>
+<tr><td>TIQUETERA X1</td><td class="num">3</td><td class="num">11</td><td class="num">14</td><td class="num">$420.000</td></tr>
+<tr><td>PLAN YU</td><td class="num">0</td><td class="num">7</td><td class="num">7</td><td class="num">$5.796.000</td></tr>
+<tr><td>PLAN REI</td><td class="num">2</td><td class="num">3</td><td class="num">5</td><td class="num">$1.544.000</td></tr>
+<tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$770.000</td></tr>
+<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
+<tr><td>SOUSHIN</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$540.000</td></tr>
+<tr><td>CORTESIA X15</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$0</td></tr>
+<tr><td>PLAN GI</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$1.350.600</td></tr>
+<tr><td>TIQUETERA X14</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$252.000</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas Yoga (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">22</td><td class="num">22</td><td class="num">$480.000</td></tr>
+<tr><td>CORTESIA YOGA</td><td class="num">0</td><td class="num">10</td><td class="num">10</td><td class="num">$0</td></tr>
+<tr><td>YOGA X8</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$1.200.000</td></tr>
+<tr><td>YOGA X4</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$560.000</td></tr>
+<tr><td>YOGA 24+6</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$1.300.000</td></tr>
+<tr><td>YOGA X1 FULL</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$40.000</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">No renovaron — Entrenamiento (12)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>VANESSA ARDILA</td><td>PLAN REI</td></tr>
+<tr><td>LUISA HOYOS</td><td>PLAN REI</td></tr>
+<tr><td>JHEISER SANABRIA</td><td>PLAN YU</td></tr>
+<tr><td>ALEJANDRA SERNA CASTAÑO</td><td>PLAN YU</td></tr>
+<tr><td>KATERINE  VILLARREAL</td><td>PLAN YU</td></tr>
+<tr><td>CARINA  HERNANDEZ</td><td>PLAN REI</td></tr>
+<tr><td>STEFANIE SEYEDMEHDI</td><td>PLAN YU</td></tr>
+<tr><td>SUSANA ARROYAVE</td><td>PLAN REI</td></tr>
+<tr><td>ANDRÉS VALENCIA</td><td>PLAN REI</td></tr>
+<tr><td>JORGE  LEONARDO  ZULUAGA RESTREPO</td><td>PLAN REI</td></tr>
+<tr><td>SUSANA  ZAPATA CARDENAS</td><td>PLAN CHU</td></tr>
+<tr><td>MARIA  ISAZA</td><td>PLAN GI</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">No renovaron — Yoga (4)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>KATHERING LATORRE</td><td>YOGA X4</td></tr>
+<tr><td>CLAUDIA CASTRO</td><td>YOGA X4</td></tr>
+<tr><td>MARCELA BERMUDEZ</td><td>YOGA X4</td></tr>
+<tr><td>ASTRID  PEÑA</td><td>YOGA X24</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Compensatorios / Cortesías (3)</h3>
+      <table class="tbl">
+        <thead><tr><th>Cliente</th><th>Plan</th></tr></thead>
+        <tbody><tr><td>MANUELA  CARREÑO</td><td>CORTESIA ENTRENAMIENTO</td></tr>
+<tr><td>PAULA MAZO CORTES</td><td>CORTESIA X30</td></tr>
+<tr><td>SUSANA  ZAPATA CARDENAS</td><td>CORTESIA X30</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card revenue-card">
+      <h3 class="section-h">Resumen $</h3>
+      <div class="revenue-total">$14.252.600</div>
+      <div class="revenue-sub">Total ventas en Marzo 2026</div>
+    </div>
+  </div>
+</section>
+
+
+<section class="month-section" id="abril-2026">
+  <div class="container">
+    <h2 class="month-title">Abril 2026</h2>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-ent">
+        <div class="kpi-label">Entrenamiento</div>
+        <div class="kpi-value">75</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend pos">vs mes anterior: +0.0%</div>
+        <div class="kpi-extra">+ 6 compensatorios</div>
+      </div>
+      <div class="card kpi-card kpi-yog">
+        <div class="kpi-label">Yoga</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend neg">vs mes anterior: -20.0%</div>
+        <div class="kpi-extra">+ 0 compensatorios</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Entrenamiento</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>PLAN YU</td><td class="num">31</td><td class="num">41.3%</td></tr>
+<tr><td>PLAN GI</td><td class="num">20</td><td class="num">26.7%</td></tr>
+<tr><td>PLAN CHU</td><td class="num">16</td><td class="num">21.3%</td></tr>
+<tr><td>PLAN REI</td><td class="num">4</td><td class="num">5.3%</td></tr>
+<tr><td>SOUSHIN</td><td class="num">4</td><td class="num">5.3%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">75</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Yoga</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>YOGA X4</td><td class="num">7</td><td class="num">58.3%</td></tr>
+<tr><td>YOGA 24+6</td><td class="num">2</td><td class="num">16.7%</td></tr>
+<tr><td>YOGA X8</td><td class="num">2</td><td class="num">16.7%</td></tr>
+<tr><td>YOGA X24</td><td class="num">1</td><td class="num">8.3%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">12</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">38</td><td class="num">19</td><td class="num">57</td><td class="num">$0</td></tr>
+<tr><td>TIQUETERA X1</td><td class="num">2</td><td class="num">7</td><td class="num">9</td><td class="num">$270.000</td></tr>
+<tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">6</td><td class="num">6</td><td class="num">$924.000</td></tr>
+<tr><td>PLAN REI</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">$928.000</td></tr>
+<tr><td>SOUSHIN</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$1.080.000</td></tr>
+<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
+<tr><td>TIQUETERA X14</td><td class="num">2</td><td class="num">0</td><td class="num">2</td><td class="num">$504.000</td></tr>
+<tr><td>PLAN CHU</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$2.106.000</td></tr>
+<tr><td>PLAN GI</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$1.500.000</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas Yoga (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">31</td><td class="num">31</td><td class="num">$620.000</td></tr>
+<tr><td>CORTESIA YOGA</td><td class="num">3</td><td class="num">8</td><td class="num">11</td><td class="num">$0</td></tr>
+<tr><td>YOGA X4</td><td class="num">0</td><td class="num">7</td><td class="num">7</td><td class="num">$980.000</td></tr>
+<tr><td>YOGA X1 FULL</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">$160.000</td></tr>
+<tr><td>YOGA X8</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$480.000</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">No renovaron — Entrenamiento (5)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>DANIEL BECERRA</td><td>PLAN REI</td></tr>
+<tr><td>VALENTINA VOROBYEVA</td><td>PLAN REI</td></tr>
+<tr><td>MAXIM LEONIDOV</td><td>PLAN REI</td></tr>
+<tr><td>LINA  GUISAO</td><td>PLAN REI</td></tr>
+<tr><td>PAULA ANDREA VERA</td><td>PLAN YU</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">No renovaron — Yoga (8)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>JUAN CAMILO ALZATE</td><td>YOGA X4</td></tr>
+<tr><td>BRENDA LORA</td><td>YOGA 24+6</td></tr>
+<tr><td>GUSTAVO DIAZ</td><td>YOGA X24</td></tr>
+<tr><td>PAULA ANDREA QUINTERO OLAYA</td><td>YOGA X4</td></tr>
+<tr><td>LILLIAN NELLY MARIN YEPES</td><td>YOGA X24</td></tr>
+<tr><td>CAROLINA LOPEZ</td><td>YOGA X8</td></tr>
+<tr><td>ANA MILENA GONZALEZ JARAMILLO</td><td>YOGA X4</td></tr>
+<tr><td>SAMUEL COSTA</td><td>YOGA X8</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Compensatorios / Cortesías (6)</h3>
+      <table class="tbl">
+        <thead><tr><th>Cliente</th><th>Plan</th></tr></thead>
+        <tbody><tr><td>SHANNON BENAVIDES</td><td>CORTESIA ENTRENAMIENTO</td></tr>
+<tr><td>JOHN MURILLO</td><td>CORTESIA ENTRENAMIENTO</td></tr>
+<tr><td>AYELLEN ASCANIO</td><td>CORTESIA ENTRENAMIENTO</td></tr>
+<tr><td>SANDRA CALDERON</td><td>CORTESIA ENTRENAMIENTO</td></tr>
+<tr><td>ANDRES  LALINDE</td><td>CORTESIA X30</td></tr>
+<tr><td>KATERINE  VILLARREAL</td><td>CORTESIA X30</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card revenue-card">
+      <h3 class="section-h">Resumen $</h3>
+      <div class="revenue-total">$9.552.000</div>
+      <div class="revenue-sub">Total ventas en Abril 2026</div>
+    </div>
+  </div>
+</section>
+
+
+<section class="month-section" id="mayo-2026">
+  <div class="container">
+    <h2 class="month-title">Mayo 2026</h2>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-ent">
+        <div class="kpi-label">Entrenamiento</div>
+        <div class="kpi-value">64</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend neg">vs mes anterior: -14.7%</div>
+        <div class="kpi-extra">+ 6 compensatorios</div>
+      </div>
+      <div class="card kpi-card kpi-yog">
+        <div class="kpi-label">Yoga</div>
+        <div class="kpi-value">17</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-trend pos">vs mes anterior: +41.7%</div>
+        <div class="kpi-extra">+ 0 compensatorios</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Entrenamiento</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>PLAN GI</td><td class="num">19</td><td class="num">29.7%</td></tr>
+<tr><td>PLAN CHU</td><td class="num">17</td><td class="num">26.6%</td></tr>
+<tr><td>PLAN YU</td><td class="num">16</td><td class="num">25.0%</td></tr>
+<tr><td>PLAN REI</td><td class="num">8</td><td class="num">12.5%</td></tr>
+<tr><td>SOUSHIN</td><td class="num">4</td><td class="num">6.2%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">64</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Yoga</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>YOGA X4</td><td class="num">11</td><td class="num">64.7%</td></tr>
+<tr><td>YOGA 24+6</td><td class="num">4</td><td class="num">23.5%</td></tr>
+<tr><td>YOGA X8</td><td class="num">2</td><td class="num">11.8%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">17</th><th class="num">100%</th></tr></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">22</td><td class="num">24</td><td class="num">46</td><td class="num">$0</td></tr>
+<tr><td>PLAN REI</td><td class="num">0</td><td class="num">8</td><td class="num">8</td><td class="num">$2.240.000</td></tr>
+<tr><td>TIQUETERA X14</td><td class="num">0</td><td class="num">8</td><td class="num">8</td><td class="num">$2.016.000</td></tr>
+<tr><td>CORTESIA X15</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$0</td></tr>
+<tr><td>PLAN YU</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$3.360.000</td></tr>
+<tr><td>SOUSHIN</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$1.080.000</td></tr>
+<tr><td>TIQUETERA X1</td><td class="num">1</td><td class="num">2</td><td class="num">3</td><td class="num">$120.000</td></tr>
+<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
+<tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$308.000</td></tr>
+<tr><td>PLAN CHU</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$2.340.000</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas Yoga (nuevos vs recompras)</h3>
+        <table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+          <tbody><tr><td>CORTESIA YOGA</td><td class="num">12</td><td class="num">4</td><td class="num">16</td><td class="num">$0</td></tr>
+<tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">14</td><td class="num">14</td><td class="num">$280.000</td></tr>
+<tr><td>YOGA X4</td><td class="num">2</td><td class="num">9</td><td class="num">11</td><td class="num">$1.540.000</td></tr>
+<tr><td>YOGA 24+6</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$1.300.000</td></tr>
+<tr><td>YOGA X1 FULL</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$120.000</td></tr>
+<tr><td>YOGA X8</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$480.000</td></tr>
+<tr><td>ENTRENO US YOGA</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$20.000</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">No renovaron — Entrenamiento (19)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>ADRIAN  AVILES REYES</td><td>PLAN YU</td></tr>
+<tr><td>FELIPE GÓMEZ D&#x27;ETTORRE</td><td>PLAN YU</td></tr>
+<tr><td>MARIANA VIGOYA</td><td>SOUSHIN</td></tr>
+<tr><td>ANDRES CAMILO BARRETO RAMIREZ</td><td>PLAN YU</td></tr>
+<tr><td>JUAN DAVID MEJIA</td><td>PLAN YU</td></tr>
+<tr><td>SANDRA  GOMEZ BUSTAMANTE</td><td>PLAN YU</td></tr>
+<tr><td>VANESSA CASTRILLON</td><td>PLAN YU</td></tr>
+<tr><td>JUAN PABLO RIBON</td><td>PLAN REI</td></tr>
+<tr><td>ASTRID  PEÑA</td><td>PLAN REI</td></tr>
+<tr><td>CARLOS PEREZ</td><td>PLAN YU</td></tr>
+<tr><td>VLADIMIR DIAZ GALLEGO</td><td>PLAN REI</td></tr>
+<tr><td>JONATHAN MACIAS</td><td>PLAN YU</td></tr>
+<tr><td>NICOLAS CINAR</td><td>SOUSHIN</td></tr>
+<tr><td>ANDREA OSORIO</td><td>PLAN YU</td></tr>
+<tr><td>SEBASTIAN  VERGARA LOZANO</td><td>PLAN GI</td></tr>
+<tr><td>ISABEL CRISTINA CASTRILLON</td><td>PLAN YU</td></tr>
+<tr><td>CAMILO MAYA POSADA</td><td>PLAN YU</td></tr>
+<tr><td>HERYCA SANCHEZ</td><td>PLAN REI</td></tr>
+<tr><td>LADY SALAZAR</td><td>PLAN YU</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="section-h">No renovaron — Yoga (4)</h3>
+        <table class="tbl">
+          <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
+          <tbody><tr><td>ANGELICA VELEZ</td><td>YOGA X4</td></tr>
+<tr><td>JUAN ESTEBAN BETANCUR</td><td>YOGA X24</td></tr>
+<tr><td>DAVID JOSE SANCHEZ</td><td>YOGA X4</td></tr>
+<tr><td>ASTRID  PEÑA</td><td>YOGA X4</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Compensatorios / Cortesías (6)</h3>
+      <table class="tbl">
+        <thead><tr><th>Cliente</th><th>Plan</th></tr></thead>
+        <tbody><tr><td>SANDRA  GOMEZ BUSTAMANTE</td><td>CORTESIA ENTRENAMIENTO</td></tr>
+<tr><td>LADY SALAZAR</td><td>CORTESIA X15</td></tr>
+<tr><td>CAMILO MAYA POSADA</td><td>CORTESIA X15</td></tr>
+<tr><td>SEBASTIAN VERGARA LOZANO</td><td>CORTESIA X15</td></tr>
+<tr><td>JONATHAN MACIAS</td><td>CORTESIA X30</td></tr>
+<tr><td>MARIA  ISAZA</td><td>CORTESIA X30</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card revenue-card">
+      <h3 class="section-h">Resumen $</h3>
+      <div class="revenue-total">$15.798.000</div>
+      <div class="revenue-sub">Total ventas en Mayo 2026</div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    Generado automáticamente desde INFORME DOJO A MAYO 2026.xlsx · Being CoRE<br>
+    Filtro: estado FINALIZADA + EN PROGRESO · Activo = vigente al último día del mes
+  </div>
+</footer>
+
+<script>
+const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo"];
+new Chart(document.getElementById('chartActivos'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [
+      { label: 'Entrenamiento', data: [82, 82, 75, 75, 64], borderColor: '#0071E3', backgroundColor: 'rgba(0,113,227,0.1)', tension: 0.3, fill: true },
+      { label: 'Yoga', data: [20, 13, 15, 12, 17], borderColor: '#8B5CF6', backgroundColor: 'rgba(139,92,246,0.1)', tension: 0.3, fill: true },
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } } }
+});
+new Chart(document.getElementById('chartVentas'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [{ label: 'Ventas $', data: [44697200.0, 27248800.0, 14252600.0, 9552000.0, 15798000.0], backgroundColor: '#34C759' }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } } }
+});
+</script>
+
+</body>
+</html>
