@@ -108,6 +108,7 @@ body {
 }
 .kpi-ent .kpi-value { color: var(--blue); }
 .kpi-yog .kpi-value { color: var(--violet); }
+.kpi-pil .kpi-value { color: var(--orange); }
 .kpi-card .kpi-sub { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
 .kpi-card .kpi-trend {
   font-size: 13px; font-weight: 600; margin-top: 16px;
@@ -334,10 +335,10 @@ body {
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
           <tbody><tr><td>JESSICA MACIAS GOMEZ</td><td>PLAN CHU</td></tr>
-<tr><td>LUISA HOYOS</td><td>PLAN REI</td></tr>
 <tr><td>ALEJANDRO  PIEDRAHITA</td><td>PLAN YU</td></tr>
-<tr><td>JUAN FELIPE  VILLA MANRIQUE</td><td>PLAN REI</td></tr>
-<tr><td>CHRISTIAN DUQUE</td><td>PLAN CHU</td></tr></tbody>
+<tr><td>LUISA HOYOS</td><td>PLAN REI</td></tr>
+<tr><td>CHRISTIAN DUQUE</td><td>PLAN CHU</td></tr>
+<tr><td>JUAN FELIPE  VILLA MANRIQUE</td><td>PLAN REI</td></tr></tbody>
         </table></div>
       </div>
       <div class="card">
@@ -347,8 +348,8 @@ body {
           <tbody><tr><td>CAMILO GOMEZ</td><td>YOGA X8</td></tr>
 <tr><td>DANIEL CAMILO RIVERA MUÑOZ</td><td>YOGA X8</td></tr>
 <tr><td>RICHARD HOUANCHE</td><td>YOGA X8</td></tr>
-<tr><td>ERNESTO NARVAEZ</td><td>YOGA X8</td></tr>
-<tr><td>DANIEL JARAMILLO</td><td>YOGA X4</td></tr></tbody>
+<tr><td>DANIEL JARAMILLO</td><td>YOGA X4</td></tr>
+<tr><td>ERNESTO NARVAEZ</td><td>YOGA X8</td></tr></tbody>
         </table></div>
       </div>
     </div>
@@ -371,6 +372,31 @@ body {
         <h3 class="section-h">Ventas $ — Yoga</h3>
         <div class="chart-wrap"><canvas id="chartYogV_enero-2026"></canvas></div>
       </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-pil">
+        <div class="kpi-label">Pilates</div>
+        <div class="kpi-value">0</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-extra">Clases sueltas y X8</div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Pilates</h3>
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td colspan="3" class="muted">Sin activos</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">0</th><th class="num">100%</th></tr></tfoot>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Ventas Pilates (nuevos vs recompras)</h3>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+        <tbody><tr><td colspan="5" class="muted">Sin ventas</td></tr></tbody>
+      </table></div>
     </div>
 
     <div class="card revenue-card">
@@ -505,33 +531,33 @@ body {
         <h3 class="section-h">No renovaron — Entrenamiento (10)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
-          <tbody><tr><td>MIGUEL SANTIAGO CORREA GARCIA</td><td>PLAN REI</td></tr>
-<tr><td>CAMILO ANDRES  SOTO ARISTIZABAL</td><td>SOUSHIN</td></tr>
-<tr><td>ANTON SIEDLITZHI</td><td>PLAN REI</td></tr>
-<tr><td>YENIFER PEREZ SIERRA</td><td>SOUSHIN</td></tr>
-<tr><td>ELISA VELASQUEZ</td><td>PLAN CHU</td></tr>
+          <tbody><tr><td>CAMILO ANDRES  SOTO ARISTIZABAL</td><td>SOUSHIN</td></tr>
+<tr><td>CLAUDIA LORENA MUNOZ ARISTIZABAL</td><td>PLAN REI</td></tr>
 <tr><td>PAULA MAZO CORTES</td><td>PLAN YU</td></tr>
-<tr><td>LINA  GUISAO</td><td>PLAN CHU</td></tr>
 <tr><td>NATALIA  MENDEZ</td><td>PLAN YU</td></tr>
+<tr><td>YENIFER PEREZ SIERRA</td><td>SOUSHIN</td></tr>
+<tr><td>MIGUEL SANTIAGO CORREA GARCIA</td><td>PLAN REI</td></tr>
+<tr><td>LINA  GUISAO</td><td>PLAN CHU</td></tr>
 <tr><td>SARA SIERRA VELEZ</td><td>PLAN REI</td></tr>
-<tr><td>CLAUDIA LORENA MUNOZ ARISTIZABAL</td><td>PLAN REI</td></tr></tbody>
+<tr><td>ANTON SIEDLITZHI</td><td>PLAN REI</td></tr>
+<tr><td>ELISA VELASQUEZ</td><td>PLAN CHU</td></tr></tbody>
         </table></div>
       </div>
       <div class="card">
         <h3 class="section-h">No renovaron — Yoga (11)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
-          <tbody><tr><td>JUAN CAMILO ALZATE</td><td>YOGA X4</td></tr>
-<tr><td>COPPELIA HERRAN</td><td>YOGA X8</td></tr>
-<tr><td>ANA MARIA CORREA LOPERA</td><td>YOGA X8</td></tr>
-<tr><td>KAORY BARRIENTOS</td><td>YOGA 24+6</td></tr>
-<tr><td>CATALINA OCAMPO</td><td>YOGA X4</td></tr>
-<tr><td>PAULA ANDREA QUINTERO OLAYA</td><td>YOGA X4</td></tr>
-<tr><td>SAYUMI KASANO</td><td>YOGA X8</td></tr>
-<tr><td>DAVID JOSE SANCHEZ</td><td>YOGA X8</td></tr>
-<tr><td>JUAN FELIPE SOTO</td><td>YOGA X4</td></tr>
+          <tbody><tr><td>DAVID JOSE SANCHEZ</td><td>YOGA X8</td></tr>
 <tr><td>BEATRIZ MARTINEZ MONTOYA</td><td>YOGA X8</td></tr>
-<tr><td>ANA MILENA GONZALEZ JARAMILLO</td><td>YOGA X4</td></tr></tbody>
+<tr><td>COPPELIA HERRAN</td><td>YOGA X8</td></tr>
+<tr><td>JUAN CAMILO ALZATE</td><td>YOGA X4</td></tr>
+<tr><td>ANA MILENA GONZALEZ JARAMILLO</td><td>YOGA X4</td></tr>
+<tr><td>SAYUMI KASANO</td><td>YOGA X8</td></tr>
+<tr><td>ANA MARIA CORREA LOPERA</td><td>YOGA X8</td></tr>
+<tr><td>PAULA ANDREA QUINTERO OLAYA</td><td>YOGA X4</td></tr>
+<tr><td>JUAN FELIPE SOTO</td><td>YOGA X4</td></tr>
+<tr><td>KAORY BARRIENTOS</td><td>YOGA 24+6</td></tr>
+<tr><td>CATALINA OCAMPO</td><td>YOGA X4</td></tr></tbody>
         </table></div>
       </div>
     </div>
@@ -541,8 +567,8 @@ body {
       <div class="tbl-wrap"><table class="tbl">
         <thead><tr><th>Cliente</th><th>Plan</th></tr></thead>
         <tbody><tr><td>ELISA VELASQUEZ</td><td>CORTESIA X15</td></tr>
-<tr><td>NATALIA  MENDEZ</td><td>CORTESIA X30</td></tr>
-<tr><td>LINA  GUISAO</td><td>CORTESIA X30</td></tr></tbody>
+<tr><td>LINA  GUISAO</td><td>CORTESIA X30</td></tr>
+<tr><td>NATALIA  MENDEZ</td><td>CORTESIA X30</td></tr></tbody>
       </table></div>
     </div>
 
@@ -555,6 +581,31 @@ body {
         <h3 class="section-h">Ventas $ — Yoga</h3>
         <div class="chart-wrap"><canvas id="chartYogV_febrero-2026"></canvas></div>
       </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-pil">
+        <div class="kpi-label">Pilates</div>
+        <div class="kpi-value">0</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-extra">Clases sueltas y X8</div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Pilates</h3>
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td colspan="3" class="muted">Sin activos</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">0</th><th class="num">100%</th></tr></tfoot>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Ventas Pilates (nuevos vs recompras)</h3>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+        <tbody><tr><td colspan="5" class="muted">Sin ventas</td></tr></tbody>
+      </table></div>
     </div>
 
     <div class="card revenue-card">
@@ -689,28 +740,28 @@ body {
         <h3 class="section-h">No renovaron — Entrenamiento (12)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
-          <tbody><tr><td>VANESSA ARDILA</td><td>PLAN REI</td></tr>
-<tr><td>LUISA HOYOS</td><td>PLAN REI</td></tr>
+          <tbody><tr><td>MARIA  ISAZA</td><td>PLAN GI</td></tr>
 <tr><td>JHEISER SANABRIA</td><td>PLAN YU</td></tr>
+<tr><td>VANESSA ARDILA</td><td>PLAN REI</td></tr>
+<tr><td>SUSANA  ZAPATA CARDENAS</td><td>PLAN CHU</td></tr>
 <tr><td>ALEJANDRA SERNA CASTAÑO</td><td>PLAN YU</td></tr>
-<tr><td>KATERINE  VILLARREAL</td><td>PLAN YU</td></tr>
-<tr><td>CARINA  HERNANDEZ</td><td>PLAN REI</td></tr>
 <tr><td>STEFANIE SEYEDMEHDI</td><td>PLAN YU</td></tr>
-<tr><td>SUSANA ARROYAVE</td><td>PLAN REI</td></tr>
+<tr><td>LUISA HOYOS</td><td>PLAN REI</td></tr>
 <tr><td>ANDRÉS VALENCIA</td><td>PLAN REI</td></tr>
 <tr><td>JORGE  LEONARDO  ZULUAGA RESTREPO</td><td>PLAN REI</td></tr>
-<tr><td>SUSANA  ZAPATA CARDENAS</td><td>PLAN CHU</td></tr>
-<tr><td>MARIA  ISAZA</td><td>PLAN GI</td></tr></tbody>
+<tr><td>SUSANA ARROYAVE</td><td>PLAN REI</td></tr>
+<tr><td>KATERINE  VILLARREAL</td><td>PLAN YU</td></tr>
+<tr><td>CARINA  HERNANDEZ</td><td>PLAN REI</td></tr></tbody>
         </table></div>
       </div>
       <div class="card">
         <h3 class="section-h">No renovaron — Yoga (4)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
-          <tbody><tr><td>KATHERING LATORRE</td><td>YOGA X4</td></tr>
-<tr><td>CLAUDIA CASTRO</td><td>YOGA X4</td></tr>
+          <tbody><tr><td>ASTRID  PEÑA</td><td>YOGA X24</td></tr>
 <tr><td>MARCELA BERMUDEZ</td><td>YOGA X4</td></tr>
-<tr><td>ASTRID  PEÑA</td><td>YOGA X24</td></tr></tbody>
+<tr><td>KATHERING LATORRE</td><td>YOGA X4</td></tr>
+<tr><td>CLAUDIA CASTRO</td><td>YOGA X4</td></tr></tbody>
         </table></div>
       </div>
     </div>
@@ -734,6 +785,31 @@ body {
         <h3 class="section-h">Ventas $ — Yoga</h3>
         <div class="chart-wrap"><canvas id="chartYogV_marzo-2026"></canvas></div>
       </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-pil">
+        <div class="kpi-label">Pilates</div>
+        <div class="kpi-value">0</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-extra">Clases sueltas y X8</div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Pilates</h3>
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td colspan="3" class="muted">Sin activos</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">0</th><th class="num">100%</th></tr></tfoot>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Ventas Pilates (nuevos vs recompras)</h3>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+        <tbody><tr><td colspan="5" class="muted">Sin ventas</td></tr></tbody>
+      </table></div>
     </div>
 
     <div class="card revenue-card">
@@ -868,10 +944,10 @@ body {
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
           <tbody><tr><td>DANIEL BECERRA</td><td>PLAN REI</td></tr>
-<tr><td>VALENTINA VOROBYEVA</td><td>PLAN REI</td></tr>
+<tr><td>PAULA ANDREA VERA</td><td>PLAN YU</td></tr>
 <tr><td>MAXIM LEONIDOV</td><td>PLAN REI</td></tr>
 <tr><td>LINA  GUISAO</td><td>PLAN REI</td></tr>
-<tr><td>PAULA ANDREA VERA</td><td>PLAN YU</td></tr></tbody>
+<tr><td>VALENTINA VOROBYEVA</td><td>PLAN REI</td></tr></tbody>
         </table></div>
       </div>
       <div class="card">
@@ -879,13 +955,13 @@ body {
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
           <tbody><tr><td>JUAN CAMILO ALZATE</td><td>YOGA X4</td></tr>
+<tr><td>ANA MILENA GONZALEZ JARAMILLO</td><td>YOGA X4</td></tr>
+<tr><td>SAMUEL COSTA</td><td>YOGA X8</td></tr>
 <tr><td>BRENDA LORA</td><td>YOGA 24+6</td></tr>
 <tr><td>GUSTAVO DIAZ</td><td>YOGA X24</td></tr>
 <tr><td>PAULA ANDREA QUINTERO OLAYA</td><td>YOGA X4</td></tr>
 <tr><td>LILLIAN NELLY MARIN YEPES</td><td>YOGA X24</td></tr>
-<tr><td>CAROLINA LOPEZ</td><td>YOGA X8</td></tr>
-<tr><td>ANA MILENA GONZALEZ JARAMILLO</td><td>YOGA X4</td></tr>
-<tr><td>SAMUEL COSTA</td><td>YOGA X8</td></tr></tbody>
+<tr><td>CAROLINA LOPEZ</td><td>YOGA X8</td></tr></tbody>
         </table></div>
       </div>
     </div>
@@ -912,6 +988,31 @@ body {
         <h3 class="section-h">Ventas $ — Yoga</h3>
         <div class="chart-wrap"><canvas id="chartYogV_abril-2026"></canvas></div>
       </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-pil">
+        <div class="kpi-label">Pilates</div>
+        <div class="kpi-value">0</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-extra">Clases sueltas y X8</div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Pilates</h3>
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td colspan="3" class="muted">Sin activos</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">0</th><th class="num">100%</th></tr></tfoot>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Ventas Pilates (nuevos vs recompras)</h3>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+        <tbody><tr><td colspan="5" class="muted">Sin ventas</td></tr></tbody>
+      </table></div>
     </div>
 
     <div class="card revenue-card">
@@ -1046,35 +1147,35 @@ body {
         <h3 class="section-h">No renovaron — Entrenamiento (19)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
-          <tbody><tr><td>ADRIAN  AVILES REYES</td><td>PLAN YU</td></tr>
-<tr><td>FELIPE GÓMEZ D&#x27;ETTORRE</td><td>PLAN YU</td></tr>
-<tr><td>MARIANA VIGOYA</td><td>SOUSHIN</td></tr>
-<tr><td>ANDRES CAMILO BARRETO RAMIREZ</td><td>PLAN YU</td></tr>
-<tr><td>JUAN DAVID MEJIA</td><td>PLAN YU</td></tr>
-<tr><td>SANDRA  GOMEZ BUSTAMANTE</td><td>PLAN YU</td></tr>
-<tr><td>VANESSA CASTRILLON</td><td>PLAN YU</td></tr>
+          <tbody><tr><td>ANDRES CAMILO BARRETO RAMIREZ</td><td>PLAN YU</td></tr>
 <tr><td>JUAN PABLO RIBON</td><td>PLAN REI</td></tr>
+<tr><td>VANESSA CASTRILLON</td><td>PLAN YU</td></tr>
+<tr><td>FELIPE GÓMEZ D&#x27;ETTORRE</td><td>PLAN YU</td></tr>
+<tr><td>ISABEL CRISTINA CASTRILLON</td><td>PLAN YU</td></tr>
+<tr><td>MARIANA VIGOYA</td><td>SOUSHIN</td></tr>
 <tr><td>ASTRID  PEÑA</td><td>PLAN REI</td></tr>
-<tr><td>CARLOS PEREZ</td><td>PLAN YU</td></tr>
+<tr><td>ADRIAN  AVILES REYES</td><td>PLAN YU</td></tr>
+<tr><td>SANDRA  GOMEZ BUSTAMANTE</td><td>PLAN YU</td></tr>
 <tr><td>VLADIMIR DIAZ GALLEGO</td><td>PLAN REI</td></tr>
+<tr><td>CARLOS PEREZ</td><td>PLAN YU</td></tr>
+<tr><td>JUAN DAVID MEJIA</td><td>PLAN YU</td></tr>
+<tr><td>ANDREA OSORIO</td><td>PLAN YU</td></tr>
 <tr><td>JONATHAN MACIAS</td><td>PLAN YU</td></tr>
 <tr><td>NICOLAS CINAR</td><td>SOUSHIN</td></tr>
-<tr><td>ANDREA OSORIO</td><td>PLAN YU</td></tr>
+<tr><td>LADY SALAZAR</td><td>PLAN YU</td></tr>
 <tr><td>SEBASTIAN  VERGARA LOZANO</td><td>PLAN GI</td></tr>
-<tr><td>ISABEL CRISTINA CASTRILLON</td><td>PLAN YU</td></tr>
-<tr><td>CAMILO MAYA POSADA</td><td>PLAN YU</td></tr>
 <tr><td>HERYCA SANCHEZ</td><td>PLAN REI</td></tr>
-<tr><td>LADY SALAZAR</td><td>PLAN YU</td></tr></tbody>
+<tr><td>CAMILO MAYA POSADA</td><td>PLAN YU</td></tr></tbody>
         </table></div>
       </div>
       <div class="card">
         <h3 class="section-h">No renovaron — Yoga (4)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Cliente</th><th>Plan que tenía</th></tr></thead>
-          <tbody><tr><td>ANGELICA VELEZ</td><td>YOGA X4</td></tr>
-<tr><td>JUAN ESTEBAN BETANCUR</td><td>YOGA X24</td></tr>
+          <tbody><tr><td>ASTRID  PEÑA</td><td>YOGA X4</td></tr>
 <tr><td>DAVID JOSE SANCHEZ</td><td>YOGA X4</td></tr>
-<tr><td>ASTRID  PEÑA</td><td>YOGA X4</td></tr></tbody>
+<tr><td>ANGELICA VELEZ</td><td>YOGA X4</td></tr>
+<tr><td>JUAN ESTEBAN BETANCUR</td><td>YOGA X24</td></tr></tbody>
         </table></div>
       </div>
     </div>
@@ -1085,8 +1186,8 @@ body {
         <thead><tr><th>Cliente</th><th>Plan</th></tr></thead>
         <tbody><tr><td>SANDRA  GOMEZ BUSTAMANTE</td><td>CORTESIA ENTRENAMIENTO</td></tr>
 <tr><td>LADY SALAZAR</td><td>CORTESIA X15</td></tr>
-<tr><td>CAMILO MAYA POSADA</td><td>CORTESIA X15</td></tr>
 <tr><td>SEBASTIAN VERGARA LOZANO</td><td>CORTESIA X15</td></tr>
+<tr><td>CAMILO MAYA POSADA</td><td>CORTESIA X15</td></tr>
 <tr><td>JONATHAN MACIAS</td><td>CORTESIA X30</td></tr>
 <tr><td>MARIA  ISAZA</td><td>CORTESIA X30</td></tr></tbody>
       </table></div>
@@ -1101,6 +1202,33 @@ body {
         <h3 class="section-h">Ventas $ — Yoga</h3>
         <div class="chart-wrap"><canvas id="chartYogV_mayo-2026"></canvas></div>
       </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card kpi-card kpi-pil">
+        <div class="kpi-label">Pilates</div>
+        <div class="kpi-value">1</div>
+        <div class="kpi-sub">activos al cierre</div>
+        <div class="kpi-extra">Clases sueltas y X8</div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Activos por plan — Pilates</h3>
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
+          <tbody><tr><td>PILATES X8</td><td class="num">1</td><td class="num">100.0%</td></tr></tbody>
+          <tfoot><tr><th>TOTAL</th><th class="num">1</th><th class="num">100%</th></tr></tfoot>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-h">Ventas Pilates (nuevos vs recompras)</h3>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
+        <tbody><tr><td>PILATES X1 -50%</td><td class="num">0</td><td class="num">3</td><td class="num">3</td><td class="num">$90.000</td></tr>
+<tr><td>PILATES X1</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$120.000</td></tr>
+<tr><td>PILATES X8</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$384.000</td></tr></tbody>
+      </table></div>
     </div>
 
     <div class="card revenue-card">
