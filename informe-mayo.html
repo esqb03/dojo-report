@@ -121,6 +121,7 @@ body {
   color: var(--text-secondary); margin-bottom: 16px; font-weight: 600;
 }
 .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.chart-wrap { position: relative; height: 260px; max-width: 100%; }
 .tbl {
   width: 100%; border-collapse: collapse; font-size: 13px;
   table-layout: auto;
@@ -262,6 +263,17 @@ body {
 
     <div class="grid-2">
       <div class="card">
+        <h3 class="section-h">Distribución activos — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEnt_enero-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Distribución activos — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYog_enero-2026"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
         <h3 class="section-h">Activos por plan — Entrenamiento</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Cantidad</th><th class="num">%</th></tr></thead>
@@ -291,17 +303,14 @@ body {
         <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
-          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">30</td><td class="num">10</td><td class="num">40</td><td class="num">$0</td></tr>
-<tr><td>PLAN YU</td><td class="num">2</td><td class="num">20</td><td class="num">22</td><td class="num">$17.556.000</td></tr>
+          <tbody><tr><td>PLAN YU</td><td class="num">2</td><td class="num">20</td><td class="num">22</td><td class="num">$17.556.000</td></tr>
 <tr><td>TIQUETERA X1</td><td class="num">1</td><td class="num">9</td><td class="num">10</td><td class="num">$300.000</td></tr>
 <tr><td>PLAN REI</td><td class="num">1</td><td class="num">7</td><td class="num">8</td><td class="num">$2.579.200</td></tr>
 <tr><td>PLAN CHU</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$9.594.000</td></tr>
 <tr><td>PLAN GI</td><td class="num">1</td><td class="num">4</td><td class="num">5</td><td class="num">$7.500.000</td></tr>
 <tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$770.000</td></tr>
 <tr><td>TIQUETERA X14</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$1.008.000</td></tr>
-<tr><td>CORTESIA X15</td><td class="num">0</td><td class="num">3</td><td class="num">3</td><td class="num">$0</td></tr>
-<tr><td>SOUSHIN</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$540.000</td></tr>
-<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$0</td></tr></tbody>
+<tr><td>SOUSHIN</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$540.000</td></tr></tbody>
         </table></div>
       </div>
       <div class="card">
@@ -309,7 +318,6 @@ body {
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
           <tbody><tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">14</td><td class="num">14</td><td class="num">$280.000</td></tr>
-<tr><td>CORTESIA YOGA</td><td class="num">9</td><td class="num">4</td><td class="num">13</td><td class="num">$0</td></tr>
 <tr><td>YOGA X4</td><td class="num">1</td><td class="num">7</td><td class="num">8</td><td class="num">$1.120.000</td></tr>
 <tr><td>YOGA X1 FULL</td><td class="num">5</td><td class="num">2</td><td class="num">7</td><td class="num">$280.000</td></tr>
 <tr><td>YOGA X8</td><td class="num">1</td><td class="num">4</td><td class="num">5</td><td class="num">$1.200.000</td></tr>
@@ -354,6 +362,17 @@ body {
       </table></div>
     </div>
 
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEntV_enero-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYogV_enero-2026"></canvas></div>
+      </div>
+    </div>
+
     <div class="card revenue-card">
       <h3 class="section-h">Resumen $</h3>
       <div class="revenue-total">$44.7M</div>
@@ -361,6 +380,39 @@ body {
     </div>
   </div>
 </section>
+<script>
+(function() {
+  const colors = ['#0071E3','#34C759','#FF9500','#8B5CF6','#E8B84A','#FF3B30','#5856D6','#AF52DE','#00C7BE','#FFCC00'];
+  if (document.getElementById('chartEnt_enero-2026') && [17, 12, 8, 43, 2].length) {
+    new Chart(document.getElementById('chartEnt_enero-2026'), {
+      type: 'doughnut',
+      data: { labels: ["PLAN CHU", "PLAN GI", "PLAN REI", "PLAN YU", "SOUSHIN"], datasets: [{ data: [17, 12, 8, 43, 2], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartYog_enero-2026') && [4, 3, 8, 5].length) {
+    new Chart(document.getElementById('chartYog_enero-2026'), {
+      type: 'doughnut',
+      data: { labels: ["YOGA 24+6", "YOGA X24", "YOGA X4", "YOGA X8"], datasets: [{ data: [4, 3, 8, 5], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartEntV_enero-2026') && [9594000.0, 7500000.0, 2579200.0, 17556000.0, 540000.0, 300000.0, 1008000.0, 770000.0].length) {
+    new Chart(document.getElementById('chartEntV_enero-2026'), {
+      type: 'bar',
+      data: { labels: ["PLAN CHU", "PLAN GI", "PLAN REI", "PLAN YU", "SOUSHIN", "TIQUETERA X1", "TIQUETERA X14", "TIQUETERA X7"], datasets: [{ label: '$', data: [9594000.0, 7500000.0, 2579200.0, 17556000.0, 540000.0, 300000.0, 1008000.0, 770000.0], backgroundColor: '#0071E3' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+  if (document.getElementById('chartYogV_enero-2026') && [20000.0, 650000.0, 280000.0, 280000.0, 1300000.0, 1120000.0, 1200000.0].length) {
+    new Chart(document.getElementById('chartYogV_enero-2026'), {
+      type: 'bar',
+      data: { labels: ["ENTRENO US YOGA", "YOGA 24+6", "YOGA X1 -50%", "YOGA X1 FULL", "YOGA X24", "YOGA X4", "YOGA X8"], datasets: [{ label: '$', data: [20000.0, 650000.0, 280000.0, 280000.0, 1300000.0, 1120000.0, 1200000.0], backgroundColor: '#8B5CF6' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+})();
+</script>
 
 
 <section class="month-section" id="febrero-2026">
@@ -381,6 +433,17 @@ body {
         <div class="kpi-sub">activos al cierre</div>
         <div class="kpi-trend neg">vs mes anterior: -35.0%</div>
         <div class="kpi-extra">+ 0 compensatorios</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Distribución activos — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEnt_febrero-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Distribución activos — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYog_febrero-2026"></canvas></div>
       </div>
     </div>
 
@@ -415,14 +478,11 @@ body {
         <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
-          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">16</td><td class="num">15</td><td class="num">31</td><td class="num">$0</td></tr>
-<tr><td>PLAN GI</td><td class="num">0</td><td class="num">8</td><td class="num">8</td><td class="num">$12.000.000</td></tr>
+          <tbody><tr><td>PLAN GI</td><td class="num">0</td><td class="num">8</td><td class="num">8</td><td class="num">$12.000.000</td></tr>
 <tr><td>TIQUETERA X1</td><td class="num">3</td><td class="num">5</td><td class="num">8</td><td class="num">$240.000</td></tr>
 <tr><td>PLAN REI</td><td class="num">0</td><td class="num">7</td><td class="num">7</td><td class="num">$2.348.800</td></tr>
 <tr><td>PLAN YU</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$4.200.000</td></tr>
 <tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$770.000</td></tr>
-<tr><td>CORTESIA X15</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
-<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
 <tr><td>PLAN CHU</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$4.680.000</td></tr>
 <tr><td>SOUSHIN</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$540.000</td></tr></tbody>
         </table></div>
@@ -432,7 +492,6 @@ body {
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
           <tbody><tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">13</td><td class="num">13</td><td class="num">$260.000</td></tr>
-<tr><td>CORTESIA YOGA</td><td class="num">5</td><td class="num">3</td><td class="num">8</td><td class="num">$0</td></tr>
 <tr><td>YOGA X4</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">$560.000</td></tr>
 <tr><td>YOGA X8</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">$960.000</td></tr>
 <tr><td>YOGA X1 FULL</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$40.000</td></tr>
@@ -487,6 +546,17 @@ body {
       </table></div>
     </div>
 
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEntV_febrero-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYogV_febrero-2026"></canvas></div>
+      </div>
+    </div>
+
     <div class="card revenue-card">
       <h3 class="section-h">Resumen $</h3>
       <div class="revenue-total">$27.2M</div>
@@ -494,6 +564,39 @@ body {
     </div>
   </div>
 </section>
+<script>
+(function() {
+  const colors = ['#0071E3','#34C759','#FF9500','#8B5CF6','#E8B84A','#FF3B30','#5856D6','#AF52DE','#00C7BE','#FFCC00'];
+  if (document.getElementById('chartEnt_febrero-2026') && [16, 19, 7, 38, 2].length) {
+    new Chart(document.getElementById('chartEnt_febrero-2026'), {
+      type: 'doughnut',
+      data: { labels: ["PLAN CHU", "PLAN GI", "PLAN REI", "PLAN YU", "SOUSHIN"], datasets: [{ data: [16, 19, 7, 38, 2], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartYog_febrero-2026') && [1, 4, 4, 4].length) {
+    new Chart(document.getElementById('chartYog_febrero-2026'), {
+      type: 'doughnut',
+      data: { labels: ["YOGA 24+6", "YOGA X24", "YOGA X4", "YOGA X8"], datasets: [{ data: [1, 4, 4, 4], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartEntV_febrero-2026') && [4680000.0, 12000000.0, 2348800.0, 4200000.0, 540000.0, 240000.0, 770000.0].length) {
+    new Chart(document.getElementById('chartEntV_febrero-2026'), {
+      type: 'bar',
+      data: { labels: ["PLAN CHU", "PLAN GI", "PLAN REI", "PLAN YU", "SOUSHIN", "TIQUETERA X1", "TIQUETERA X7"], datasets: [{ label: '$', data: [4680000.0, 12000000.0, 2348800.0, 4200000.0, 540000.0, 240000.0, 770000.0], backgroundColor: '#0071E3' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+  if (document.getElementById('chartYogV_febrero-2026') && [260000.0, 40000.0, 650000.0, 560000.0, 960000.0].length) {
+    new Chart(document.getElementById('chartYogV_febrero-2026'), {
+      type: 'bar',
+      data: { labels: ["YOGA X1 -50%", "YOGA X1 FULL", "YOGA X24", "YOGA X4", "YOGA X8"], datasets: [{ label: '$', data: [260000.0, 40000.0, 650000.0, 560000.0, 960000.0], backgroundColor: '#8B5CF6' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+})();
+</script>
 
 
 <section class="month-section" id="marzo-2026">
@@ -514,6 +617,17 @@ body {
         <div class="kpi-sub">activos al cierre</div>
         <div class="kpi-trend pos">vs mes anterior: +15.4%</div>
         <div class="kpi-extra">+ 0 compensatorios</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Distribución activos — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEnt_marzo-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Distribución activos — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYog_marzo-2026"></canvas></div>
       </div>
     </div>
 
@@ -548,14 +662,11 @@ body {
         <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
-          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">13</td><td class="num">13</td><td class="num">26</td><td class="num">$0</td></tr>
-<tr><td>TIQUETERA X1</td><td class="num">3</td><td class="num">11</td><td class="num">14</td><td class="num">$420.000</td></tr>
+          <tbody><tr><td>TIQUETERA X1</td><td class="num">3</td><td class="num">11</td><td class="num">14</td><td class="num">$420.000</td></tr>
 <tr><td>PLAN YU</td><td class="num">0</td><td class="num">7</td><td class="num">7</td><td class="num">$5.796.000</td></tr>
 <tr><td>PLAN REI</td><td class="num">2</td><td class="num">3</td><td class="num">5</td><td class="num">$1.544.000</td></tr>
 <tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$770.000</td></tr>
-<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
 <tr><td>SOUSHIN</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$540.000</td></tr>
-<tr><td>CORTESIA X15</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$0</td></tr>
 <tr><td>PLAN GI</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$1.350.600</td></tr>
 <tr><td>TIQUETERA X14</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$252.000</td></tr></tbody>
         </table></div>
@@ -565,7 +676,6 @@ body {
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
           <tbody><tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">22</td><td class="num">22</td><td class="num">$480.000</td></tr>
-<tr><td>CORTESIA YOGA</td><td class="num">0</td><td class="num">10</td><td class="num">10</td><td class="num">$0</td></tr>
 <tr><td>YOGA X8</td><td class="num">0</td><td class="num">5</td><td class="num">5</td><td class="num">$1.200.000</td></tr>
 <tr><td>YOGA X4</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$560.000</td></tr>
 <tr><td>YOGA 24+6</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$1.300.000</td></tr>
@@ -615,6 +725,17 @@ body {
       </table></div>
     </div>
 
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEntV_marzo-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYogV_marzo-2026"></canvas></div>
+      </div>
+    </div>
+
     <div class="card revenue-card">
       <h3 class="section-h">Resumen $</h3>
       <div class="revenue-total">$14.3M</div>
@@ -622,6 +743,39 @@ body {
     </div>
   </div>
 </section>
+<script>
+(function() {
+  const colors = ['#0071E3','#34C759','#FF9500','#8B5CF6','#E8B84A','#FF3B30','#5856D6','#AF52DE','#00C7BE','#FFCC00'];
+  if (document.getElementById('chartEnt_marzo-2026') && [15, 19, 5, 34, 2].length) {
+    new Chart(document.getElementById('chartEnt_marzo-2026'), {
+      type: 'doughnut',
+      data: { labels: ["PLAN CHU", "PLAN GI", "PLAN REI", "PLAN YU", "SOUSHIN"], datasets: [{ data: [15, 19, 5, 34, 2], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartYog_marzo-2026') && [3, 3, 4, 5].length) {
+    new Chart(document.getElementById('chartYog_marzo-2026'), {
+      type: 'doughnut',
+      data: { labels: ["YOGA 24+6", "YOGA X24", "YOGA X4", "YOGA X8"], datasets: [{ data: [3, 3, 4, 5], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartEntV_marzo-2026') && [1350600.0, 1544000.0, 5796000.0, 540000.0, 420000.0, 252000.0, 770000.0].length) {
+    new Chart(document.getElementById('chartEntV_marzo-2026'), {
+      type: 'bar',
+      data: { labels: ["PLAN GI", "PLAN REI", "PLAN YU", "SOUSHIN", "TIQUETERA X1", "TIQUETERA X14", "TIQUETERA X7"], datasets: [{ label: '$', data: [1350600.0, 1544000.0, 5796000.0, 540000.0, 420000.0, 252000.0, 770000.0], backgroundColor: '#0071E3' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+  if (document.getElementById('chartYogV_marzo-2026') && [1300000.0, 480000.0, 40000.0, 560000.0, 1200000.0].length) {
+    new Chart(document.getElementById('chartYogV_marzo-2026'), {
+      type: 'bar',
+      data: { labels: ["YOGA 24+6", "YOGA X1 -50%", "YOGA X1 FULL", "YOGA X4", "YOGA X8"], datasets: [{ label: '$', data: [1300000.0, 480000.0, 40000.0, 560000.0, 1200000.0], backgroundColor: '#8B5CF6' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+})();
+</script>
 
 
 <section class="month-section" id="abril-2026">
@@ -642,6 +796,17 @@ body {
         <div class="kpi-sub">activos al cierre</div>
         <div class="kpi-trend neg">vs mes anterior: -20.0%</div>
         <div class="kpi-extra">+ 0 compensatorios</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Distribución activos — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEnt_abril-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Distribución activos — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYog_abril-2026"></canvas></div>
       </div>
     </div>
 
@@ -676,12 +841,10 @@ body {
         <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
-          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">38</td><td class="num">19</td><td class="num">57</td><td class="num">$0</td></tr>
-<tr><td>TIQUETERA X1</td><td class="num">2</td><td class="num">7</td><td class="num">9</td><td class="num">$270.000</td></tr>
+          <tbody><tr><td>TIQUETERA X1</td><td class="num">2</td><td class="num">7</td><td class="num">9</td><td class="num">$270.000</td></tr>
 <tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">6</td><td class="num">6</td><td class="num">$924.000</td></tr>
 <tr><td>PLAN REI</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">$928.000</td></tr>
 <tr><td>SOUSHIN</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$1.080.000</td></tr>
-<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
 <tr><td>TIQUETERA X14</td><td class="num">2</td><td class="num">0</td><td class="num">2</td><td class="num">$504.000</td></tr>
 <tr><td>PLAN CHU</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$2.106.000</td></tr>
 <tr><td>PLAN GI</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$1.500.000</td></tr></tbody>
@@ -692,7 +855,6 @@ body {
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
           <tbody><tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">31</td><td class="num">31</td><td class="num">$620.000</td></tr>
-<tr><td>CORTESIA YOGA</td><td class="num">3</td><td class="num">8</td><td class="num">11</td><td class="num">$0</td></tr>
 <tr><td>YOGA X4</td><td class="num">0</td><td class="num">7</td><td class="num">7</td><td class="num">$980.000</td></tr>
 <tr><td>YOGA X1 FULL</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">$160.000</td></tr>
 <tr><td>YOGA X8</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$480.000</td></tr></tbody>
@@ -741,6 +903,17 @@ body {
       </table></div>
     </div>
 
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEntV_abril-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYogV_abril-2026"></canvas></div>
+      </div>
+    </div>
+
     <div class="card revenue-card">
       <h3 class="section-h">Resumen $</h3>
       <div class="revenue-total">$9.6M</div>
@@ -748,6 +921,39 @@ body {
     </div>
   </div>
 </section>
+<script>
+(function() {
+  const colors = ['#0071E3','#34C759','#FF9500','#8B5CF6','#E8B84A','#FF3B30','#5856D6','#AF52DE','#00C7BE','#FFCC00'];
+  if (document.getElementById('chartEnt_abril-2026') && [16, 20, 4, 31, 4].length) {
+    new Chart(document.getElementById('chartEnt_abril-2026'), {
+      type: 'doughnut',
+      data: { labels: ["PLAN CHU", "PLAN GI", "PLAN REI", "PLAN YU", "SOUSHIN"], datasets: [{ data: [16, 20, 4, 31, 4], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartYog_abril-2026') && [2, 1, 7, 2].length) {
+    new Chart(document.getElementById('chartYog_abril-2026'), {
+      type: 'doughnut',
+      data: { labels: ["YOGA 24+6", "YOGA X24", "YOGA X4", "YOGA X8"], datasets: [{ data: [2, 1, 7, 2], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartEntV_abril-2026') && [2106000.0, 1500000.0, 928000.0, 1080000.0, 270000.0, 504000.0, 924000.0].length) {
+    new Chart(document.getElementById('chartEntV_abril-2026'), {
+      type: 'bar',
+      data: { labels: ["PLAN CHU", "PLAN GI", "PLAN REI", "SOUSHIN", "TIQUETERA X1", "TIQUETERA X14", "TIQUETERA X7"], datasets: [{ label: '$', data: [2106000.0, 1500000.0, 928000.0, 1080000.0, 270000.0, 504000.0, 924000.0], backgroundColor: '#0071E3' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+  if (document.getElementById('chartYogV_abril-2026') && [620000.0, 160000.0, 980000.0, 480000.0].length) {
+    new Chart(document.getElementById('chartYogV_abril-2026'), {
+      type: 'bar',
+      data: { labels: ["YOGA X1 -50%", "YOGA X1 FULL", "YOGA X4", "YOGA X8"], datasets: [{ label: '$', data: [620000.0, 160000.0, 980000.0, 480000.0], backgroundColor: '#8B5CF6' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+})();
+</script>
 
 
 <section class="month-section" id="mayo-2026">
@@ -768,6 +974,17 @@ body {
         <div class="kpi-sub">activos al cierre</div>
         <div class="kpi-trend pos">vs mes anterior: +41.7%</div>
         <div class="kpi-extra">+ 0 compensatorios</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Distribución activos — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEnt_mayo-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Distribución activos — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYog_mayo-2026"></canvas></div>
       </div>
     </div>
 
@@ -801,14 +1018,11 @@ body {
         <h3 class="section-h">Ventas Entrenamiento (nuevos vs recompras)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
-          <tbody><tr><td>CORTESIA ENTRENAMIENTO</td><td class="num">22</td><td class="num">24</td><td class="num">46</td><td class="num">$0</td></tr>
-<tr><td>PLAN REI</td><td class="num">0</td><td class="num">8</td><td class="num">8</td><td class="num">$2.240.000</td></tr>
+          <tbody><tr><td>PLAN REI</td><td class="num">0</td><td class="num">8</td><td class="num">8</td><td class="num">$2.240.000</td></tr>
 <tr><td>TIQUETERA X14</td><td class="num">0</td><td class="num">8</td><td class="num">8</td><td class="num">$2.016.000</td></tr>
-<tr><td>CORTESIA X15</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$0</td></tr>
 <tr><td>PLAN YU</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$3.360.000</td></tr>
 <tr><td>SOUSHIN</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num">$1.080.000</td></tr>
 <tr><td>TIQUETERA X1</td><td class="num">1</td><td class="num">2</td><td class="num">3</td><td class="num">$120.000</td></tr>
-<tr><td>CORTESIA X30</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$0</td></tr>
 <tr><td>TIQUETERA X7</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$308.000</td></tr>
 <tr><td>PLAN CHU</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td class="num">$2.340.000</td></tr></tbody>
         </table></div>
@@ -817,8 +1031,7 @@ body {
         <h3 class="section-h">Ventas Yoga (nuevos vs recompras)</h3>
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Plan</th><th class="num">Nuevo</th><th class="num">Recompra</th><th class="num">Total</th><th class="num">Monto</th></tr></thead>
-          <tbody><tr><td>CORTESIA YOGA</td><td class="num">12</td><td class="num">4</td><td class="num">16</td><td class="num">$0</td></tr>
-<tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">14</td><td class="num">14</td><td class="num">$280.000</td></tr>
+          <tbody><tr><td>YOGA X1 -50%</td><td class="num">0</td><td class="num">14</td><td class="num">14</td><td class="num">$280.000</td></tr>
 <tr><td>YOGA X4</td><td class="num">2</td><td class="num">9</td><td class="num">11</td><td class="num">$1.540.000</td></tr>
 <tr><td>YOGA 24+6</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$1.300.000</td></tr>
 <tr><td>YOGA X1 FULL</td><td class="num">0</td><td class="num">2</td><td class="num">2</td><td class="num">$120.000</td></tr>
@@ -879,6 +1092,17 @@ body {
       </table></div>
     </div>
 
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Entrenamiento</h3>
+        <div class="chart-wrap"><canvas id="chartEntV_mayo-2026"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Ventas $ — Yoga</h3>
+        <div class="chart-wrap"><canvas id="chartYogV_mayo-2026"></canvas></div>
+      </div>
+    </div>
+
     <div class="card revenue-card">
       <h3 class="section-h">Resumen $</h3>
       <div class="revenue-total">$15.8M</div>
@@ -886,6 +1110,39 @@ body {
     </div>
   </div>
 </section>
+<script>
+(function() {
+  const colors = ['#0071E3','#34C759','#FF9500','#8B5CF6','#E8B84A','#FF3B30','#5856D6','#AF52DE','#00C7BE','#FFCC00'];
+  if (document.getElementById('chartEnt_mayo-2026') && [17, 19, 8, 16, 4].length) {
+    new Chart(document.getElementById('chartEnt_mayo-2026'), {
+      type: 'doughnut',
+      data: { labels: ["PLAN CHU", "PLAN GI", "PLAN REI", "PLAN YU", "SOUSHIN"], datasets: [{ data: [17, 19, 8, 16, 4], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartYog_mayo-2026') && [4, 11, 2].length) {
+    new Chart(document.getElementById('chartYog_mayo-2026'), {
+      type: 'doughnut',
+      data: { labels: ["YOGA 24+6", "YOGA X4", "YOGA X8"], datasets: [{ data: [4, 11, 2], backgroundColor: colors }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: {size:11} } } } }
+    });
+  }
+  if (document.getElementById('chartEntV_mayo-2026') && [2340000.0, 2240000.0, 3360000.0, 1080000.0, 120000.0, 2016000.0, 308000.0].length) {
+    new Chart(document.getElementById('chartEntV_mayo-2026'), {
+      type: 'bar',
+      data: { labels: ["PLAN CHU", "PLAN REI", "PLAN YU", "SOUSHIN", "TIQUETERA X1", "TIQUETERA X14", "TIQUETERA X7"], datasets: [{ label: '$', data: [2340000.0, 2240000.0, 3360000.0, 1080000.0, 120000.0, 2016000.0, 308000.0], backgroundColor: '#0071E3' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+  if (document.getElementById('chartYogV_mayo-2026') && [20000.0, 1300000.0, 280000.0, 120000.0, 1540000.0, 480000.0].length) {
+    new Chart(document.getElementById('chartYogV_mayo-2026'), {
+      type: 'bar',
+      data: { labels: ["ENTRENO US YOGA", "YOGA 24+6", "YOGA X1 -50%", "YOGA X1 FULL", "YOGA X4", "YOGA X8"], datasets: [{ label: '$', data: [20000.0, 1300000.0, 280000.0, 120000.0, 1540000.0, 480000.0], backgroundColor: '#8B5CF6' }] },
+      options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }
+})();
+</script>
 
 
 <footer class="footer">
