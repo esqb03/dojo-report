@@ -1191,6 +1191,12 @@ const DATA = {
   ventas_pil: [0, 0, 0, 0, 594000],
   nuevos: [33, 13, 12, 13, 18],
   recompras: [65, 47, 55, 53, 50],
+  nuevos_ent: [20, 8, 10, 8, 9],
+  recompras_ent: [40, 29, 24, 19, 21],
+  nuevos_yog: [13, 5, 2, 5, 6],
+  recompras_yog: [25, 18, 31, 34, 26],
+  nuevos_pil: [0, 0, 0, 0, 3],
+  recompras_pil: [0, 0, 0, 0, 3],
 };
 
 let filterMonth = 'todo';
@@ -1220,11 +1226,24 @@ function getVentasArr() {
 
 let chartFinalActivos, chartFinalPlata, chartCompare;
 
+function getNuevosArr() {
+  if (filterAct === 'ent') return DATA.nuevos_ent;
+  if (filterAct === 'yog') return DATA.nuevos_yog;
+  if (filterAct === 'pil') return DATA.nuevos_pil;
+  return DATA.nuevos;
+}
+function getRecompraArr() {
+  if (filterAct === 'ent') return DATA.recompras_ent;
+  if (filterAct === 'yog') return DATA.recompras_yog;
+  if (filterAct === 'pil') return DATA.recompras_pil;
+  return DATA.recompras;
+}
+
 function applyFilters() {
   const activosArr = getActivosArr();
   const ventasArr = getVentasArr();
-  const nuevosArr = DATA.nuevos;  // los nuevos vienen del cómputo oficial (solo ent/yoga)
-  const recompraArr = DATA.recompras;
+  const nuevosArr = getNuevosArr();
+  const recompraArr = getRecompraArr();
 
   let activos, ventas, nuevos, recompra, sub;
   if (filterMonth === 'todo') {
