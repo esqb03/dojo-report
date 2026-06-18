@@ -1273,6 +1273,23 @@ body {
 </script>
 
 
+<section style="padding: 64px 0; border-top: 1px solid var(--border-subtle); background: var(--surface);">
+  <div class="container">
+    <h2 class="month-title" style="text-align:center;">Resumen 5 meses</h2>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="section-h">Total activos por mes (ENT + YOGA + PILATES)</h3>
+        <div class="chart-wrap" style="height: 320px;"><canvas id="chartFinalActivos"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 class="section-h">Plata ($) total por mes</h3>
+        <div class="chart-wrap" style="height: 320px;"><canvas id="chartFinalPlata"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="footer">
   <div class="container">
     Generado automáticamente desde INFORME DOJO A MAYO 2026.xlsx · Being CoRE<br>
@@ -1300,6 +1317,44 @@ new Chart(document.getElementById('chartVentas'), {
     datasets: [{ label: 'Ventas $', data: [44697200.0, 27248800.0, 14252600.0, 9552000.0, 15798000.0], backgroundColor: '#34C759' }]
   },
   options: { responsive: true, plugins: { legend: { display: false } } }
+});
+
+// Gráficos finales
+new Chart(document.getElementById('chartFinalActivos'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [
+      { label: 'Entrenamiento', data: [82, 82, 75, 75, 64], backgroundColor: '#0071E3' },
+      { label: 'Yoga', data: [20, 13, 15, 12, 17], backgroundColor: '#8B5CF6' },
+      { label: 'Pilates', data: [0, 0, 0, 0, 1], backgroundColor: '#FF9500' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } },
+    scales: { x: { stacked: true }, y: { stacked: true } }
+  }
+});
+
+new Chart(document.getElementById('chartFinalPlata'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [{
+      label: 'Ventas $',
+      data: [44697200, 27248800, 14252600, 9552000, 15798000],
+      backgroundColor: '#34C759'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => '$' + Number(c.raw).toLocaleString('es-CO') } }
+    },
+    scales: { y: { ticks: { callback: v => '$' + (v/1000000).toFixed(1)+'M' } } }
+  }
 });
 </script>
 
