@@ -123,6 +123,37 @@ body {
 }
 .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .chart-wrap { position: relative; height: 260px; max-width: 100%; }
+.filter-bar {
+  display: flex; flex-wrap: wrap; gap: 24px; padding: 16px;
+  background: rgba(0,0,0,0.02); border-radius: var(--radius);
+}
+.filter-group {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+}
+.filter-title {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--text-tertiary); margin-right: 6px; font-weight: 600;
+}
+.pill {
+  font-size: 12px; font-weight: 600; padding: 6px 14px;
+  border-radius: 100px; border: 1px solid rgba(0,0,0,0.1);
+  background: white; color: var(--text-secondary);
+  cursor: pointer; transition: all 0.15s ease;
+}
+.pill:hover { border-color: var(--text); color: var(--text); }
+.pill.active {
+  background: var(--text); color: white; border-color: var(--text);
+}
+.compare-row {
+  display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.compare-row label {
+  font-size: 13px; color: var(--text-secondary); display: flex; gap: 8px; align-items: center;
+}
+.compare-row select {
+  font-family: var(--font); font-size: 13px; padding: 6px 10px;
+  border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); background: white;
+}
 .tbl {
   width: 100%; border-collapse: collapse; font-size: 13px;
   table-layout: auto;
@@ -1275,17 +1306,86 @@ body {
 
 <section style="padding: 64px 0; border-top: 1px solid var(--border-subtle); background: var(--surface);">
   <div class="container">
-    <h2 class="month-title" style="text-align:center;">Resumen 5 meses</h2>
+    <h2 class="month-title" style="text-align:center;">Análisis interactivo · 5 meses</h2>
+
+    <!-- FILTROS -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <span class="filter-title">Mes</span>
+        <button class="pill active" data-filter="month" data-value="todo">Todo</button>
+        <button class="pill" data-filter="month" data-value="Enero">Ene</button>
+        <button class="pill" data-filter="month" data-value="Febrero">Feb</button>
+        <button class="pill" data-filter="month" data-value="Marzo">Mar</button>
+        <button class="pill" data-filter="month" data-value="Abril">Abr</button>
+        <button class="pill" data-filter="month" data-value="Mayo">May</button>
+      </div>
+      <div class="filter-group">
+        <span class="filter-title">Actividad</span>
+        <button class="pill active" data-filter="act" data-value="todo">Todo</button>
+        <button class="pill" data-filter="act" data-value="ent">Entrenamiento</button>
+        <button class="pill" data-filter="act" data-value="yog">Yoga</button>
+        <button class="pill" data-filter="act" data-value="pil">Pilates</button>
+      </div>
+    </div>
+
+    <div class="kpi-row" style="margin: 32px 0;">
+      <div class="card">
+        <div class="kpi-label">Activos</div>
+        <div class="kpi-val" id="fkpiActivos">—</div>
+        <div class="kpi-sub" id="fkpiActivosSub">—</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Ventas $</div>
+        <div class="kpi-val" id="fkpiVentas">—</div>
+        <div class="kpi-sub" id="fkpiVentasSub">—</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Nuevos</div>
+        <div class="kpi-val" id="fkpiNuevos">—</div>
+        <div class="kpi-sub" id="fkpiNuevosSub">—</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Recompra</div>
+        <div class="kpi-val" id="fkpiRecompra">—</div>
+        <div class="kpi-sub" id="fkpiRecompraSub">—</div>
+      </div>
+    </div>
 
     <div class="grid-2">
       <div class="card">
-        <h3 class="section-h">Total activos por mes (ENT + YOGA + PILATES)</h3>
+        <h3 class="section-h">Activos por mes (según filtro)</h3>
         <div class="chart-wrap" style="height: 320px;"><canvas id="chartFinalActivos"></canvas></div>
       </div>
       <div class="card">
-        <h3 class="section-h">Plata ($) total por mes</h3>
+        <h3 class="section-h">Plata $ por mes (según filtro)</h3>
         <div class="chart-wrap" style="height: 320px;"><canvas id="chartFinalPlata"></canvas></div>
       </div>
+    </div>
+
+    <!-- COMPARATIVO MES vs MES -->
+    <div class="card" style="margin-top: 24px;">
+      <h3 class="section-h">Comparativo: Mes A vs Mes B</h3>
+      <div class="compare-row">
+        <label>Mes A:
+          <select id="cmpA">
+            <option value="Enero">Enero</option>
+            <option value="Febrero">Febrero</option>
+            <option value="Marzo">Marzo</option>
+            <option value="Abril" selected>Abril</option>
+            <option value="Mayo">Mayo</option>
+          </select>
+        </label>
+        <label>Mes B:
+          <select id="cmpB">
+            <option value="Enero">Enero</option>
+            <option value="Febrero">Febrero</option>
+            <option value="Marzo">Marzo</option>
+            <option value="Abril">Abril</option>
+            <option value="Mayo" selected>Mayo</option>
+          </select>
+        </label>
+      </div>
+      <div class="chart-wrap" style="height: 360px;"><canvas id="chartCompare"></canvas></div>
     </div>
   </div>
 </section>
@@ -1319,43 +1419,186 @@ new Chart(document.getElementById('chartVentas'), {
   options: { responsive: true, plugins: { legend: { display: false } } }
 });
 
-// Gráficos finales
-new Chart(document.getElementById('chartFinalActivos'), {
+// DATA para filtros interactivos
+const DATA = {
+  months: months,
+  ent: [82, 82, 75, 75, 64],
+  yog: [20, 13, 15, 12, 17],
+  pil: [0, 0, 0, 0, 1],
+  ventas: [44697200, 27248800, 14252600, 9552000, 15798000],
+  // Ventas por categoria por mes
+  ventas_ent: [39847200.0, 24778800.0, 10672600.0, 7312000.0, 11464000.0],
+  ventas_yog: [4850000.0, 2470000.0, 3580000.0, 2240000.0, 3740000.0],
+  ventas_pil: [0, 0, 0, 0, 594000.0],
+  // Nuevos/recompra por categoria por mes
+  nuevos_ent: [35, 19, 18, 43, 23],
+  nuevos_yog: [16, 7, 0, 4, 14],
+  nuevos_pil: [0, 0, 0, 2, 6],
+  recompra_ent: [70, 53, 46, 43, 59],
+  recompra_yog: [35, 24, 44, 51, 34],
+  recompra_pil: [0, 0, 0, 4, 6],
+};
+
+let filterMonth = 'todo';
+let filterAct = 'todo';
+
+function fmtPlata(n) {
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return '$' + (n/1e3).toFixed(0) + 'K';
+  return '$' + Math.round(n);
+}
+function fmtFullPlata(n) {
+  return '$' + Math.round(n).toLocaleString('es-CO').replace(/,/g, '.');
+}
+
+function getActivosArr() {
+  if (filterAct === 'ent') return DATA.ent;
+  if (filterAct === 'yog') return DATA.yog;
+  if (filterAct === 'pil') return DATA.pil;
+  return DATA.months.map((m,i) => DATA.ent[i]+DATA.yog[i]+DATA.pil[i]);
+}
+function getVentasArr() {
+  if (filterAct === 'ent') return DATA.ventas_ent;
+  if (filterAct === 'yog') return DATA.ventas_yog;
+  if (filterAct === 'pil') return DATA.ventas_pil;
+  return DATA.ventas;
+}
+function getNuevosArr() {
+  if (filterAct === 'ent') return DATA.nuevos_ent;
+  if (filterAct === 'yog') return DATA.nuevos_yog;
+  if (filterAct === 'pil') return DATA.nuevos_pil;
+  return DATA.months.map((m,i) => DATA.nuevos_ent[i]+DATA.nuevos_yog[i]+DATA.nuevos_pil[i]);
+}
+function getRecompraArr() {
+  if (filterAct === 'ent') return DATA.recompra_ent;
+  if (filterAct === 'yog') return DATA.recompra_yog;
+  if (filterAct === 'pil') return DATA.recompra_pil;
+  return DATA.months.map((m,i) => DATA.recompra_ent[i]+DATA.recompra_yog[i]+DATA.recompra_pil[i]);
+}
+
+let chartFinalActivos, chartFinalPlata, chartCompare;
+
+function applyFilters() {
+  const activosArr = getActivosArr();
+  const ventasArr = getVentasArr();
+  const nuevosArr = getNuevosArr();
+  const recompraArr = getRecompraArr();
+
+  // KPIs
+  let activos, ventas, nuevos, recompra, sub;
+  if (filterMonth === 'todo') {
+    activos = activosArr[activosArr.length - 1];  // último mes
+    ventas = ventasArr.reduce((a,b) => a+b, 0);
+    nuevos = nuevosArr.reduce((a,b) => a+b, 0);
+    recompra = recompraArr.reduce((a,b) => a+b, 0);
+    sub = '5 meses';
+  } else {
+    const idx = DATA.months.indexOf(filterMonth);
+    activos = activosArr[idx];
+    ventas = ventasArr[idx];
+    nuevos = nuevosArr[idx];
+    recompra = recompraArr[idx];
+    sub = filterMonth;
+  }
+
+  document.getElementById('fkpiActivos').textContent = activos;
+  document.getElementById('fkpiActivosSub').textContent = filterMonth==='todo' ? 'al cierre Mayo' : sub;
+  document.getElementById('fkpiVentas').textContent = fmtPlata(ventas);
+  document.getElementById('fkpiVentasSub').textContent = fmtFullPlata(ventas);
+  document.getElementById('fkpiNuevos').textContent = nuevos;
+  document.getElementById('fkpiNuevosSub').textContent = sub;
+  document.getElementById('fkpiRecompra').textContent = recompra;
+  document.getElementById('fkpiRecompraSub').textContent = sub;
+
+  // Charts - filter month to single bar if not todo
+  let lab, dataActivos, dataVentas;
+  if (filterMonth === 'todo') {
+    lab = DATA.months;
+    dataActivos = activosArr;
+    dataVentas = ventasArr;
+  } else {
+    const idx = DATA.months.indexOf(filterMonth);
+    lab = [filterMonth];
+    dataActivos = [activosArr[idx]];
+    dataVentas = [ventasArr[idx]];
+  }
+
+  chartFinalActivos.data.labels = lab;
+  chartFinalActivos.data.datasets[0].data = dataActivos;
+  chartFinalActivos.update();
+
+  chartFinalPlata.data.labels = lab;
+  chartFinalPlata.data.datasets[0].data = dataVentas;
+  chartFinalPlata.update();
+}
+
+document.querySelectorAll('.filter-bar .pill').forEach(p => {
+  p.addEventListener('click', () => {
+    const f = p.dataset.filter, v = p.dataset.value;
+    document.querySelectorAll(`.filter-bar .pill[data-filter="${f}"]`).forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    if (f === 'month') filterMonth = v;
+    if (f === 'act') filterAct = v;
+    applyFilters();
+  });
+});
+
+// Gráficos finales con datos iniciales
+chartFinalActivos = new Chart(document.getElementById('chartFinalActivos'), {
   type: 'bar',
-  data: {
-    labels: months,
-    datasets: [
-      { label: 'Entrenamiento', data: [82, 82, 75, 75, 64], backgroundColor: '#0071E3' },
-      { label: 'Yoga', data: [20, 13, 15, 12, 17], backgroundColor: '#8B5CF6' },
-      { label: 'Pilates', data: [0, 0, 0, 0, 1], backgroundColor: '#FF9500' }
-    ]
-  },
+  data: { labels: months, datasets: [{ label: 'Activos', data: getActivosArr(), backgroundColor: '#0071E3' }] },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: 'top' } },
-    scales: { x: { stacked: true }, y: { stacked: true } }
+    plugins: { legend: { display: false } }
   }
 });
 
-new Chart(document.getElementById('chartFinalPlata'), {
+chartFinalPlata = new Chart(document.getElementById('chartFinalPlata'), {
   type: 'bar',
-  data: {
-    labels: months,
-    datasets: [{
-      label: 'Ventas $',
-      data: [44697200, 27248800, 14252600, 9552000, 15798000],
-      backgroundColor: '#34C759'
-    }]
-  },
+  data: { labels: months, datasets: [{ label: 'Ventas $', data: getVentasArr(), backgroundColor: '#34C759' }] },
   options: {
     responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      tooltip: { callbacks: { label: c => '$' + Number(c.raw).toLocaleString('es-CO') } }
+      tooltip: { callbacks: { label: c => fmtFullPlata(c.raw) } }
     },
-    scales: { y: { ticks: { callback: v => '$' + (v/1000000).toFixed(1)+'M' } } }
+    scales: { y: { ticks: { callback: v => fmtPlata(v) } } }
   }
 });
+
+// Comparativo
+function updateCompare() {
+  const a = document.getElementById('cmpA').value;
+  const b = document.getElementById('cmpB').value;
+  const idxA = DATA.months.indexOf(a), idxB = DATA.months.indexOf(b);
+  const dataA = [DATA.ent[idxA], DATA.yog[idxA], DATA.pil[idxA], DATA.ventas[idxA]/100000];
+  const dataB = [DATA.ent[idxB], DATA.yog[idxB], DATA.pil[idxB], DATA.ventas[idxB]/100000];
+  chartCompare.data.datasets[0].label = a;
+  chartCompare.data.datasets[0].data = dataA;
+  chartCompare.data.datasets[1].label = b;
+  chartCompare.data.datasets[1].data = dataB;
+  chartCompare.update();
+}
+
+chartCompare = new Chart(document.getElementById('chartCompare'), {
+  type: 'bar',
+  data: {
+    labels: ['Activos Ent', 'Activos Yoga', 'Activos Pilates', 'Ventas $ (x100K)'],
+    datasets: [
+      { label: 'Abril', data: [DATA.ent[3], DATA.yog[3], DATA.pil[3], DATA.ventas[3]/100000], backgroundColor: '#0071E3' },
+      { label: 'Mayo',  data: [DATA.ent[4], DATA.yog[4], DATA.pil[4], DATA.ventas[4]/100000], backgroundColor: '#FF9500' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } }
+  }
+});
+document.getElementById('cmpA').addEventListener('change', updateCompare);
+document.getElementById('cmpB').addEventListener('change', updateCompare);
+
+// Init filters
+applyFilters();
 </script>
 
 </body>
