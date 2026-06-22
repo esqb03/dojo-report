@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Producción Condugas · Propuesta de Implementación</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAFA; --bg-end: #F0F0F5; --surface: #FFFFFF; --text: #1D1D1F;
+  --text-secondary: #86868B; --text-tertiary: #AEAEB2;
+  --blue: #0071E3; --green: #34C759; --red: #FF3B30; --orange: #FF9500;
+  --gold: #E8B84A; --lime: #C6F432; --violet: #8B5CF6;
+  --border-subtle: rgba(0,0,0,0.06);
+  --shadow: 0 2px 12px rgba(0,0,0,0.04);
+  --radius: 20px;
+  --font: 'Inter', -apple-system, system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; width: 100%; }
+body {
+  font-family: var(--font);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-end) 100%);
+  color: var(--text); line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1080px; padding: 0 24px; margin: 0 auto; }
+.hero { padding: 80px 0 40px; text-align: center; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  background: rgba(255,255,255,0.65); backdrop-filter: blur(10px);
+  padding: 10px 22px; border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.18); margin-bottom: 28px;
+}
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); }
+.hero h1 { font-size: clamp(40px, 7vw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 1.0; margin-bottom: 18px; }
+.hero p { font-size: clamp(16px, 2vw, 20px); color: var(--text-secondary); max-width: 620px; margin: 0 auto; }
+.section { padding: 56px 0; border-top: 1px solid var(--border-subtle); }
+.section-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
+.section-sub { font-size: 16px; color: var(--text-secondary); margin-bottom: 32px; max-width: 720px; }
+.kpi-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  margin: 32px 0;
+}
+.card {
+  background: var(--surface); padding: 24px; border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-tertiary); font-weight: 600; margin-bottom: 8px; }
+.kpi-val { font-size: clamp(28px, 4.5vw, 40px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.0; }
+.kpi-sub { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
+.kpi-blue .kpi-val { color: var(--blue); }
+.kpi-green .kpi-val { color: var(--green); }
+.kpi-orange .kpi-val { color: var(--orange); }
+.kpi-violet .kpi-val { color: var(--violet); }
+@media (max-width: 720px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+.section-h { font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600; }
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+@media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+
+.flow {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.flow-step {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px; background: var(--surface);
+  border-radius: 12px; border: 1px solid var(--border-subtle);
+}
+.flow-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--blue); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; flex-shrink: 0;
+}
+.flow-body { flex: 1; }
+.flow-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.flow-desc { color: var(--text-secondary); font-size: 13px; }
+
+.contract-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;
+}
+.contract-card { padding: 16px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border-subtle); }
+.contract-name { font-weight: 800; font-size: 15px; }
+.contract-client { font-size: 11px; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+.contract-app { font-size: 12px; color: var(--text-secondary); }
+
+.arch {
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.arch-layer {
+  border: 2px dashed; border-radius: 12px; padding: 16px;
+}
+.arch-layer.brain { border-color: var(--blue); background: rgba(0,113,227,0.04); }
+.arch-layer.app { border-color: var(--green); background: rgba(52,199,89,0.04); }
+.arch-layer.storage { border-color: var(--orange); background: rgba(255,149,0,0.04); }
+.arch-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; margin-bottom: 6px; }
+.arch-brain .arch-title { color: var(--blue); }
+.arch-app .arch-title { color: var(--green); }
+.arch-storage .arch-title { color: var(--orange); }
+.arch-desc { font-size: 13px; color: var(--text); }
+.arch-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.arch-tag { font-size: 10px; padding: 3px 8px; border-radius: 100px; background: rgba(0,0,0,0.05); color: var(--text-secondary); font-weight: 600; }
+.arch-arrow { text-align: center; color: var(--text-tertiary); font-size: 18px; }
+
+.phase-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+}
+@media (max-width: 720px) { .phase-grid { grid-template-columns: 1fr; } }
+.phase-card {
+  background: var(--surface); padding: 20px; border-radius: var(--radius);
+  border-left: 4px solid var(--blue);
+  box-shadow: var(--shadow);
+}
+.phase-num { font-size: 10px; font-weight: 800; color: var(--blue); text-transform: uppercase; letter-spacing: 0.14em; }
+.phase-title { font-size: 17px; font-weight: 800; margin: 6px 0 6px 0; }
+.phase-dur { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
+.phase-tasks { font-size: 13px; color: var(--text); }
+.phase-tasks li { margin-bottom: 4px; }
+
+.benefit-card {
+  padding: 20px; background: linear-gradient(135deg, white, #f5f5f7);
+  border-radius: 12px; border: 1px solid var(--border-subtle);
+}
+.benefit-icon { font-size: 32px; margin-bottom: 12px; }
+.benefit-title { font-weight: 800; font-size: 16px; margin-bottom: 4px; }
+.benefit-desc { font-size: 13px; color: var(--text-secondary); }
+
+.cost-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.cost-table th, .cost-table td { padding: 12px; border-bottom: 1px solid var(--border-subtle); text-align: left; }
+.cost-table thead th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-tertiary); }
+.cost-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.cost-table tfoot { font-weight: 800; }
+
+.footer { padding: 60px 0; text-align: center; color: var(--text-tertiary); font-size: 12px; border-top: 1px solid var(--border-subtle); }
+
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl th, .tbl td { padding: 10px; border-bottom: 1px solid var(--border-subtle); text-align: left; }
+.tbl thead th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-tertiary); }
+.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.highlight {
+  display: inline-block;
+  background: linear-gradient(180deg, transparent 60%, var(--lime) 60%);
+  padding: 0 4px;
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="badge-dot"></span> CONDUGAS · Being CoRE · Junio 2026</div>
+    <h1>Producción Condugas<br>Propuesta de Digitalización</h1>
+    <p>Odoo como cerebro · App móvil ConduMóvil en campo · 8 contratos parametrizados · 400-500 operarios</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="kpi-row">
+      <div class="card kpi-blue">
+        <div class="kpi-label">Contratos</div>
+        <div class="kpi-val">8</div>
+        <div class="kpi-sub">EPM, Vanti, GDO, Metrogas, SILAR, NN</div>
+      </div>
+      <div class="card kpi-green">
+        <div class="kpi-label">Operarios</div>
+        <div class="kpi-val">400-500</div>
+        <div class="kpi-sub">en campo con app móvil</div>
+      </div>
+      <div class="card kpi-orange">
+        <div class="kpi-label">Duración</div>
+        <div class="kpi-val">10-14 sem</div>
+        <div class="kpi-sub">desarrollo + pilotaje</div>
+      </div>
+      <div class="card kpi-violet">
+        <div class="kpi-label">Operación</div>
+        <div class="kpi-val">$30-55<span style="font-size:0.5em;">/mes</span></div>
+        <div class="kpi-sub">infra recurrente</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Modelo de Negocio</h2>
+    <p class="section-sub">Flujo operativo que se repite en los 8 contratos. Cambian los aplicativos cliente y reglas, no el esqueleto.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          <div class="flow-title">Cliente asigna obras</div>
+          <div class="flow-desc">EPM, Vanti, GDO, etc. cargan asignaciones (daños, mantenimientos, instalaciones) al sistema de Condugas vía sus aplicativos (Gaspar, OSF, SAP Vanti, FCK).</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          <div class="flow-title">Distribución a cuadrillas</div>
+          <div class="flow-desc">Centro de operaciones asigna cada obra a una cuadrilla específica (encargado + ayudantes + frente operativo).</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-body">
+          <div class="flow-title">Ejecución en campo</div>
+          <div class="flow-desc">El operario llena el parte de trabajo en la app: actividad, cantidades, materiales consumidos, horas, fotos con GPS, ATS firmado, maniobras de válvulas.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-body">
+          <div class="flow-title">Cierre diario del frente</div>
+          <div class="flow-desc">Encargado consolida los partes del día, valida calidad (foto+ATS+evidencia), calcula horas por persona y genera reintegro de material no usado.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-body">
+          <div class="flow-title">Liquidación día siguiente</div>
+          <div class="flow-desc">Ingeniero residente recibe el consolidado y descarga en el aplicativo del cliente (TAOS, Gaspar, OSF, FCK).</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">6</div>
+        <div class="flow-body">
+          <div class="flow-title">Aprobación y facturación</div>
+          <div class="flow-desc">Cliente aprueba (TAOS / interventor / coordinador). Se incluye en informe semanal/mensual y se factura.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">8 Contratos Activos</h2>
+    <p class="section-sub">Cada uno con cliente, aplicativos y reglas distintas. Toda esa variabilidad se resuelve por parámetros, no por código duplicado.</p>
+
+    <div class="contract-grid">
+      <div class="contract-card">
+        <div class="contract-client">EPM Aguas</div>
+        <div class="contract-name">OYMA R2</div>
+        <div class="contract-app">FC · FCM · TPM · Hidro</div>
+      </div>
+      <div class="contract-card">
+        <div class="contract-client">EPM Gas</div>
+        <div class="contract-name">OYM Gas Z2</div>
+        <div class="contract-app">Gaspar · Máximo · códigos 1300/1400</div>
+      </div>
+      <div class="contract-card">
+        <div class="contract-client">EPM Normalización</div>
+        <div class="contract-name">Normalización Aguas</div>
+        <div class="contract-app">Hidro · Open · Episteme IA</div>
+      </div>
+      <div class="contract-card">
+        <div class="contract-client">Vanti</div>
+        <div class="contract-name">Boyacá</div>
+        <div class="contract-app">SAP Vanti · 49 docs libro de obra · TINSTAM</div>
+      </div>
+      <div class="contract-card">
+        <div class="contract-client">Gases de Occidente</div>
+        <div class="contract-name">Valle</div>
+        <div class="contract-app">OSF · Seogas · Mati · RC699/RC342</div>
+      </div>
+      <div class="contract-card">
+        <div class="contract-client">Metrogas</div>
+        <div class="contract-name">Floridablanca</div>
+        <div class="contract-app">Pendiente ingesta pliego</div>
+      </div>
+      <div class="contract-card">
+        <div class="contract-client">SILAR</div>
+        <div class="contract-name">Bucaramanga</div>
+        <div class="contract-app">Pendiente ingesta pliego</div>
+      </div>
+      <div class="contract-card">
+        <div class="contract-client">Mixto + EPM</div>
+        <div class="contract-name">Nuevos Negocios</div>
+        <div class="contract-app">FCK · Perseo (migra a Odoo)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Arquitectura Propuesta</h2>
+    <p class="section-sub">Odoo.sh como cerebro contable y operativo. PWA externa para operarios. Todo on-premise, sin terceros.</p>
+
+    <div class="arch">
+      <div class="arch-layer arch-brain brain">
+        <div class="arch-title">Cerebro / Source of Truth</div>
+        <div class="arch-desc"><strong>Odoo.sh</strong> (3 workers ya corriendo). Contratos, asignaciones, inventario, nómina, contabilidad, DIAN, PILA, reportes.</div>
+        <div class="arch-tags">
+          <span class="arch-tag">apu_assignments</span>
+          <span class="arch-tag">contract</span>
+          <span class="arch-tag">l10n_co_attendance_payroll</span>
+          <span class="arch-tag">condugas_api (nuevo)</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↑↓ HTTPS REST · JWT</div>
+      <div class="arch-layer arch-app app">
+        <div class="arch-title">App de Campo · ConduMóvil PWA</div>
+        <div class="arch-desc"><strong>Next.js 16 instalable</strong> en celular. Funciona offline. Operario carga partes con foto + GPS + firma. Encargado cierra frente. Residente liquida.</div>
+        <div class="arch-tags">
+          <span class="arch-tag">IndexedDB offline</span>
+          <span class="arch-tag">Service Worker</span>
+          <span class="arch-tag">Camera + GPS API</span>
+          <span class="arch-tag">Background Sync</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↑↓ Storage local</div>
+      <div class="arch-layer arch-storage storage">
+        <div class="arch-title">Storage on-premise</div>
+        <div class="arch-desc"><strong>VPS Hostinger</strong> grande. Fotos + firmas en disco local. Backup configurable a NAS de Condugas. Sin Cloudflare, S3 ni terceros.</div>
+        <div class="arch-tags">
+          <span class="arch-tag">~18 GB/mes</span>
+          <span class="arch-tag">Backup rsync nocturno</span>
+          <span class="arch-tag">Datos 100% propios</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Beneficios Esperados</h2>
+    <p class="section-sub">Comparativo del antes (papel + Excel + apps cliente dispersas) vs después (digital, en tiempo real, integrado).</p>
+
+    <div class="grid-2">
+      <div class="benefit-card">
+        <div class="benefit-icon">⏱️</div>
+        <div class="benefit-title">Cierre 5× más rápido</div>
+        <div class="benefit-desc">Encargado consolida frente en <strong>15 min</strong> vs 2-3 hrs en papel. Liquidación residente <strong>30 min</strong> vs 1 hr.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">💰</div>
+        <div class="benefit-title">Cero pagos perdidos</div>
+        <div class="benefit-desc">Validación automática de libro de obra Vanti elimina <strong>"dinero enterrado"</strong> (sanciones T1=$7M c/u).</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📊</div>
+        <div class="benefit-title">Visibilidad real</div>
+        <div class="benefit-desc">Dashboard ejecutivo con ANS, %CIAS, cumplimiento por contrato, frente y cuadrilla en tiempo real.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔄</div>
+        <div class="benefit-title">Nómina automática</div>
+        <div class="benefit-desc">Las horas trabajadas por cuadrilla generan work entries y se procesan en payroll <strong>sin tipear</strong>.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📷</div>
+        <div class="benefit-title">Trazabilidad 100%</div>
+        <div class="benefit-desc">Cada parte con foto, GPS, timestamp, firma. Auditoría completa para cliente e interventoría.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔌</div>
+        <div class="benefit-title">Funciona offline</div>
+        <div class="benefit-desc">App PWA sigue funcionando sin red. Sincroniza al volver señal. Operarios nunca dependen de cobertura.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Roadmap 6 Fases</h2>
+    <p class="section-sub">10-14 semanas en total. Fases 4 y 5 corren en paralelo. MVP con contrato OYMA aguas EPM.</p>
+
+    <div class="phase-grid">
+      <div class="phase-card">
+        <div class="phase-num">FASE 0</div>
+        <div class="phase-title">Refactor del repo</div>
+        <div class="phase-dur">1 semana</div>
+        <ul class="phase-tasks">
+          <li>Branch <code>feat/produccion</code></li>
+          <li>Limpieza módulos (autores, huérfanos)</li>
+          <li>Esqueleto <code>condugas_production</code> + <code>condugas_api</code></li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">FASE 1</div>
+        <div class="phase-title">Modelos parametrizables</div>
+        <div class="phase-dur">2 semanas</div>
+        <ul class="phase-tasks">
+          <li>condugas.frente · condugas.actividad</li>
+          <li>Extender contrato con flags</li>
+          <li>Cargar data 8 contratos reales</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">FASE 2</div>
+        <div class="phase-title">Parte de Trabajo</div>
+        <div class="phase-dur">2-3 semanas</div>
+        <ul class="phase-tasks">
+          <li>Extender apu_assignments con 22 campos</li>
+          <li>Workflow + validaciones</li>
+          <li>Reporte PDF QWeb</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">FASE 3</div>
+        <div class="phase-title">Consolidado del frente</div>
+        <div class="phase-dur">2 semanas</div>
+        <ul class="phase-tasks">
+          <li>Cierre diario del encargado</li>
+          <li>Auto-genera hr.attendance + WE</li>
+          <li>Reintegro stock automático</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">FASE 4</div>
+        <div class="phase-title">API REST</div>
+        <div class="phase-dur">2 semanas (paralelo F5)</div>
+        <ul class="phase-tasks">
+          <li>Endpoints CRUD con JWT</li>
+          <li>Auth + rate limit</li>
+          <li>Tests funcionales</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">FASE 5</div>
+        <div class="phase-title">PWA ConduMóvil</div>
+        <div class="phase-dur">3-4 semanas (paralelo F4)</div>
+        <ul class="phase-tasks">
+          <li>Next.js 16 + offline-first</li>
+          <li>Pantallas operario/encargado/residente</li>
+          <li>Deploy VPS Hostinger</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">FASE 6</div>
+        <div class="phase-title">Pilotaje + estabilización</div>
+        <div class="phase-dur">2-3 semanas</div>
+        <ul class="phase-tasks">
+          <li>MVP: contrato OYMA aguas EPM</li>
+          <li>Capacitación 10-15 operarios</li>
+          <li>Soporte en obra primera semana</li>
+        </ul>
+      </div>
+      <div class="phase-card" style="border-left-color: var(--green);">
+        <div class="phase-num" style="color: var(--green);">FASE 7</div>
+        <div class="phase-title">Rollout 7 contratos</div>
+        <div class="phase-dur">4-6 semanas</div>
+        <ul class="phase-tasks">
+          <li>Un contrato por semana</li>
+          <li>Solo cargar parámetros, no código</li>
+          <li>Capacitación + smoke test</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Costos Operativos</h2>
+    <p class="section-sub">Infra recurrente mensual. Excluye horas de desarrollo (proyecto único).</p>
+
+    <div class="card">
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>Componente</th>
+            <th class="num">Costo mensual</th>
+            <th>Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Odoo.sh (existente)</td>
+            <td class="num">$0 adicional</td>
+            <td>Ya pagado por Condugas</td>
+          </tr>
+          <tr>
+            <td>VPS Hostinger KVM 6</td>
+            <td class="num">~$30 USD</td>
+            <td>8 GB RAM, 4 vCPU, 200 GB SSD</td>
+          </tr>
+          <tr>
+            <td>Dominio + TLS (Let's Encrypt)</td>
+            <td class="num">~$1 USD</td>
+            <td>Renovación anual prorrateada</td>
+          </tr>
+          <tr>
+            <td>NAS Condugas (existente)</td>
+            <td class="num">$0</td>
+            <td>Backup rsync nocturno</td>
+          </tr>
+          <tr>
+            <td>Monitoreo (Sentry free / BetterStack)</td>
+            <td class="num">$0-25</td>
+            <td>Opcional, capacidad gratis inicial</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>TOTAL</td>
+            <td class="num">$30-55 USD/mes</td>
+            <td>Sin terceros, datos 100% propios</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Diferenciales Clave</h2>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-h">No reinventamos · reutilizamos</div>
+        <p style="font-size: 14px; color: var(--text-secondary);">
+          Condugas ya tiene <strong>27 módulos custom</strong> en Odoo (APU, contratos, inventario en tránsito, nómina electrónica DIAN, PILA, kiosk, caja menor, etc.). El proyecto <strong>extiende</strong> lo existente, no construye en paralelo.
+        </p>
+      </div>
+      <div class="card">
+        <div class="section-h">Datos 100% propios</div>
+        <p style="font-size: 14px; color: var(--text-secondary);">
+          Toda la información (incluidas fotos y firmas) queda en infraestructura controlada por Condugas. <strong>Cero dependencia</strong> de servicios externos (AWS, Cloudflare). Backup local configurable.
+        </p>
+      </div>
+      <div class="card">
+        <div class="section-h">Un contrato a la vez</div>
+        <p style="font-size: 14px; color: var(--text-secondary);">
+          Pilotamos con <strong>OYMA aguas EPM</strong> (el más maduro). Cuando esté operativo, sumamos los otros 7 contratos cambiando solo parámetros (frentes, actividades, aplicativo cliente). Sin reescribir código.
+        </p>
+      </div>
+      <div class="card">
+        <div class="section-h">Cumple ANS y auditoría</div>
+        <p style="font-size: 14px; color: var(--text-secondary);">
+          Cada parte trazable: foto+GPS+timestamp+firma. Reporte ANS automático por contrato. Libro de obra Vanti con sus 49 documentos digitalizados. Cero "dinero enterrado".
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="text-align: center;">
+    <h2 class="section-title">Siguiente Paso</h2>
+    <p class="section-sub" style="margin: 0 auto 24px auto;">Validar el plan con Condugas → confirmar contrato MVP (OYMA aguas) → provisionar VPS → arrancar FASE 0 en julio 2026.</p>
+
+    <div style="display: inline-block; background: var(--text); color: white; padding: 16px 32px; border-radius: 100px; font-weight: 700;">
+      Kickoff con gerente Condugas
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    Documentación técnica completa en <code>siendoconsulting/condugas</code> · branch main · <code>docs/produccion/</code><br>
+    Diseñado por Being CoRE · Junio 2026
+  </div>
+</footer>
+
+</body>
+</html>
